@@ -10,16 +10,31 @@ scalaVersion := "2.11.8"
 publishMavenStyle := true
 
 // https://mvnrepository.com/artifact/com.nativelibs4java/bridj
-libraryDependencies += "com.nativelibs4java" % "bridj" % "0.7.0"
+libraryDependencies += "com.nativelibs4java" % "bridj" % "0.7.1-SNAPSHOT"
 
 libraryDependencies += "com.kabouterlabs" % "JavaOdeInt" % "DEV-SNAPSHOT"
+
+libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.3"
 
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.0"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.0" % "test"
 
+// https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.9"
+
+libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.5.0"
 
 resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases"
 resolvers += Resolver.mavenLocal
 
+
+//resolvers += "jitpack" at "https://jitpack.io"
+
+
+
+//libraryDependencies += "com.github.fons" % "JavaOdeInt" % "master-SNAPSHOT"
+
+
+  
 
 
