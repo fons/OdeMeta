@@ -1,7 +1,12 @@
 package com.kabouterlabs.ode
 
 /**
-  * Created by fons on 1/7/17.
+  *
+  * This is a stack of results returned by the solvers.
+  * The results for each integration step are stored in an array of data type U.
+  * The first element in that array is the independent variable, followed by the dependent variables in the order
+  * they appear in the solution array.
+  * 
   */
 trait StackT
 {
@@ -12,7 +17,7 @@ trait StackT
   def toArray:Array[Array[Double]]
   def append(e:ElemT):StackT
   def fromArray(arr:Array[ElemT]):StackT
-  def apply(index:Int):Option[Array[ElemT]]
-  def first:Option[Array[ElemT]]
-  def last:Option[Array[ElemT]]
+  def apply(index:Int):Array[ElemT]
+  def first:Array[ElemT]
+  def last:Array[ElemT]
 }

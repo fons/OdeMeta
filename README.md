@@ -10,9 +10,9 @@
 
 
 
-## Synopsis
+# Synopsis
 
-### IVP
+## IVP
 
 ```scala
 class...
@@ -21,7 +21,7 @@ class...
 
 
 
-### DAO
+## DAO
 
 ```scala
 class 
@@ -30,7 +30,7 @@ class
 
 
 
-### Events
+## Events
 
 ```scala
 class 

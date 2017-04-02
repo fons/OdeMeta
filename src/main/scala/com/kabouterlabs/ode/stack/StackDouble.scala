@@ -1,10 +1,10 @@
 package com.kabouterlabs.ode.stack
 
 import com.kabouterlabs.ode.{LineRangeT, StackT}
-
 import java.io._
 import java.lang
 
+import com.kabouterlabs.ode.util.LogIt
 import org.bridj.Pointer
 
 /**
@@ -62,14 +62,18 @@ case class StackDouble(dim:Int, range:LineRangeT[Double]) extends StackT
 
   final override def toArray: Array[Array[Double]] = ptr.sliding(dim + 1).toArray
 
-  def apply(index:Int):Option[Array[ElemT]] = {
+  def apply(index:Int):Array[ElemT] = {
     val start = index * (dim +1)
     val until = start + dim + 1
-    if (start < counter && until <= counter) Some(ptr.slice(start, until)) else None
+    if (start < counter && until <= counter) ptr.slice(start, until) else {
+      LogIt().warn("problem getting stack data for start : " + start + " and end : " + until)
+      Array[ElemT]()
+    }
   }
 
-  def last:Option[Array[ElemT]] = {
+  def last:Array[ElemT] = {
     apply((counter / (dim + 1)) - 1)
   }
-  def first:Option[Array[ElemT]] = apply(0)
+  
+  def first:Array[ElemT] = apply(0)
 }

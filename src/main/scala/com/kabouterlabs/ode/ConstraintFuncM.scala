@@ -3,7 +3,9 @@ package com.kabouterlabs.ode
 import com.kabouterlabs.ode.util.HandleException
 
 /**
-  * Created by fons on 1/16/17.
+  *
+  * The constraint function is called to determine the roots during the integration
+  *
   */
 case class ConstraintFuncM[U](constraintOption:Option[(Int, U, Array[U], Int, Array[U], FuncParams[U])=>Unit])
 {

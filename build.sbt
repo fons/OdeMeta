@@ -27,6 +27,7 @@ libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.5.0"
 resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases"
 resolvers += Resolver.mavenLocal
 
+unmanagedSourceDirectories in Compile += baseDirectory.value / "src/examples"
 
 //resolvers += "jitpack" at "https://jitpack.io"
 

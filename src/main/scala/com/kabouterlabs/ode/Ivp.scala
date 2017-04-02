@@ -80,9 +80,23 @@ object Ivp
   def apply[U,A] (dim:Int)(implicit ev$1:OdeSolverTC[A]{type SolverDataType=U}) =  new Ivp[U,A](dim, OdeFuncM.none, JacobianFuncM.none, None, ConstraintFuncM.none, EventFuncM.none,
                                   FuncParams.empty, Config(), DaeIndexVariables(), MassMatrixFuncM.none, OptionalParameters())
 
-  def apply[U,A] (dim:Int, constraints:Int)(implicit ev$1:OdeSolverTC[A]{type SolverDataType=U}) =  new Ivp[U,A](dim, OdeFuncM.none, JacobianFuncM.none,
-                                                  Some(constraints), ConstraintFuncM.none, EventFuncM.none, FuncParams.empty,
-       Config(), DaeIndexVariables(), MassMatrixFuncM.none, OptionalParameters())
+  def apply[U,A] (dim:Int, constraints:Int)(implicit ev$1:OdeSolverTC[A]{type SolverDataType=U}) = {
+    val (newdim, newconstraints) = (dim, constraints) match {
+      case (d, n) if d > 0 && n> -1 => (d, Some(n))
+      case (d,_) if d > 0 => {
+        LogIt().error("unable to intialize with constraints : " + constraints + " setting to 0")
+        (d, None)
+      }
+      case (_,_)          => {
+        LogIt().error("unable to intialize with dim : " + dim + " and constraints : " + constraints + " setting dim -100000 (this will blow things up) and constraints to 0")
+        (-10000, None)
+      }
+    }
+
+    new Ivp[U, A] (newdim, OdeFuncM.none, JacobianFuncM.none,
+      newconstraints, ConstraintFuncM.none, EventFuncM.none, FuncParams.empty,
+      Config (), DaeIndexVariables (), MassMatrixFuncM.none, OptionalParameters () )
+  }
 
 }
 

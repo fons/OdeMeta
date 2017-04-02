@@ -16,7 +16,27 @@ import org.bridj.Pointer
   */
 case class Lsodes(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], params:FuncParams[Double], config:Config)
 {
-
+  private def log_tolerance_settings(itol: Pointer[lang.Integer], rtol: Pointer[lang.Double], atol: Pointer[lang.Double]) = {
+    LogIt().info("tolerance settings : itol (type of setting) : " + codepack_itol_e.fromValue(itol.get()) + " atol : ")
+    codepack_itol_e.fromValue(itol.get()) match {
+      case codepack_itol_e.ALL_SCALAR => {
+        LogIt().info("- absolute tolerance  : " + atol.getDouble())
+        LogIt().info("- relative tolerance  : " + rtol.getDouble())
+      }
+      case codepack_itol_e.ATOL_ARRAY => {
+        LogIt().info("- absolute tolerances : {" + atol.getDoubles().mkString(",") + " }" )
+        LogIt().info("- relative tolerance  :  " + rtol.getDouble())
+      }
+      case codepack_itol_e.RTOL_ARRAY => {
+        LogIt().info("- absolute tolerance  :  " + atol.getDouble())
+        LogIt().info("- relative tolerances : {" + rtol.getDoubles().mkString(",") + " }")
+      }
+      case codepack_itol_e.ALL_ARRAY => {
+        LogIt().info("- absolute tolerances : {" + atol.getDoubles().mkString(",") + " }")
+        LogIt().info("- relative tolerances : {" + rtol.getDoubles().mkString(",") + " }")
+      }
+    }
+  }
   case class Settings(mf:Int, lrw:Int, liw:Int)
 
   implicit class ev$config(config: Config) {
@@ -187,7 +207,7 @@ case class Lsodes(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], p
   private val mfl: Pointer[lang.Integer] = Pointer.pointerToInt(settings.mf)
 
   config.set_itol(itol,rtol,atol)
-
+  log_tolerance_settings(itol,rtol,atol)
   istate.set(CodepackLibrary.codepack_istate_in_e.FIRST_CALL.value.toInt)
   itask.set(CodepackLibrary.codepack_itask_e.NORMAL.value.toInt)
 

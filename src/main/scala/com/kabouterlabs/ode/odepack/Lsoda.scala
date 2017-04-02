@@ -13,7 +13,11 @@ import org.bridj.Pointer
 import org.slf4j.LoggerFactory
 
 /**
-  * Created by fons on 1/16/17.
+  *
+  * This class wraps odepack's lsoda.
+  * lsoda switches automatically between adams and bdf methods
+  * This makes it great for solving problems whose stiffness is not known or which varies over the solution range.
+  *
 **/
 
 case class Lsoda(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], params:FuncParams[Double], config:Config)
@@ -21,7 +25,29 @@ case class Lsoda(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], pa
 
   private val logger = LogIt()
 
-  implicit class ev$config(config:Config) {
+  private def log_tolerance_settings(itol: Pointer[lang.Integer], rtol: Pointer[lang.Double], atol: Pointer[lang.Double]) = {
+    LogIt().info("tolerance settings : itol (type of setting) : " + codepack_itol_e.fromValue(itol.get()) + " atol : ")
+    codepack_itol_e.fromValue(itol.get()) match {
+      case codepack_itol_e.ALL_SCALAR => {
+        LogIt().info("- absolute tolerance  : " + atol.getDouble())
+        LogIt().info("- relative tolerance  : " + rtol.getDouble())
+      }
+      case codepack_itol_e.ATOL_ARRAY => {
+        LogIt().info("- absolute tolerances : {" + atol.getDoubles().mkString(",") + " }" )
+        LogIt().info("- relative tolerance  :  " + rtol.getDouble())
+      }
+      case codepack_itol_e.RTOL_ARRAY => {
+        LogIt().info("- absolute tolerance  :  " + atol.getDouble())
+        LogIt().info("- relative tolerances : {" + rtol.getDoubles().mkString(",") + " }")
+      }
+      case codepack_itol_e.ALL_ARRAY => {
+        LogIt().info("- absolute tolerances : {" + atol.getDoubles().mkString(",") + " }")
+        LogIt().info("- relative tolerances : {" + rtol.getDoubles().mkString(",") + " }")
+      }
+    }
+  }
+
+  private implicit class ev$config(config:Config) {
 
     def rtolDim(dim: Int): Int = config.relativeTolerance.get match {
       case (Some(_), None) => 1
@@ -124,7 +150,7 @@ case class Lsoda(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], pa
 
 
   config.set_itol(itol,rtol,atol)
-
+  log_tolerance_settings(itol,rtol,atol)
 
   istate.set(CodepackLibrary.codepack_istate_in_e.FIRST_CALL.value.toInt)
 
@@ -193,7 +219,7 @@ case class Lsoda(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], pa
     }
   }
 
-  def diagnostics_on(): Unit = {
+  private def diagnostics_on(): Unit = {
     LogIt().diagnostic("step size last used sucessfully                         : " + rwork.getDoubleAtIndex(10))
     LogIt().diagnostic("step size to be attempted                               : " + rwork.getDoubleAtIndex(11))
     LogIt().diagnostic("current value of the independent variable               : " + rwork.getDoubleAtIndex(12))
@@ -219,9 +245,9 @@ case class Lsoda(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], pa
     LogIt().diagnostic("-----------------------------------------------")
   }
 
-  def diagnostics_off() = {}
+  private def diagnostics_off() = {}
 
-  def diagnostics = config.options match {
+  private def diagnostics = config.options match {
     case Some(options) => options.diagnostics match {
       case Some(yn) => if (yn == true) diagnostics_on else diagnostics_off
       case _ => diagnostics_off
@@ -232,6 +258,9 @@ case class Lsoda(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], pa
   def run(range:LineRangeT[Double], init:Array[Double]):Option[StackT] = HandleException {
 
     LogIt().info("starting with range : " + range + " initial conditions : {" + init.mkString(",") + "}")
+    /*
+     * initialize the output stack with the initial values
+     */
     val stack = StackDouble(dim,range)
     y.setDoubles(init.slice(0, neq.get()))
     t.set(range.start)

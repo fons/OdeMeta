@@ -6,9 +6,19 @@ package com.kabouterlabs.ode
 
 
 
-abstract class LineRangeT[U](val start:U, val end :U, val stepSize:U)
+//abstract class LineRangeT[U](val start:U, val end :U, val stepSize:U)
+//{
+//  type ElemT=U
+//  def steps:Int
+//  def withRange(f: (U)=>Option[U]):Option[U]
+//}
+
+trait LineRangeT[U]
 {
   type ElemT=U
-  def steps:Int
+  val start:U
+  val end:U
+  val stepSize:U
+  val steps:Int
   def withRange(f: (U)=>Option[U]):Option[U]
 }

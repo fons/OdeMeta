@@ -12,7 +12,14 @@ import com.kabouterlabs.ode.util.{LogIt, HandleException}
 import org.bridj.Pointer
 
 /**
-  * Created by fons on 1/16/17.
+  * This class wraps the codepack function lsodar.
+  *
+  * lsodar implements root finding.
+  *
+  * When a root is found a special event callback is  called allowing a new set of initial
+  * to the ode solution to be supplied.
+  *
+  *
   */
 
 
@@ -30,7 +37,7 @@ case class Lsodar(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], n
 
   private def set_liw(dim:Int) = 20 + dim
 
-  implicit class ev$config(config:Config) {
+  private implicit class ev$config(config:Config) {
 
     def rtolDim(dim: Int): Int = config.relativeTolerance.get match {
       case (Some(_), None) => 1
@@ -43,16 +50,17 @@ case class Lsodar(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], n
       case (None, Some(arr)) => arr.length
       case (_,_) => 1
     }
+
     def set_itol(itol: Pointer[lang.Integer], rtol: Pointer[lang.Double], atol: Pointer[lang.Double]) = {
       (config.relativeTolerance.get, config.absoluteTolerance.get) match {
         case ((Some(rtolv), None), (Some(atolv), None)) => {
           itol.set(codepack_itol_e.ALL_SCALAR.value.toInt);
-          rtol.set(rtolv);
+          rtol.set(rtolv)
           atol.set(atolv)
         }
         case ((Some(rtolv), None), (None, Some(atola))) => {
           itol.set(codepack_itol_e.ATOL_ARRAY.value.toInt);
-          rtol.set(rtolv);
+          rtol.set(rtolv)
           atol.setDoubles(atola.slice(0, dim))
         }
         case ((None, Some(rtola)), (Some(atolv), None)) => {
@@ -66,11 +74,13 @@ case class Lsodar(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], n
           atol.setDoubles(atola.slice(0, dim))
         }
         case (_, _) => {
+          LogIt().warn("unable to set tolerances; defaulting to error values")
           itol.set(-10)
           rtol.set(-100.0)
           atol.set(-99999.999)
         }
       }
+
     }
 
   }//end of implicit
@@ -127,6 +137,27 @@ case class Lsodar(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], n
     }
   }
 
+  private def log_tolerance_settings(itol: Pointer[lang.Integer], rtol: Pointer[lang.Double], atol: Pointer[lang.Double]) = {
+    LogIt().info("tolerance settings : itol (type of setting) : " + codepack_itol_e.fromValue(itol.get()) + " atol : ")
+    codepack_itol_e.fromValue(itol.get()) match {
+      case codepack_itol_e.ALL_SCALAR => {
+        LogIt().info("- absolute tolerance  : " + atol.getDouble())
+        LogIt().info("- relative tolerance  : " + rtol.getDouble())
+      }
+      case codepack_itol_e.ATOL_ARRAY => {
+        LogIt().info("- absolute tolerances : {" + atol.getDoubles().mkString(",") + " }" )
+        LogIt().info("- relative tolerance  :  " + rtol.getDouble())
+      }
+      case codepack_itol_e.RTOL_ARRAY => {
+        LogIt().info("- absolute tolerance  :  " + atol.getDouble())
+        LogIt().info("- relative tolerances : {" + rtol.getDoubles().mkString(",") + " }")
+      }
+      case codepack_itol_e.ALL_ARRAY => {
+        LogIt().info("- absolute tolerances : {" + atol.getDoubles().mkString(",") + " }")
+        LogIt().info("- relative tolerances : {" + rtol.getDoubles().mkString(",") + " }")
+      }
+    }
+  }
 
   private val func_sp: Pointer[dlsodar_f_callback] = Pointer.getPointer(func)
 
@@ -154,6 +185,7 @@ case class Lsodar(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], n
 
 
   config.set_itol(itol, rtol, atol)
+  log_tolerance_settings(itol, rtol, atol)
   iopt.set(codepack_iopt_e.NO_OPTIONAL_INPUTS.value.toInt)
   istate.set(CodepackLibrary.codepack_istate_in_e.FIRST_CALL.value.toInt)
   itask.set(CodepackLibrary.codepack_itask_e.NORMAL.value.toInt)
@@ -221,7 +253,7 @@ case class Lsodar(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], n
     }
   }
 
-  def diagnostics_on(): Unit = {
+  private def diagnostics_on(): Unit = {
     LogIt().diagnostic("step size last used sucessfully                         : " + rwork.getDoubleAtIndex(10))
     LogIt().diagnostic("step size to be attempted                               : " + rwork.getDoubleAtIndex(11))
     LogIt().diagnostic("current value of the independent variable               : " + rwork.getDoubleAtIndex(12))
@@ -247,17 +279,23 @@ case class Lsodar(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], n
     LogIt().diagnostic("-----------------------------------------------")
   }
 
-  def diagnostics_off() = {}
+  private def diagnostics_off() = {}
 
-  def diagnostics = config.options match {
+  private  def diagnostics() = config.options match {
     case Some(options) => options.diagnostics match {
-      case Some(yn) => if (yn == true) diagnostics_on else diagnostics_off
-      case _ => diagnostics_off
+      case Some(yn) => if (yn == true) diagnostics_on() else diagnostics_off()
+      case _ => diagnostics_off()
     }
-    case _ => diagnostics_off
+    case _ => diagnostics_off()
   }
 
   def run(range:LineRangeT[Double], init:Array[Double]):Option[StackT] = HandleException {
+
+    LogIt().info("starting with range : " + range + " initial conditions : {" + init.mkString(",") + "}")
+
+    /*
+      initialize the output stack with the initial conditions
+     */
 
     val stack = StackDouble(dim + nconstraints,range)
     y.setDoubles(init.slice(0, neq.get()))
@@ -266,24 +304,22 @@ case class Lsodar(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], n
     stack.append(range.start)
     for (yval <- y.getDoubles(neq.get())) stack.append(yval)
     if (ng.get() > 0) for (rindex <- jroot.getInts(ng.get())) stack.append(rindex)
+
     range.withRange((next:Double) => {
       tout.set(next)
-      //println("===>", jt.get())
+      //println("===>", jt.get() + " t : " + t.get() + " tout " + tout.get() + " istate " + istate.get())
       LogIt().trace(" tout : " + tout.get() + " t " + t.get() + " istate " + istate.get())
       dlsodar(func_sp, neq, y,t,tout,itol,rtol,atol,itask,istate,iopt,rwork,lrw,iwork,liw,jac_sp,jt,gcon_sp,ng,jroot)
-      diagnostics
-      stack.append(tout.get())
-      for (yval <- y.getDoubles(neq.get())) stack.append(yval)
-      if (ng.get() > 0) for (rindex <- jroot.getInts(ng.get())) stack.append(rindex)
-
+      diagnostics()
+      LogIt().trace("state get " + istate.get() + "," + codepack_istate_out_e.fromValue(istate.get()) + " " + codepack_istate_out_e.ROOT_FOUND.value )
       codepack_istate_out_e.fromValue(istate.get()) match {
-
         case c if c ==codepack_istate_out_e.NOTHING_DONE || c == codepack_istate_out_e.SUCCESS_DONE   => {
           stack.append(tout.get())
           for (yval <- y.getDoubles(neq.get())) stack.append(yval)
+          if (ng.get() > 0) for (rindex <- jroot.getInts(ng.get())) stack.append(rindex)
           Some(t.get())
         }
-        case c if c == codepack_istate_out_e.ROOT_FOUND.value => {
+        case c if c == codepack_istate_out_e.ROOT_FOUND => {
           //        val gout = new Array[Double](ng.get())
           //        conM(neq.get(), t.get(), y.getDoubles(neq.get()), ng.get(), gout, params)
           //
@@ -292,7 +328,10 @@ case class Lsodar(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], n
           //        }
           LogIt().trace("root found : " + jroot.getInts(ng.get()).mkString(","))
           event_call_back(neq,t,y,ng,jroot)
-          istate.set(CodepackLibrary.codepack_istate_in_e.FIRST_CALL.value.toInt)
+          //istate.set(CodepackLibrary.codepack_istate_in_e.FIRST_CALL.value.toInt)
+          stack.append(t.get())
+          for (yval <- y.getDoubles(neq.get())) stack.append(yval)
+          if (ng.get() > 0) for (rindex <- jroot.getInts(ng.get())) stack.append(rindex)
           Some(t.get())
         }
         case c if c == codepack_istate_out_e.MAX_STEPS_EXCEEDED =>  {
