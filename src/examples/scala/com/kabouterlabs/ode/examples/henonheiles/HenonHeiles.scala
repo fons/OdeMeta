@@ -2,7 +2,6 @@ package com.kabouterlabs.ode.examples.henonheiles
 
 import breeze.plot.plot
 import com.kabouterlabs.ode.util.{ConvertArrayToMatrix, NonValueChecker}
-import com.sun.tools.javadoc.Start
 
 /**
   * Created by fons on 4/14/17.
