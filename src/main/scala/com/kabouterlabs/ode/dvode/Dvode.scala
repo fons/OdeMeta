@@ -4,15 +4,11 @@ import java.lang
 
 import com.kabouterlabs.jodeint.cdvode.CdvodeLibrary
 import com.kabouterlabs.jodeint.cdvode.CdvodeLibrary._
-
-
-import com.kabouterlabs.jodeint.cdvode.CdvodeLibrary.{dvode_f_callback, dvode_jac_callback, cdvode_itol_e}
+import com.kabouterlabs.jodeint.cdvode.CdvodeLibrary.{cdvode_itol_e, dvode_f_callback, dvode_jac_callback}
 import com.kabouterlabs.ode._
-
 import com.kabouterlabs.ode.config._
 import com.kabouterlabs.ode.stack.StackDouble
-import com.kabouterlabs.ode.util.{HandleException, LogIt}
-
+import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 import org.bridj.Pointer
 
 /**
@@ -20,9 +16,32 @@ import org.bridj.Pointer
   */
 case class Dvode(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], params:FuncParams[Double], config:Config)
 {
+  LogIt().info("configuration : " + config)
   private val logger = LogIt()
 
-  implicit class ev$config(config:Config) {
+  private def log_tolerance_settings(itol: Pointer[lang.Integer], rtol: Pointer[lang.Double], atol: Pointer[lang.Double]) = {
+    LogIt().info("tolerance settings : itol (type of setting) : " + cdvode_itol_e.fromValue(itol.get()) + " atol : ")
+    cdvode_itol_e.fromValue(itol.get()) match {
+      case cdvode_itol_e.ALL_SCALAR => {
+        LogIt().info("- absolute tolerance  : " + atol.getDouble())
+        LogIt().info("- relative tolerance  : " + rtol.getDouble())
+      }
+      case cdvode_itol_e.ATOL_ARRAY => {
+        LogIt().info("- absolute tolerances : {" + atol.getDoubles().mkString(",") + " }" )
+        LogIt().info("- relative tolerance  :  " + rtol.getDouble())
+      }
+      case cdvode_itol_e.RTOL_ARRAY => {
+        LogIt().info("- absolute tolerance  :  " + atol.getDouble())
+        LogIt().info("- relative tolerances : {" + rtol.getDoubles().mkString(",") + " }")
+      }
+      case cdvode_itol_e.ALL_ARRAY => {
+        LogIt().info("- absolute tolerances : {" + atol.getDoubles().mkString(",") + " }")
+        LogIt().info("- relative tolerances : {" + rtol.getDoubles().mkString(",") + " }")
+      }
+    }
+  }
+
+  private implicit class ev$config(config:Config) {
 
     def rtolDim(dim: Int): Int = config.relativeTolerance.get match {
       case (Some(_), None) => 1
@@ -179,7 +198,8 @@ case class Dvode(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], pa
 
 
   config.set_itol(itol,rtol,atol)
-
+  log_tolerance_settings(itol, rtol, atol)
+  
   iopt.set(cdvode_iopt_e.NO_OPTIONAL_INPUTS.value.toInt)
   istate.set(cdvode_istate_in_e.FIRST_CALL.value.toInt)
   /////
@@ -310,9 +330,18 @@ case class Dvode(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], pa
       diagnostics
       cdvode_istate_out_e.fromValue(istate.get()) match {
         case c if c == cdvode_istate_out_e.NOTHING_DONE || c == cdvode_istate_out_e.SUCCESS_DONE => {
-          stack.append(tout.get())
-          for (yval <- y.getDoubles(neq.get())) stack.append(yval)
-          Some(t.get())
+          val result = y.getDoubles(neq.get())
+          NonValueChecker(result).hasNonValue match {
+            case true => {
+              LogIt().error("detected non-values in the result : " + result.mkString(",") + " stop processing")
+              None
+            }
+            case false => {
+              stack.append(tout.get())
+              for (yval <- y.getDoubles(neq.get())) stack.append(yval)
+              Some(t.get())
+            }
+          }
         }
         case c if c == cdvode_istate_out_e.MXSTEPS_EXCEEDED => {
           LogIt().error("excessive amount of work done + istate : " + c.value())

@@ -2,12 +2,11 @@ package com.kabouterlabs.ode.radau5
 
 import java.lang
 
-
 import com.kabouterlabs.jodeint.cradau5.Cradau5Library
 import com.kabouterlabs.jodeint.cradau5.Cradau5Library._
 import com.kabouterlabs.ode.config._
 import com.kabouterlabs.ode.stack.StackDouble
-import com.kabouterlabs.ode.util.{HandleException, LogIt}
+import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 import com.kabouterlabs.ode._
 import org.bridj.Pointer
 
@@ -19,22 +18,46 @@ case class Radau5(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], m
 {
   private val logger = LogIt()
 
+  private def log_tolerance_settings(itol: Pointer[lang.Integer], rtol: Pointer[lang.Double], atol: Pointer[lang.Double]) = {
+    LogIt().info("tolerance settings : itol (type of setting) : " +   radau5_itol_e.fromValue(itol.get()) + " atol : ")
+      radau5_itol_e.fromValue(itol.get()) match {
+      case   radau5_itol_e.ALL_SCALAR => {
+        LogIt().info("- absolute tolerance  : " + atol.getDouble())
+        LogIt().info("- relative tolerance  : " + rtol.getDouble())
+      }
+
+      case   radau5_itol_e.ALL_ARRAY => {
+        LogIt().info("- absolute tolerances : {" + atol.getDoubles().mkString(",") + " }")
+        LogIt().info("- relative tolerances : {" + rtol.getDoubles().mkString(",") + " }")
+      }
+      case _ => {
+        LogIt().warn("unable to identify the tolerance types")
+      }
+    }
+  }
+
+  private case class TolDim(val rtolDim:Int, val atolDim:Int)
+
   implicit class ev$config(config: Config) {
 
-    def rtolDim(dim: Int): Int = config.relativeTolerance.get match {
-      case (Some(_), None) => 1
-      case (None, Some(arr)) => arr.length
-      case (_, _) => 1
+    private def getDim() :TolDim = {
+      val (rtoldim, atoldim) = (config.relativeTolerance.get, config.absoluteTolerance.get) match {
+        case ((Some(value1), None), (Some(value2), None)) => (1, 1)
+        case ((None, Some(arr)), (None, Some(arr2))) => (arr.length, arr2.length)
+        case ((Some(value), None), (None, Some(arr))) => (arr.length, arr.length)
+        case ((None, Some(arr)), (Some(value), _)) => (arr.length, arr.length)
+      }
+      TolDim(rtoldim,atoldim)
     }
 
-    def atolDim(dim: Int) = config.absoluteTolerance.get match {
-      case (Some(_), None) => 1
-      case (None, Some(arr)) => arr.length
-      case (_, _) => 1
-    }
+    val rtolDim = getDim().rtolDim
+
+    val atolDim = getDim().atolDim
 
     def set_itol(itol: Pointer[lang.Integer], rtol: Pointer[lang.Double], atol: Pointer[lang.Double]) = {
+
       (config.relativeTolerance.get, config.absoluteTolerance.get) match {
+
         case ((Some(rtolv), None), (Some(atolv), None)) => {
           itol.set(radau5_itol_e.ALL_SCALAR.value.toInt);
           rtol.set(rtolv);
@@ -46,12 +69,21 @@ case class Radau5(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], m
           rtol.setDoubles(rtola.slice(0, dim))
           atol.setDoubles(atola.slice(0, dim))
         }
-        case (_, _) => {
-          LogIt().warn("unable to assign the right error option; neither all scalar or all aarray")
-          itol.set(-10)
-          rtol.set(-100.0)
-          atol.set(-99999.999)
+
+        case ((Some(rtolv), None), (None, Some(atola))) => {
+          LogIt().warn("scalar relative tolerance and array of absolute tolerance; converting scalar value to array of same size ")
+          itol.set(radau5_itol_e.ALL_ARRAY.value.toInt)
+          atol.setDoubles(atola.slice(0, dim))
+          rtol.setDoubles(Array.fill(dim)(rtolv).slice(0,dim))
         }
+
+        case ((None, Some(rtola)), (Some(atolv),None)) => {
+          LogIt().warn("scalar absolute tolerance and array of relative tolerance; converting scalar value to array of same size ")
+          itol.set(radau5_itol_e.ALL_ARRAY.value.toInt)
+          rtol.setDoubles(rtola.slice(0, dim))
+          atol.setDoubles(Array.fill(dim)(atolv).slice(0,dim))
+        }
+
       }
     }
 
@@ -97,8 +129,8 @@ case class Radau5(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], m
   private val x: Pointer[lang.Double] = Pointer.allocateDouble()
   private val xend: Pointer[lang.Double] = Pointer.allocateDouble()
   private val h: Pointer[lang.Double] = Pointer.allocateDouble()
-  private val rtol: Pointer[lang.Double] = Pointer.allocateDoubles(config.rtolDim(dim))
-  private val atol: Pointer[lang.Double] = Pointer.allocateDoubles(config.atolDim(dim))
+  private val rtol: Pointer[lang.Double] = Pointer.allocateDoubles(config.rtolDim)
+  private val atol: Pointer[lang.Double] = Pointer.allocateDoubles(config.atolDim)
   private val itol: Pointer[lang.Integer] = Pointer.allocateInt()
 
   private val ijac: Pointer[lang.Integer] = Pointer.allocateInt()
@@ -232,6 +264,7 @@ case class Radau5(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], m
 
   //
   config.set_itol(itol,rtol,atol)
+  log_tolerance_settings(itol,rtol, atol)
   LogIt().info(" lrw : " + lwork.get() + " liw : " + liwork.get())
   config.options match {
     case None => {
@@ -300,9 +333,19 @@ case class Radau5(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], m
       diagnostics
       radau5_idid_e.fromValue(idid.get()) match {
         case c if c == radau5_idid_e.SUCCESS => {
-          stack.append(xend.get())
-          for (yval <- y.getDoubles(neq.get())) stack.append(yval)
-          Some(x.get())
+          val result = y.getDoubles(neq.get())
+          NonValueChecker(result).hasNonValue match {
+            case true => {
+              LogIt().error("detected non-values in the result : " + result.mkString(",") + " stop processing")
+              None
+            }
+            case false => {
+              stack.append(xend.get())
+              for (yval <- y.getDoubles(neq.get())) stack.append(yval)
+              Some(x.get())
+            }
+          }
+          
         }
         case c if c == radau5_idid_e.INPUT_INCONSISTENT => {
           LogIt().error("inconsitent input ; idid : " + c.value())

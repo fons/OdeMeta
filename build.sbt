@@ -23,6 +23,9 @@ libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.0" % "test"
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.9"
 
 libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.5.0"
+// https://mvnrepository.com/artifact/org.scalanlp/breeze-viz_2.11
+libraryDependencies += "org.scalanlp" % "breeze-viz_2.11" % "0.13"
+
 
 resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases"
 resolvers += Resolver.mavenLocal

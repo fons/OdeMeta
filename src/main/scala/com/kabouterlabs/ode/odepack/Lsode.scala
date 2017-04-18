@@ -5,12 +5,11 @@ import java.lang
 import com.kabouterlabs.jodeint.codepack.CodepackLibrary
 import com.kabouterlabs.jodeint.codepack.CodepackLibrary._
 import com.kabouterlabs.ode._
-
-import com.kabouterlabs.ode.config.{JacobianType, Config, Methods}
+import com.kabouterlabs.ode.config.{Config, JacobianType, Methods}
 import com.kabouterlabs.ode.config.LowerBandWidth
 import com.kabouterlabs.ode.config.UpperBandWidth
 import com.kabouterlabs.ode.stack.StackDouble
-import com.kabouterlabs.ode.util.{LogIt, HandleException}
+import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 import org.bridj.Pointer
 
 /**
@@ -259,9 +258,19 @@ case class Lsode(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], pa
       diagnostics
       codepack_istate_out_e.fromValue(istate.get()) match {
         case c if c == codepack_istate_out_e.NOTHING_DONE || c == codepack_istate_out_e.SUCCESS_DONE   => {
-          stack.append(tout.get())
-          for (yval <- y.getDoubles(neq.get())) stack.append(yval)
-          Some(t.get())
+          val result = y.getDoubles(neq.get())
+          NonValueChecker(result).hasNonValue match {
+            case true => {
+              LogIt().error("detected non-values in the result : " + result.mkString(",") + " stop processing")
+              None
+            }
+            case false => {
+              stack.append(tout.get())
+              for (yval <- y.getDoubles(neq.get())) stack.append(yval)
+              Some(t.get())
+            }
+          }
+          
         }
         case c if c == codepack_istate_out_e.MAX_STEPS_EXCEEDED =>  {
           LogIt().error("excessive amount of work done + istate : " + c)

@@ -7,7 +7,7 @@ import java.lang
 
 import com.kabouterlabs.jodeint.cbimd.CbimdLibrary._
 import com.kabouterlabs.ode.stack.StackDouble
-import com.kabouterlabs.ode.util.{HandleException, LogIt}
+import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 import org.bridj.Pointer
 
 /**
@@ -17,9 +17,27 @@ case class Bimd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], mas
                 daoVar: DaeIndexVariables, params:FuncParams[Double], config:Config)
 {
 
-
+  LogIt().info("configuration : " + config)
 
   private val logger = LogIt()
+
+  private def log_tolerance_settings(itol: Pointer[lang.Integer], rtol: Pointer[lang.Double], atol: Pointer[lang.Double]) = {
+    LogIt().info("tolerance settings : itol (type of setting) : " +   bimd_itol_e.fromValue(itol.get()) + " atol : ")
+    bimd_itol_e.fromValue(itol.get()) match {
+      case   bimd_itol_e.ALL_SCALAR => {
+        LogIt().info("- absolute tolerance  : " + atol.getDouble())
+        LogIt().info("- relative tolerance  : " + rtol.getDouble())
+      }
+
+      case   bimd_itol_e.ALL_ARRAY => {
+        LogIt().info("- absolute tolerances : {" + atol.getDoubles().mkString(",") + " }")
+        LogIt().info("- relative tolerances : {" + rtol.getDoubles().mkString(",") + " }")
+      }
+      case _ => {
+        LogIt().warn("unable to identify the tolerance types")
+      }
+    }
+  }
 
   implicit class ev$config(config: Config) {
 
@@ -36,27 +54,40 @@ case class Bimd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], mas
     }
 
     def set_itol(itol: Pointer[lang.Integer], rtol: Pointer[lang.Double], atol: Pointer[lang.Double]) = {
-      (config.relativeTolerance.get, config.absoluteTolerance.get) match {
-        case ((Some(rtolv), None), (Some(atolv), None)) => {
-          itol.set(bimd_itol_e.ALL_SCALAR.value.toInt);
-          rtol.set(rtolv);
+
+      val rtolv = config.relativeTolerance.get match {
+        case (Some(v), None) => v
+        case (None, Some(arr)) => {
+          LogIt().warn("bimd does not support arrays of relative tolerances; using the average value ")
+          (0.0 /: arr){_ + _}/arr.length
+        }
+        case (_,_) => {
+          LogIt().error("cannot determine relative tolerance; returning out-of-range value ")
+          -99999999.0
+        }
+      }
+
+      config.absoluteTolerance.get match {
+        case  (Some(atolv), None) => {
+          itol.set(bimd_itol_e.ALL_SCALAR.value.toInt)
+          rtol.set(rtolv)
           atol.set(atolv)
         }
 
-        case ((Some(rtolv), None), (None, Some(atola))) => {
-          itol.set(bimd_itol_e.ALL_SCALAR.value.toInt)
+        case (None, Some(atola)) => {
+          itol.set(bimd_itol_e.ALL_ARRAY.value.toInt)
           rtol.set(rtolv)
           atol.setDoubles(atola.slice(0, dim))
         }
-        case (_, _) => {
-          LogIt().warn("unable to assign the right error option; neither all scalar or all aarray")
-          itol.set(-10)
-          rtol.set(-100.0)
-          atol.set(-99999.999)
+          
+        case (_,_) => {
+          LogIt().error("cannot determine tolerances; returning out-o-range value ")
+          itol.set(-99999)
+          rtol.set(-9999999.0)
+          atol.set(-9999999.0)
         }
       }
     }
-
 
   }
 
@@ -332,6 +363,9 @@ case class Bimd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], mas
 
 
   config.set_itol(itol,rtol,atol)
+
+  log_tolerance_settings(itol,rtol,atol)
+
   LogIt().info(" lrw : " + lwork.get() + " liw : " + liwork.get())
 
   def run(range: LineRangeT[Double], init: Array[Double]): Option[StackT] = HandleException {
@@ -352,9 +386,18 @@ case class Bimd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], mas
       //LogIt().info("=====> idid  " + idid.get())
       bimd_idid_e.fromValue(idid.get()) match {
         case c if c == bimd_idid_e.SUCCESS => {
-          stack.append(xend.get())
-          for (yval <- y.getDoubles(neq.get())) stack.append(yval)
-          Some(x.get())
+          val result = y.getDoubles(neq.get())
+          NonValueChecker(result).hasNonValue match {
+            case true => {
+              LogIt().error("detected non-values in the result : " + result.mkString(",") + " stop processing")
+              None
+            }
+            case false => {
+              stack.append(xend.get())
+              for (yval <- y.getDoubles(neq.get())) stack.append(yval)
+              Some(x.get())
+            }
+          }
         }
         case c if c == bimd_idid_e.INPUT_INCONSISTENT => {
           LogIt().error("inconsitent input ; idid : " + c.value())

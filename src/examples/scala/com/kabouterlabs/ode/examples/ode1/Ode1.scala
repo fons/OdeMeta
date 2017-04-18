@@ -8,7 +8,7 @@ import com.kabouterlabs.ode.OdeSolver._
 import com.kabouterlabs.ode.config._
 import com.kabouterlabs.ode.{FuncParams, Ivp}
 import com.kabouterlabs.ode.range.LineRange
-import com.kabouterlabs.ode.util.LogIt
+import com.kabouterlabs.ode.util.{ConvertArrayToFortranMatrix, ConvertArrayToMatrix, LogIt}
 
 import scala.language.{existentials, higherKinds, postfixOps, reflectiveCalls}
 import com.kabouterlabs.ode.implicits.OdeImplicits._
@@ -73,22 +73,43 @@ object Ode1Example {
         ydot(1) = -ydot(0) - ydot(2)
       }) +
     /*
-      * this is the jacobian callback function.
-      * 
+      * this is the jacobian callback function.  Returns the Jacobian in column order in Array pd;
+      * Also shown is the use of the ConvertArrayToFortranMatrix
+      * This enables fortran like indexing (1 based) into the array pd
+      * ConvertArrayToMatrix uses 0 based indexing
      */
       ((dim: Int, x: Double, y: Array[Double], mul: Int, mpk: Int, pd: Array[Double], pdr: Int, params: FuncParams[Double]) => {
         val alpha = params -> "alpha"
         val beta = params -> "beta"
         val gamma = params -> "gamma"
-        pd(0) = alpha
-        pd(1) = -alpha
-        pd(2) = 0.0
-        pd(3) = beta * y(2)
-        pd(4) = -beta * y(2) - 2.0 * gamma * y(1)
-        pd(5) = 2.0 * gamma * y(1)
-        pd(6) = beta * y(1)
-        pd(7) = -1.0 * beta * y(1)
-        pd(8) = 0.0
+        val converted = ConvertArrayToFortranMatrix(pd)
+        converted(1,1,alpha)
+        converted(1,2, beta*y(2))
+        converted(1,3, beta * y(1))
+
+        converted(2,1, -alpha)
+        //(2,2) => see below
+        converted(2,3, -beta * y(1))
+
+        converted(3,1, 0.0)
+        converted(3,2, 2.0 * gamma * y(1))
+        converted(3,3,0.0)
+
+        converted(2,2, -converted(1,2) - converted(3,2))
+        
+
+//        pd(0) = alpha
+//        pd(1) = -alpha
+//        pd(2) = 0.0
+//
+        //   pd(3) = beta * y(2)
+//        pd(4) = -beta * y(2) - 2.0 * gamma * y(1)
+//        pd(5) = 2.0 * gamma * y(1)
+//
+        // pd(6) = beta * y(1)
+//        pd(7) = -1.0 * beta * y(1)
+//        pd(8) = 0.0
+
       }) +
       /*
       * Constraint callback function to find roots by sodar.
@@ -109,11 +130,11 @@ object Ode1Example {
         }) +
     /*
       * Settting optional parameters. Those differ per solver but the most common ones have been factored out.
-      * In the setting below the diagnostic messages have been suppressed and an initial step size is provided.
+      * In the setting below the diagnostic messages have not been suppressed and an initial step size is provided.
       * The optional parameters are highly specific to the fortran ode solver being called.
       * Use the OptionalParameters to pass in iwork or rwark arrays if that's needed.
      */
-      (OptionalParameters(OptionalParameterType.DIAGNOSTICS, false) ++ (OptionalParameterType.INITIAL_STEP_SIZE, 0.1)) +>  //+> is the termintor; this returns the solver
+      (OptionalParameters(OptionalParameterType.DIAGNOSTICS, true) ++ (OptionalParameterType.INITIAL_STEP_SIZE, 0.1)) +>  //+> is the termintor; this returns the solver
 
     /*
      * This creates an array of independent variables (time in this case).
@@ -156,6 +177,21 @@ object RunContext
     import com.kabouterlabs.ode.implicits.dvode.DvodeImplicit._
     Ode1Example()
   }
+
+  def radau5() = {
+    import com.kabouterlabs.ode.implicits.radau5.Radau5Implicit._
+    Ode1Example()
+  }
+
+  def bimd() = {
+    import com.kabouterlabs.ode.implicits.bimd.BimdImplicit._
+    Ode1Example()
+  }
+
+  def gamd() = {
+    import com.kabouterlabs.ode.implicits.gamd.GamdImplicit._
+    Ode1Example()
+  }
 }
 
 object Ode1
@@ -165,12 +201,17 @@ object Ode1
     LogIt().level.info()
 
     RunContext.soda()
-    
+
     RunContext.sode()
 
     RunContext.sodar()
 
     RunContext.dvode()
-    
+
+    RunContext.radau5()
+
+    RunContext.bimd()
+
+    RunContext.gamd()
   }
 }

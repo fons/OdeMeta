@@ -2,13 +2,12 @@ package com.kabouterlabs.ode.odepack
 
 import java.lang
 
-
 import com.kabouterlabs.jodeint.codepack.CodepackLibrary
 import com.kabouterlabs.jodeint.codepack.CodepackLibrary._
 import com.kabouterlabs.ode._
-import com.kabouterlabs.ode.config.{UpperBandWidth, LowerBandWidth, JacobianType, Config}
+import com.kabouterlabs.ode.config.{Config, JacobianType, LowerBandWidth, UpperBandWidth}
 import com.kabouterlabs.ode.stack.StackDouble
-import com.kabouterlabs.ode.util.{LogIt, HandleException}
+import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 import org.bridj.Pointer
 
 /**
@@ -266,6 +265,7 @@ case class Lsodar(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], n
     LogIt().diagnostic("method order to be attempted at next step               : " + iwork.getIntAtIndex(14))
     LogIt().diagnostic("length of rwork (internal work aray) actually required  : " + iwork.getIntAtIndex(16))
     LogIt().diagnostic("length of iwork (internal work aray) actually required  : " + iwork.getIntAtIndex(17))
+    
     iwork.getIntAtIndex(18) match {
       case 1 => LogIt().diagnostic("method used in last successful step                     : Adams; problem not stiff")
       case 2 => LogIt().diagnostic("method used in last successful step                     : BDF; problem stiff")
@@ -276,6 +276,7 @@ case class Lsodar(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], n
       case 2 => LogIt().diagnostic("method attempted in the next step                       : BDF; problem stiff")
       case c => LogIt().diagnostic("method attempted in the next step (id not recognized)   : " + c)
     }
+
     LogIt().diagnostic("-----------------------------------------------")
   }
 
@@ -314,10 +315,20 @@ case class Lsodar(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], n
       LogIt().trace("state get " + istate.get() + "," + codepack_istate_out_e.fromValue(istate.get()) + " " + codepack_istate_out_e.ROOT_FOUND.value )
       codepack_istate_out_e.fromValue(istate.get()) match {
         case c if c ==codepack_istate_out_e.NOTHING_DONE || c == codepack_istate_out_e.SUCCESS_DONE   => {
-          stack.append(tout.get())
-          for (yval <- y.getDoubles(neq.get())) stack.append(yval)
-          if (ng.get() > 0) for (rindex <- jroot.getInts(ng.get())) stack.append(rindex)
-          Some(t.get())
+          val result = y.getDoubles(neq.get())
+          NonValueChecker(result).hasNonValue match {
+            case true => {
+              LogIt().error("detected non-values in the result : " + result.mkString(",") + " stop processing")
+              None
+            }
+            case false => {
+              stack.append(tout.get())
+              for (yval <- y.getDoubles(neq.get())) stack.append(yval)
+              if (ng.get() > 0) for (rindex <- jroot.getInts(ng.get())) stack.append(rindex)
+              Some(t.get())
+            }
+          }
+          
         }
         case c if c == codepack_istate_out_e.ROOT_FOUND => {
           //        val gout = new Array[Double](ng.get())

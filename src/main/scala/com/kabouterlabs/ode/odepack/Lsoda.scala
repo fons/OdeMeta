@@ -7,7 +7,7 @@ import com.kabouterlabs.jodeint.codepack.CodepackLibrary._
 import com.kabouterlabs.ode._
 import com.kabouterlabs.ode.config._
 import com.kabouterlabs.ode.stack.StackDouble
-import com.kabouterlabs.ode.util.{LogIt, HandleException}
+import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 import com.typesafe.scalalogging.Logger
 import org.bridj.Pointer
 import org.slf4j.LoggerFactory
@@ -276,9 +276,18 @@ case class Lsoda(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], pa
       diagnostics
       codepack_istate_out_e.fromValue(istate.get()) match {
         case c if c == codepack_istate_out_e.NOTHING_DONE || c == codepack_istate_out_e.SUCCESS_DONE   => {
-          stack.append(tout.get())
-          for (yval <- y.getDoubles(neq.get())) stack.append(yval)
-          Some(t.get())
+          val result = y.getDoubles(neq.get())
+          NonValueChecker(result).hasNonValue match {
+            case true => {
+              LogIt().error("detected non-values in the result : " + result.mkString(",") + " stop processing")
+              None
+            }
+            case false => {
+              stack.append(tout.get())
+              for (yval <- y.getDoubles(neq.get())) stack.append(yval)
+              Some(t.get())
+            }
+          }
         }
         case c if c == codepack_istate_out_e.MAX_STEPS_EXCEEDED =>  {
           LogIt().warn("excessive amount of work done + istate : " + c.value())

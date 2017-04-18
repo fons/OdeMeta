@@ -60,7 +60,7 @@ case class StackDouble(dim:Int, range:LineRangeT[Double]) extends StackT
     }
   }
 
-  final override def toArray: Array[Array[Double]] = ptr.sliding(dim + 1).toArray
+  final override def toArray: Array[Array[Double]] = ptr.sliding(dim + 1, dim+1).toArray
 
   def apply(index:Int):Array[ElemT] = {
     val start = index * (dim +1)

@@ -3,7 +3,7 @@ package com.kabouterlabs.ode.implicits.lsode
 import com.kabouterlabs.ode.OdeSolver.OdeSolverTC
 import com.kabouterlabs.ode.odepack.Lsode
 import com.kabouterlabs.ode.config.{Config, DaeIndexVariables}
-import com.kabouterlabs.ode.util.HandleException
+import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 import com.kabouterlabs.ode.{OdeM, _}
 
 /**
@@ -39,9 +39,14 @@ object LsodeImplicit
     override def apply(range:LineRangeT[RangeTypeT], init: Array[ElemT]) = new  {
 
       override def toString: String = super.toString + "lazy result for " + solver.toString + "[" + range.start + ",end " + range.end + " ]{" + init.mkString(",") + "}"
-      private lazy val result =  solver.ode match {
-        case Some(s) => s.run(range, init)
-        case _       => None
+   
+      private lazy val result =  (solver.ode, NonValueChecker(init).hasNonValue) match {
+        case (Some(s), false) => s.run(range, init)
+        case (Some(s), true)       => {
+          LogIt().error("invalid input detected : " + init.mkString(",") + " not proceeding")
+          None
+        }
+        case (_, _) => None
       }
 
       def apply(): Option[StackT] = result

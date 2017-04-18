@@ -3,37 +3,54 @@ package com.kabouterlabs.ode.gamd
 
 import com.kabouterlabs.jodeint.cgamd.CgamdLibrary
 import com.kabouterlabs.jodeint.cgamd.CgamdLibrary._
-
 import com.kabouterlabs.ode.config._
 import com.kabouterlabs.ode._
-
-
 import java.lang
 
-
 import com.kabouterlabs.ode.stack.StackDouble
-import com.kabouterlabs.ode.util.{HandleException, LogIt}
+import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 import org.bridj.Pointer
 
 class Gamd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], massM:MassMatrixFuncM[Double],
            daoVar:DaeIndexVariables, params:FuncParams[Double], config:Config)
 {
 
+  private def log_tolerance_settings(itol: Pointer[lang.Integer], rtol: Pointer[lang.Double], atol: Pointer[lang.Double]) = {
+    LogIt().info("tolerance settings : itol (type of setting) : " +   gamd_itol_e.fromValue(itol.get()) + " atol : ")
+    gamd_itol_e.fromValue(itol.get()) match {
+      case   gamd_itol_e.ALL_SCALAR => {
+        LogIt().info("- absolute tolerance  : " + atol.getDouble())
+        LogIt().info("- relative tolerance  : " + rtol.getDouble())
+      }
+
+      case   gamd_itol_e.ALL_ARRAY => {
+        LogIt().info("- absolute tolerances : {" + atol.getDoubles().mkString(",") + " }")
+        LogIt().info("- relative tolerances : {" + rtol.getDoubles().mkString(",") + " }")
+      }
+      case _ => {
+        LogIt().warn("unable to identify the tolerance types")
+      }
+    }
+  }
   private val logger = LogIt()
 
+  private case class TolDim(val rtolDim:Int, val atolDim:Int)
+  
   implicit class ev$config(config: Config) {
 
-    def rtolDim(dim: Int): Int = config.relativeTolerance.get match {
-      case (Some(_), None) => 1
-      case (None, Some(arr)) => arr.length
-      case (_, _) => 1
+    private def getDim() :TolDim = {
+      val (rtoldim, atoldim) = (config.relativeTolerance.get, config.absoluteTolerance.get) match {
+        case ((Some(value1), None), (Some(value2), None)) => (1, 1)
+        case ((None, Some(arr)), (None, Some(arr2))) => (arr.length, arr2.length)
+        case ((Some(value), None), (None, Some(arr))) => (arr.length, arr.length)
+        case ((None, Some(arr)), (Some(value), _)) => (arr.length, arr.length)
+      }
+      TolDim(rtoldim,atoldim)
     }
 
-    def atolDim(dim: Int) = config.absoluteTolerance.get match {
-      case (Some(_), None) => 1
-      case (None, Some(arr)) => arr.length
-      case (_, _) => 1
-    }
+    val rtolDim = getDim().rtolDim
+
+    val atolDim = getDim().atolDim
 
     def set_itol(itol: Pointer[lang.Integer], rtol: Pointer[lang.Double], atol: Pointer[lang.Double]) = {
       (config.relativeTolerance.get, config.absoluteTolerance.get) match {
@@ -48,12 +65,21 @@ class Gamd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], massM:Ma
           rtol.setDoubles(rtola.slice(0, dim))
           atol.setDoubles(atola.slice(0, dim))
         }
-        case (_, _) => {
-          LogIt().warn("unable to assign the right error option; neither all scalar or all aarray")
-          itol.set(-10)
-          rtol.set(-100.0)
-          atol.set(-99999.999)
+        
+        case ((Some(rtolv), None), (None, Some(atola))) => {
+          LogIt().warn("scalar relative tolerance and array of absolute tolerance; converting scalar value to array of same size ")
+          itol.set(gamd_itol_e.ALL_ARRAY.value.toInt)
+          atol.setDoubles(atola.slice(0, dim))
+          rtol.setDoubles(Array.fill(dim)(rtolv).slice(0,dim))
         }
+
+        case ((None, Some(rtola)), (Some(atolv),None)) => {
+          LogIt().warn("scalar absolute tolerance and array of relative tolerance; converting scalar value to array of same size ")
+          itol.set(gamd_itol_e.ALL_ARRAY.value.toInt)
+          rtol.setDoubles(rtola.slice(0, dim))
+          atol.setDoubles(Array.fill(dim)(atolv).slice(0,dim))
+        }
+
       }
     }
 
@@ -89,8 +115,8 @@ class Gamd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], massM:Ma
   private val x: Pointer[lang.Double] = Pointer.allocateDouble()
   private val xend: Pointer[lang.Double] = Pointer.allocateDouble()
   private val h: Pointer[lang.Double] = Pointer.allocateDouble()
-  private val rtol: Pointer[lang.Double] = Pointer.allocateDoubles(config.rtolDim(dim))
-  private val atol: Pointer[lang.Double] = Pointer.allocateDoubles(config.atolDim(dim))
+  private val rtol: Pointer[lang.Double] = Pointer.allocateDoubles(config.rtolDim)
+  private val atol: Pointer[lang.Double] = Pointer.allocateDoubles(config.atolDim)
   private val itol: Pointer[lang.Integer] = Pointer.allocateInt()
 
   private val ijac: Pointer[lang.Integer] = Pointer.allocateInt()
@@ -224,6 +250,9 @@ class Gamd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], massM:Ma
 
 
   config.set_itol(itol,rtol,atol)
+
+  log_tolerance_settings(itol,rtol,atol)
+
   LogIt().info(" lrw : " + lwork.get() + " liw : " + liwork.get())
 
   config.options match {
@@ -302,6 +331,18 @@ class Gamd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], massM:Ma
       diagnostics
       gamd_idid_e.fromValue(idid.get()) match {
         case c if c == gamd_idid_e.SUCCESS => {
+          val result = y.getDoubles(neq.get())
+          NonValueChecker(result).hasNonValue match {
+            case true => {
+              LogIt().error("detected non-values in the result : " + result.mkString(",") + " stop processing")
+              None
+            }
+            case false => {
+              stack.append(xend.get())
+              for (yval <- y.getDoubles(neq.get())) stack.append(yval)
+              Some(x.get())
+            }
+          }
           stack.append(xend.get())
           for (yval <- y.getDoubles(neq.get())) stack.append(yval)
           Some(x.get())
