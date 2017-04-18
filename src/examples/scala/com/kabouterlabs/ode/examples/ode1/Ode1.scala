@@ -38,46 +38,46 @@ object Ode1Example {
       * Only the lsodar variant has root finding capability and this is activiated if the number of constraints is larger than 0
      */
     val ivpsolver = Ivp(dim = 3, constraints=constraints) +
-       /*
-         * Configure the solver. Notice that Backward Differention (BDF) is selected.
-         * The solver will ignore options it does not require, e.g. the soda slover will automtically detect the right differention scheme and will ignore this option.
-         *
-         * The following options are used :
-         *
-         *  - Method       : This is the basic linear mutistep method : BDF (backward differentiation) or Adams. The full method flag is determined in combination
-         *                   with othet configuration parameters provided, notably the jocobian type.
-         *
-         *  - JacobianType : In this case a full jacobian is assumed. If the jacobian function is present the suer supplied jobian option will be selected
-         *                   in the codepack wrapper. Other options as banded and sparse.
-         *
-         *  - Tolerances   : The Tolerance class can be used to simply provide the same relative and absolute tolerances. Below the absolute tolerance
-         *                    is different for each dependent variable and the relative tolerance is the same
-         *
-        */
+      /*
+        * Configure the solver. Notice that Backward Differention (BDF) is selected.
+        * The solver will ignore options it does not require, e.g. the soda slover will automtically detect the right differention scheme and will ignore this option.
+        *
+        * The following options are used :
+        *
+        *  - Method       : This is the basic linear mutistep method : BDF (backward differentiation) or Adams. The full method flag is determined in combination
+        *                   with othet configuration parameters provided, notably the jocobian type.
+        *
+        *  - JacobianType : In this case a full jacobian is assumed. If the jacobian function is present the suer supplied jobian option will be selected
+        *                   in the codepack wrapper. Other options as banded and sparse.
+        *
+        *  - Tolerances   : The Tolerance class can be used to simply provide the same relative and absolute tolerances. Below the absolute tolerance
+        *                    is different for each dependent variable and the relative tolerance is the same
+        *
+       */
       (Config(Methods.BDF) -> JacobianType.FullJacobian -> RelativeTolerance(0.000001)  -> AbsoluteTolerance(Array(0.000000001, 0.000000000000001, 0.000001))) +
-    /*
-      * The parameters used in the functions. This is a standardized way of supplying data to the ode functions and bypasses the way fortran code.
-     */
+      /*
+        * The parameters used in the functions. This is a standardized way of supplying data to the ode functions and bypasses the way fortran code.
+       */
       FuncParams("alpha" -> -0.04, "beta" -> "1.0e4".toDouble, "gamma" -> "3.0e7".toDouble) +
-    /*
-      * This is the ODE callback function.
-      * 
-      * It implements the differential equation.
-      * x is the independent variable; y are the depdent variables.
-      * ydot are the new values of the differentials
-      * Only ydot is marshalled and unmarshalled, so that's the only data set that is allowed to change
-     */
+      /*
+        * This is the ODE callback function.
+        *
+        * It implements the differential equation.
+        * x is the independent variable; y are the depdent variables.
+        * ydot are the new values of the differentials
+        * Only ydot is marshalled and unmarshalled, so that's the only data set that is allowed to change
+       */
       ((dim: Int, x: Double, y: Array[Double], ydot: Array[Double], params: FuncParams[Double]) => {
         ydot(0) = (params -> "alpha") * y(0) + (params -> "beta") * y(1) * y(2)
         ydot(2) = (params -> "gamma") * y(1) * y(1)
         ydot(1) = -ydot(0) - ydot(2)
       }) +
-    /*
-      * this is the jacobian callback function.  Returns the Jacobian in column order in Array pd;
-      * Also shown is the use of the ConvertArrayToFortranMatrix
-      * This enables fortran like indexing (1 based) into the array pd
-      * ConvertArrayToMatrix uses 0 based indexing
-     */
+      /*
+        * this is the jacobian callback function.  Returns the Jacobian in column order in Array pd;
+        * Also shown is the use of the ConvertArrayToFortranMatrix
+        * This enables fortran like indexing (1 based) into the array pd
+        * ConvertArrayToMatrix uses 0 based indexing
+       */
       ((dim: Int, x: Double, y: Array[Double], mul: Int, mpk: Int, pd: Array[Double], pdr: Int, params: FuncParams[Double]) => {
         val alpha = params -> "alpha"
         val beta = params -> "beta"
@@ -96,19 +96,19 @@ object Ode1Example {
         converted(3,3,0.0)
 
         converted(2,2, -converted(1,2) - converted(3,2))
-        
 
-//        pd(0) = alpha
-//        pd(1) = -alpha
-//        pd(2) = 0.0
-//
+
+        //        pd(0) = alpha
+        //        pd(1) = -alpha
+        //        pd(2) = 0.0
+        //
         //   pd(3) = beta * y(2)
-//        pd(4) = -beta * y(2) - 2.0 * gamma * y(1)
-//        pd(5) = 2.0 * gamma * y(1)
-//
+        //        pd(4) = -beta * y(2) - 2.0 * gamma * y(1)
+        //        pd(5) = 2.0 * gamma * y(1)
+        //
         // pd(6) = beta * y(1)
-//        pd(7) = -1.0 * beta * y(1)
-//        pd(8) = 0.0
+        //        pd(7) = -1.0 * beta * y(1)
+        //        pd(8) = 0.0
 
       }) +
       /*
@@ -118,22 +118,22 @@ object Ode1Example {
       ((dim:Int, x:Double, y:Array[Double], ng:Int, gout:Array[Double], params: FuncParams[Double]) => {
         gout(0) = y(0) - 0.0001
         gout(1) = y(2) - 0.01
-    }) +
-    /*
-      * Event function called when roots are found
-      * The array of dependent variables can be changed here.
-     */
+      }) +
+      /*
+        * Event function called when roots are found
+        * The array of dependent variables can be changed here.
+       */
       ((dim: Int, x:Double, y:Array[Double], ng:Int, jroot:Array[Int], params: FuncParams[Double])=>{
 
-         println("root found : " + x + " " + y.mkString(" , ") + " add jroot : [ " + jroot.mkString(" , ") + " ]")
+        println("root found : " + x + " " + y.mkString(" , ") + " add jroot : [ " + jroot.mkString(" , ") + " ]")
 
-        }) +
-    /*
-      * Settting optional parameters. Those differ per solver but the most common ones have been factored out.
-      * In the setting below the diagnostic messages have not been suppressed and an initial step size is provided.
-      * The optional parameters are highly specific to the fortran ode solver being called.
-      * Use the OptionalParameters to pass in iwork or rwark arrays if that's needed.
-     */
+      }) +
+      /*
+        * Settting optional parameters. Those differ per solver but the most common ones have been factored out.
+        * In the setting below the diagnostic messages have not been suppressed and an initial step size is provided.
+        * The optional parameters are highly specific to the fortran ode solver being called.
+        * Use the OptionalParameters to pass in iwork or rwark arrays if that's needed.
+       */
       (OptionalParameters(OptionalParameterType.DIAGNOSTICS, true) ++ (OptionalParameterType.INITIAL_STEP_SIZE, 0.1)) +>  //+> is the termintor; this returns the solver
 
     /*
@@ -149,7 +149,7 @@ object Ode1Example {
      */
     val result = eval()
     val last = for (stack <- result) yield {
-         stack.last
+      stack.last
     }
 
     println(last)
@@ -167,7 +167,7 @@ object RunContext
     import com.kabouterlabs.ode.implicits.lsode.LsodeImplicit._
     Ode1Example()
   }
-  
+
   def sodar(): Unit = {
     import com.kabouterlabs.ode.implicits.lsodar.LsodarImplicit._
     Ode1Example(2)

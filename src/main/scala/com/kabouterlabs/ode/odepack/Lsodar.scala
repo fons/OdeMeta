@@ -339,7 +339,7 @@ case class Lsodar(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], n
           //        }
           LogIt().trace("root found : " + jroot.getInts(ng.get()).mkString(","))
           event_call_back(neq,t,y,ng,jroot)
-          //istate.set(CodepackLibrary.codepack_istate_in_e.FIRST_CALL.value.toInt)
+          istate.set(CodepackLibrary.codepack_istate_in_e.FIRST_CALL.value.toInt)
           stack.append(t.get())
           for (yval <- y.getDoubles(neq.get())) stack.append(yval)
           if (ng.get() > 0) for (rindex <- jroot.getInts(ng.get())) stack.append(rindex)
