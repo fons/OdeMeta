@@ -23,7 +23,7 @@ import scala.collection.immutable.Range
   *  d^2y/dt^2 = -g
   *  y(0) = 0
   *  y'(00 = 10.0
-  *  Looses 10 % of its energy on the return bounce
+  *  Loses 10 % of its energy on the return bounce
   *
   *
   */
