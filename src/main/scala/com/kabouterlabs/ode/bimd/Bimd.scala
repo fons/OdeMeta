@@ -207,6 +207,7 @@ case class Bimd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], mas
 
   private val jac = new bimd_jac_callback {
 
+/*
     override def apply(neq: Pointer[Integer], x: Pointer[lang.Double], y: Pointer[lang.Double], pd: Pointer[lang.Double], nrowpd: Pointer[Integer],
                        ierr:Pointer[lang.Integer], rpar: Pointer[lang.Double], ipar: Pointer[Integer]): Unit = {
       logger.trace("calling jacobian")
@@ -223,10 +224,12 @@ case class Bimd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], mas
       }
 
     }
+*/
   }
 
   private val jac_sp: Pointer[bimd_jac_callback] = Pointer.getPointer(jac)
-  //
+  
+//
   (massM, config.mass) match {
     case (_, MassMatrixType.IdentityMatrix) => imas.set(bimd_mass_matrix_e.IDENTITY_MATRIX.value.toInt)
     case (MassMatrixFuncM(None), _) =>  imas.set(bimd_mass_matrix_e.IDENTITY_MATRIX.value.toInt)
