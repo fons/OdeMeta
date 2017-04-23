@@ -108,11 +108,28 @@ private case class HHPlotter(E:Double)
 
 
   val plt  = fig.subplot(2, 3,  0)
+  plt.xlabel = "time"
+  plt.ylabel = "x"
+
   val plt1 = fig.subplot(2, 3,  1)
+  plt1.xlabel = "time"
+  plt1.ylabel = "y"
+
   val plt2 = fig.subplot(2, 3,  2)
+  plt2.xlabel = "x"
+  plt2.ylabel = "y"
+
   val plt3 = fig.subplot(2, 3,  3)
+  plt3.xlabel = "y"
+  plt3.ylabel = "dy/dt"
+
   val plt4 = fig.subplot(2, 3,  4)
+  plt4.xlabel = "x"
+  plt4.ylabel = "dx/dt"
+
   val plt5 = fig.subplot(2, 3,  5)
+  plt5.xlabel = "time"
+  plt5.ylabel = "energy residual * 1000"
 
   def apply(lists:(List[Double], List[Double], List[Double], List[Double], List[Double])): Unit = {
     println("plotting")

@@ -94,7 +94,7 @@ object ArenstorfExample {
       }) +>
 
 
-    val eval = ivpsolver.solve(LineRange(0.0, 72.0, 0.005), init)
+    val eval = ivpsolver.solve(LineRange(0.0, 20.0, 0.005), init)
     /*
      * eval returns a lazy object which needs to be executed to get the values
      */
@@ -109,14 +109,14 @@ object ArenstorfExample {
   }
 }
 
-import com.kabouterlabs.ode.implicits.lsoda.LsodaImplicit._
+import com.kabouterlabs.ode.implicits.radau5.Radau5Implicit._
 
 
 object Arenstorf {
   def main(args: Array[String]) = {
     val res1 = ArenstorfExample(Array(0.994, 0.0,0.0, -2.0317326295573368357302057924))
-    //val res2 = ArenstorfExample(Array(0.994, 0.0,0.0, -2.00158510637908252240537862224))
-    //val res3 = ArenstorfExample(Array(1.2, 0.0,0.0, -1.049357510))
+    val res2 = ArenstorfExample(Array(0.994, 0.0,0.0, -2.00158510637908252240537862224))
+    val res3 = ArenstorfExample(Array(1.2, 0.0,0.0, -1.049357510))
 
     val fig = Figure("arenstof")
     fig.width = (fig.width * 2).toInt
@@ -124,10 +124,22 @@ object Arenstorf {
 
 
     val plt  = fig.subplot(2, 2,  0)
+    plt.xlabel = "time"
+    plt.ylabel = "x"
+
     val plt1 = fig.subplot(2, 2,  1)
+    plt1.xlabel = "time"
+    plt1.ylabel = "y"
+
     val plt2 = fig.subplot(2, 2,  2)
+    plt2.xlabel = "xval"
+    plt2.ylabel = "yval"
+
     val plt3 = fig.subplot(2, 2,  3)
-    val results = Array(res1) //, res2, res3)
+    plt3.xlabel = "xval"
+    plt3.ylabel = "dxval"
+    
+    val results = Array(res1, res2, res3)
     println(results.mkString(","))
 
     val a = for (lists <- results) {

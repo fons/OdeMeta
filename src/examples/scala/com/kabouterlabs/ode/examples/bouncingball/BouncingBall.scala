@@ -130,15 +130,20 @@ object BouncingBallExample
     fig.width = (fig.width * 2).toInt
     fig.height = (fig.height * 3).toInt
 
-
     val plt  = fig.subplot(3, 1,  0)
     plt += plot(time, xval)
-    
+    plt.xlabel = "time"
+    plt.ylabel = "x"
+
     val plt1 = fig.subplot(3, 1,  1)
     plt1 += plot(time, zval)
-    
+    plt1.xlabel = "time"
+    plt1.ylabel = "z"
+
     val plt2 = fig.subplot(3, 1,  2)
     plt2 += plot(xval, dxval)
+    plt2.xlabel = "x"
+    plt2.ylabel = "dx/dt"
     
   }
 }

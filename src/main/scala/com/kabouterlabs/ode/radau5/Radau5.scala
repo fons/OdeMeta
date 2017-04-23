@@ -176,7 +176,7 @@ case class Radau5(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], m
       ijac.set(radau5_jacobian_e.INTERNAL.value.toInt)
       mljac.set(dim)
       mujac.set(dim)
-      LogIt().info("generated full jacobian")
+      LogIt().info("full internally generated jacobian ")
     }
 
     case (_, JacobianFuncM(Some(_))) => {
@@ -245,17 +245,22 @@ case class Radau5(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], m
 
  daoVar match {
    case DaeIndexVariables(None,None,None) => {
-     LogIt().warn("no index variables set so assuming not a dao; defaulting to ODE ")
+     LogIt().info("no index variables set so assuming not a dao; defaulting to ODE ")
      imas.set(radau5_mass_matrix_e.IDENTITY_MATRIX.value.toInt)
      mlmas.set(dim)
      mumas.set(dim)
    }
-   case DaeIndexVariables(Some(i1),None,None) => iwork.set(4,i1)
+   case DaeIndexVariables(Some(i1),None,None) => {
+     LogIt().info("setting index variables : " + i1.toString)
+     iwork.set(4, i1)
+   }
    case DaeIndexVariables(Some(i1),Some(i2),None) => {
+     LogIt().info("setting index variables : " + i1.toString + " " + i2.toString)
      iwork.set(4, i1)
      iwork.set(5, i2)
    }
    case DaeIndexVariables(Some(i1),Some(i2),Some(i3)) => {
+     LogIt().info("setting index variables : " + i1.toString + " " + i2.toString + " " + i3.toString)
      iwork.set(4, i1)
      iwork.set(5, i2)
      iwork.set(6, i3)

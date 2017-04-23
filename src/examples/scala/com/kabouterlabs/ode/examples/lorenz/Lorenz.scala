@@ -100,11 +100,32 @@ object Lorenz {
     fig.height = (fig.height * 2).toInt
 
 
-    val plt  = fig.subplot(2, 2,  0)
-    val plt1 = fig.subplot(2, 2,  1)
-    val plt2 = fig.subplot(2, 2,  2)
-    val plt3 = fig.subplot(2, 2,  3)
+    val plt  = fig.subplot(2, 3,  0)
+    plt.xlabel = "time"
+    plt.ylabel = "x"
+
+    val plt1 = fig.subplot(2, 3,  1)
+    plt1.xlabel = "time"
+    plt1.ylabel = "y"
+
+    val plt2 = fig.subplot(2, 3,  2)
+    plt2.xlabel = "time"
+    plt2.ylabel = "z"
+
+    val plt3 = fig.subplot(2, 3,  3)
+    plt3.xlabel = "x"
+    plt3.ylabel = "y"
+
+    val plt4 = fig.subplot(2, 3,  4)
+    plt4.xlabel = "x"
+    plt4.ylabel = "z"
+
+    val plt5 = fig.subplot(2, 3,  5)
+    plt5.xlabel = "y"
+    plt5.ylabel = "z"
+
     val results = Array(res1)
+
     println(results.mkString(","))
 
     val a = for (lists <- results) {
@@ -114,6 +135,9 @@ object Lorenz {
       plt1 += plot(time, yval)
       plt2 += plot(time, zval)
       plt3 += plot(xval, yval)
+      plt4 += plot(xval, zval)
+      plt5 += plot(yval, zval)
+
     }
     fig.refresh()
     println("done")

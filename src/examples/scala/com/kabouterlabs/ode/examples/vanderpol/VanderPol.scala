@@ -21,8 +21,8 @@ import breeze.plot._
 /*
  * Solving the van der pol equation.
  *
- * dy1/dt = y2
- * dy2/dt = mu (1 - y1*y1)*y2 - y1
+ * dx/dt = y
+ * dy/dt = mu (1 - y1*y1)*y2 - y1
  *
  */
 object VanderPolExample {
@@ -100,7 +100,7 @@ object VanderPolExample {
   }
 }
 
-import com.kabouterlabs.ode.implicits.radau5.Radau5Implicit._
+import com.kabouterlabs.ode.implicits.lsoda.LsodaImplicit._
 
 
 object VanderPol
@@ -116,8 +116,17 @@ object VanderPol
     
 
     val plt  = fig.subplot(1,1,0)
+    plt.xlabel = "x"
+    plt.ylabel = "dx/dt"
+
     val plt1 = fig.subplot(1,2,1)
+    plt1.xlabel = "time"
+    plt1.ylabel = "x"
+
     val plt2 = fig.subplot(2,2,2)
+    plt2.xlabel = "time"
+    plt2.ylabel = "dx/dt"
+    
     val results = res1 +: res2 +: res3
 
     println(results.mkString(","))
@@ -125,7 +134,7 @@ object VanderPol
     val a = for (lists <- results) {
       println("plotting")
       val (time, xval, dxval) = lists
-      plt   += plot(dxval, xval)
+      plt   += plot(xval, dxval)
       plt1  += plot(time, xval)
       plt2  += plot(time, dxval)
     }
