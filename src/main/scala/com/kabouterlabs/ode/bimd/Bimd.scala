@@ -207,7 +207,7 @@ case class Bimd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], mas
 
   private val jac = new bimd_jac_callback {
 
-/*
+
     override def apply(neq: Pointer[Integer], x: Pointer[lang.Double], y: Pointer[lang.Double], pd: Pointer[lang.Double], nrowpd: Pointer[Integer],
                        ierr:Pointer[lang.Integer], rpar: Pointer[lang.Double], ipar: Pointer[Integer]): Unit = {
       logger.trace("calling jacobian")
@@ -224,7 +224,9 @@ case class Bimd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], mas
       }
 
     }
-*/
+    /*
+    override def apply(intPtr1: Pointer[Integer], doublePtr1: Pointer[lang.Double], doublePtr2: Pointer[lang.Double], doublePtr3: Pointer[lang.Double], intPtr2: Pointer[Integer], intPtr3: Pointer[Integer], doublePtr4: Pointer[lang.Double], intPtr4: Pointer[Integer]): Unit = super.apply(intPtr1, doublePtr1, doublePtr2, doublePtr3, intPtr2, intPtr3, doublePtr4, intPtr4)
+      */
   }
 
   private val jac_sp: Pointer[bimd_jac_callback] = Pointer.getPointer(jac)
