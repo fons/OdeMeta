@@ -1,7 +1,5 @@
 package com.kabouterlabs.ode
 
-import java.io.{PrintWriter, StringWriter}
-
 import com.kabouterlabs.ode.util.HandleException
 
 

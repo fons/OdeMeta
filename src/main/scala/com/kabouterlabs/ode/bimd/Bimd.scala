@@ -91,7 +91,7 @@ case class Bimd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], mas
 
   }
 
-  //end of implicit
+  //end of implicits
 
   private def lrw(dim: Int, jt: JacobianType, mt:MassMatrixType) = {
     val (ldjac, ldlu) = jt match {
@@ -326,7 +326,7 @@ case class Bimd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], mas
     }
   }
 
-  def diagnostics_on(): Unit = {
+  private def diagnostics_on(): Unit = {
 
     LogIt().diagnostic("number of function evaluations so far                   : " + iwork.getIntAtIndex(11))
     LogIt().diagnostic("number of jacobian evaluations so far                   : " + iwork.getIntAtIndex(12))
@@ -356,17 +356,16 @@ case class Bimd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], mas
     LogIt().diagnostic("-----------------------------------------------")
   }
 
-  def diagnostics_off() = {}
+  private def diagnostics_off() = {}
 
-  def diagnostics = config.options match {
+  private def diagnostics = config.options match {
     case Some(options) => options.diagnostics match {
       case Some(yn) => if (yn == true) diagnostics_on else diagnostics_off
       case _ => diagnostics_off
     }
     case _ => diagnostics_off
   }
-
-
+  
   config.set_itol(itol,rtol,atol)
 
   log_tolerance_settings(itol,rtol,atol)

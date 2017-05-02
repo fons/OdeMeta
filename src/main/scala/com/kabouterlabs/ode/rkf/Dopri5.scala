@@ -56,7 +56,7 @@ case class Dopri5(dim:Int, funcM:OdeFuncM[Double], params:FuncParams[Double], co
         }
       }
 
-    }//end of implicit
+    }//end of implicits
 
     private def lrw(dim:Int) = 8 * dim + 21
 

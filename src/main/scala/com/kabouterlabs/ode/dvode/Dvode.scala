@@ -94,7 +94,7 @@ case class Dvode(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], pa
       mf.set(10*meth + miter)
     }
 
-  }//end of implicit
+  }//end of implicits
 
   private def lrw(dim:Int, jt:JacobianType, mf:Int) = {
     (mf, jt) match {
@@ -280,7 +280,7 @@ case class Dvode(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], pa
     }
   }
 
-  def diagnostics_on(): Unit = {
+  private def diagnostics_on(): Unit = {
     LogIt().diagnostic("step size last used sucessfully                         : " + rwork.getDoubleAtIndex(10))
     LogIt().diagnostic("step size to be attempted                               : " + rwork.getDoubleAtIndex(11))
     LogIt().diagnostic("current value of the independent variable               : " + rwork.getDoubleAtIndex(12))
@@ -301,9 +301,9 @@ case class Dvode(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], pa
     LogIt().diagnostic("-----------------------------------------------")
   }
 
-  def diagnostics_off() = {}
+  private def diagnostics_off() = {}
 
-  def diagnostics = config.options match {
+  private def diagnostics = config.options match {
     case Some(options) => options.diagnostics match {
       case Some(yn) => if (yn == true) diagnostics_on else diagnostics_off
       case _ => diagnostics_off

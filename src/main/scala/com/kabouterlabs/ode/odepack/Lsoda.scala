@@ -90,7 +90,7 @@ case class Lsoda(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], pa
       }
     }
 
-  }//end of implicit
+  }//end of implicits
 
   private def lrw(dim:Int, jt:JacobianType) = {
     jt match {

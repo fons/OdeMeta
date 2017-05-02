@@ -1,6 +1,6 @@
 package com.kabouterlabs.ode
 
-import com.kabouterlabs.ode.config.{DaeIndexVariables, Config}
+import com.kabouterlabs.ode.config.{Config, DaeIndexVariables}
 
 /**
   * Created by fons on 3/15/17.

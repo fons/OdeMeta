@@ -82,7 +82,7 @@ case class Lsodar(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], n
 
     }
 
-  }//end of implicit
+  }//end of implicits
 
   def this(dim:Int, funcM:OdeFuncM[Double], jac: JacobianFuncM[Double],params:FuncParams[Double], config:Config) {
     this(dim, funcM, jac, 0, ConstraintFuncM.none, EventFuncM.none, params, config)

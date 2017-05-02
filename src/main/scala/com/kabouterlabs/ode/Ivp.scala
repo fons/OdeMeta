@@ -2,13 +2,10 @@ package com.kabouterlabs.ode
 
 
 import com.kabouterlabs.ode.OdeSolver.OdeSolverTC
-import com.kabouterlabs.ode.config.{OptionalParameters, DaeIndexVariables, Config}
+import com.kabouterlabs.ode.config.{Config, DaeIndexVariables, OptionalParameters}
 import com.kabouterlabs.ode.util.LogIt
 
-import scala.language.existentials
-import scala.language.reflectiveCalls
-import scala.language.higherKinds
-import scala.language.postfixOps
+import scala.language.{existentials, higherKinds, postfixOps, reflectiveCalls}
 
 /**
   * Created by fons on 1/19/17.

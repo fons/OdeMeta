@@ -52,7 +52,7 @@ class Dop853 (dim:Int, funcM:OdeFuncM[Double], params:FuncParams[Double], config
       }
     }
 
-  }//end of implicit
+  }//end of implicits
 
   private def lrw(dim:Int) = 11 * dim + 21
 

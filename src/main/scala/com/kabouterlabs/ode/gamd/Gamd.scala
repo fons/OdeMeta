@@ -86,7 +86,7 @@ class Gamd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], massM:Ma
 
   }
 
-  //end of implicit
+  //end of implicits
 
   private def lrw() = 21
 
@@ -283,7 +283,7 @@ class Gamd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], massM:Ma
     }
   }
 
-  def diagnostics_on(): Unit = {
+  private def diagnostics_on(): Unit = {
 
     LogIt().diagnostic("number of function evaluations so far                   : " + iwork.getIntAtIndex(9))
     LogIt().diagnostic("number of jacobian evaluations so far                   : " + iwork.getIntAtIndex(10))
@@ -303,9 +303,9 @@ class Gamd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], massM:Ma
     LogIt().diagnostic("-----------------------------------------------")
   }
 
-  def diagnostics_off() = {}
+  private def diagnostics_off() = {}
 
-  def diagnostics = config.options match {
+  private def diagnostics = config.options match {
     case Some(options) => options.diagnostics match {
       case Some(yn) => if (yn == true) diagnostics_on else diagnostics_off
       case _ => diagnostics_off

@@ -22,7 +22,7 @@ object OdeImplicits
 
   implicit def convertFmParam(f: OdeFuncUnitParam): OdeFuncM[Double] = OdeFuncM[Double](Some({f}))
 
-  //implicit def convertFm2(f:OdeFuncInt):OdeFuncM[Double] = OdeFuncM[Double](Some({f}))
+  //implicits def convertFm2(f:OdeFuncInt):OdeFuncM[Double] = OdeFuncM[Double](Some({f}))
 
   implicit def convertIt(f: OdeFuncInt): OdeFuncUnit = (n: Int, x: Double, y: Array[Double], ydot: Array[Double]) => {
     f(n, x, y, ydot); Unit

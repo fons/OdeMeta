@@ -1,12 +1,10 @@
 package com.kabouterlabs.ode.rkf
 
-import java.lang
-
 import com.kabouterlabs.jodeint.crkf45.Crkf45Library._
 import com.kabouterlabs.ode.config.Config
 import com.kabouterlabs.ode.stack.StackDouble
 import com.kabouterlabs.ode.util.HandleException
-import com.kabouterlabs.ode.{StackT, LineRangeT, FuncParams, OdeFuncM}
+import com.kabouterlabs.ode.{FuncParams, LineRangeT, OdeFuncM, StackT}
 
 /**
   * Created by fons on 3/2/17.
@@ -16,7 +14,6 @@ class Rkf45 (dim:Int, funcM:OdeFuncM[Double], params:FuncParams[Double], config:
 
   import java.lang
 
-  import com.kabouterlabs.jodeint.cdop853.Cdop853Library.dop853_itol_e
   import com.kabouterlabs.ode.config.Config
   import com.kabouterlabs.ode.util.LogIt
   import org.bridj.Pointer
@@ -53,7 +50,7 @@ class Rkf45 (dim:Int, funcM:OdeFuncM[Double], params:FuncParams[Double], config:
       }
     }
 
-  }//end of implicit
+  }//end of implicits
 
   private def lrw(dim:Int) = 6 * dim + 3
 
