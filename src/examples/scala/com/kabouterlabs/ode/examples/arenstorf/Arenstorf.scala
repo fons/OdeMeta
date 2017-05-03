@@ -109,8 +109,8 @@ object ArenstorfExample {
   }
 }
 
-import com.kabouterlabs.ode.implicits.radau5.Radau5Implicit._
-
+//import com.kabouterlabs.ode.implicits.radau5.Radau5Implicit._
+import com.kabouterlabs.ode.experimental.ode.implicits.RKEmbeddedFehlberg56Implicit._
 
 object Arenstorf {
   def main(args: Array[String]) = {
