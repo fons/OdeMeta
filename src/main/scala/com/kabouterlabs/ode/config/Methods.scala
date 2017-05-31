@@ -9,4 +9,10 @@ object Methods {
   case object ADAMS      extends Method
   case object BDF        extends Method
   case object SPARSE_BDF extends Method
+  case object SYMPLECTIC_2_STAGES extends Method
+  case object SYMPLECTIC_4_STAGES extends Method
+  case object SYMPLECTIC_6_STAGES extends Method
+  case object SYMPLECTIC_801_STAGES extends Method
+  case object SYMPLECTIC_802_STAGES extends Method
+  case object SYMPLECTIC_803_STAGES extends Method
 }

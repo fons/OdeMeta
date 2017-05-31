@@ -1,139 +1,61 @@
 package com.kabouterlabs.ode.main
 
 
+import com.kabouterlabs.ode.OdeSolver._
 
-import com.kabouterlabs.ode.config.{Config, Tolerance}
+import com.kabouterlabs.ode.config._
+
 import com.kabouterlabs.ode.{FuncParams, Ivp}
-import com.kabouterlabs.ode.experimental.ode.{OdeSolver, RKEmbedded56}
+
 import com.kabouterlabs.ode.range.LineRange
+import com.kabouterlabs.ode.util.LogIt
 
 import scala.language.existentials
 import scala.language.reflectiveCalls
 import scala.language.higherKinds
 import scala.language.postfixOps
-import scala.math.sin
 
-
-
-/**
-  * Created by fons on 1/5/17.
-  */
-
-case class FM(arr:Array[Double])
-{
-  private var a_ = 9.0
-  private var i_ = 0
-  private var j_ = 0
-
-  def a = a_
-  def a_=(v:Double):Unit = {a_ = v}
-
-  def i = i_
-  def i_=(v:Int)= {i_ = v}
-
-  def j = j_
-  def j_=(v:Int)= {j_ = v}
-
-  def step(v:Int) = {
-    i = v
-    j_=_
-  }
-
-  def step2(v1:Int) = (v2:Int)=>{
-    i = v1
-    j = v2
-    //a_=_
-    a_
-  }
-
-  val dim = math.sqrt(arr.length).toInt
-  def apply(row:Int, column:Int, value:Double) = {
-    val index = column * dim + row
-    println("index : " + index)
-    arr(index) = value
-  }
-  def apply(row:Int,column:Int) = arr(row + dim*column)
-}
-
-case class Range1D(start:Double, end:Double, stepSize:Double)
 
 import com.kabouterlabs.ode.implicits.OdeImplicits._
+import com.kabouterlabs.ode.symplectic.implicits.GniLmm2Implicit._
 
-import com.kabouterlabs.ode.experimental.ode.implicits.RKEmbeddedFehlberg78Implicit._
+object Main extends App
+{
+  var called = 0
+  LogIt().level.info()
 
+  val ivpsolver = Ivp(dim = 1) + (Config(Methods.SYMPLECTIC_801_STAGES) -> AbsoluteTolerance(Array[Double]())) +
+    ((dim: Int, x: Double, y: Array[Double], ydot: Array[Double], params: FuncParams[Double]) => {
+      called =  called + 1
+      //ydot(0) = y(1)
+      //ydot(1) = - math.sin(y(0))
+      ydot(0) = - math.sin(y(0))
+    }) + OptionalParameters(OptionalParameterType.MIN_STEPS, 10) +>  //+> is the termintor; this returns the solver
 
-object Main extends App {
+  val init =  Array(math.Pi*999.0/1000.0, 0.0)
+  val eval = ivpsolver.solve(LineRange(0.0, 10.0, 0.1), init)
 
+  eval().map(_.show)
 
-  val arr1 = Array.ofDim[Double](3*3)
-  val cv = FM(arr1)
-  cv(0,0,10.0)
-  cv(1,2,89.0)
-  //cv(1,2) = 900000.0
-  cv.a = 56.0
-  val b= cv.step2(10)(9)
-  //b = 78.0
-  println(cv.i, cv.j, b)
+  println("total number of calls " + called)
+  val hamil0 = 0.5 * init(1)*init(1) - math.cos(init(0))
 
-  println(arr1.mkString(","))
-  // ode to solve
-  // simple pendulum
-  def f(x: Double, y: List[Double]): Double = y(1)
-  def g(x: Double, y: List[Double]): Double = -sin(y(0))
-  def func(x:Double, y:List[Double]) = {
-    List(f(x,y), g(x,y))
-  }
-
-  def func2(dim:Int, x:Double, y:Array[Double], ydot:Array[Double], params:FuncParams[Double]): Unit =
-  {
-    ydot(0)= f(x,y.toList)
-    ydot(1)= g(x,y.toList)
-  }
-
-  val init = List(3.138451060936203, 0.0)
-  val tstart   = 0.00
-  val tend     = 1.0
-  val stepSize = 0.1
-  val solver =  new OdeSolver(RKEmbedded56, 2, func2(_,_,_,_,_), FuncParams[Double]("alpha" -> 1.0), 0.0000001)
-  val result = solver.run(tstart, tend, stepSize, init).getOrElse(List())
-  for ((x, yargs) <- result)  yield {
-    print(f"$x%.12f , ")
-    for ( y <- yargs) {
-      print(f"$y%.12f , ")
+  for (stack <- eval()) yield {
+    for (item <- stack.toArray) yield {
+      val hamil = 0.5 * item(2)*item(2) - math.cos(item(1))
+      val drift = hamil0 - hamil
+      println(item.mkString(",") + " hamil : " + hamil + "  drift : " + drift)
     }
-    println("")
   }
-  val result2 = solver.run(LineRange(tstart, tend, stepSize), init.toArray)
-  result2.map(_.show)
 
-  val ivpsolver = Ivp(2) +  (Config() -> Tolerance(0.000000000001)) + ((dim: Int, x: Double, y: Array[Double], ydot: Array[Double], params: FuncParams[Double]) => {
-    ydot(0)= f(x,y.toList)
-    ydot(1)= g(x,y.toList)
-  }) +>
-
-  println(ivpsolver)
-  val results = ivpsolver(LineRange(tstart, tend, stepSize), init.toArray)()
-  results.map(_.show)
-
-//  println(tstart, init)
-//  var tend = tstart
-//  var results = init
-//  for (index <- Range(1,10)) {
-//    tstart = tend
-//    tend = index * 0.1
-//    init = results
-//    val (tend1, results1) = solver(tstart, tend, init)
-//    //print(f"$res%.12e ,")
-//    print(f"$tend1%.12f , ")
-//    for (res <- results1)  print(f"$res%.12f ,")
-//    println()
-//      //f"//results1.mkString(","))
-//    tend = tend1
-//    results = results1
-//  }
   /*
-  0.700000000000000,3.137649425358330,-0.002383155985903,
-  0.800000000000000,3.137390979846055,-0.002790060929765,
-  0.900000000000000,3.137090482695206,-0.003224889492799,
+  .000000000000e+00 ,3.138451060936e+00 ,0.000000000000e+00 ,
+1.000000000000e-01 ,3.138435297247e+00 ,-3.151027426619e-04 ,
+2.000000000000e-01 ,3.138387835329e+00 ,-6.335446780852e-04 ,
+3.000000000000e-01 ,3.138308216310e+00 ,-9.581057471176e-04 ,
+4.000000000000e-01 ,3.138195738558e+00 ,-1.291856188377e-03 ,
+5.000000000000e-01 ,3.138049230871e+00 ,-1.638464611450e-03 ,
+6.000000000000e-01 ,3.137867223050e+00 ,-2.001524071964e-03 ,
+7.000000000000e-01 ,3.137647898771e+00 ,-2.384721926404e-03 ,
    */
 }

@@ -84,7 +84,8 @@ case class Dvode(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], pa
         }
       }
     }
-    val meth = config.method match {
+
+    private val meth = config.method match {
       case Methods.ADAMS => 1
       case Methods.BDF   => 2
       case _             => 2

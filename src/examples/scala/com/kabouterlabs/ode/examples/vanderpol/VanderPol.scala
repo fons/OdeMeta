@@ -102,6 +102,8 @@ object VanderPolExample {
 
 import com.kabouterlabs.ode.implicits.lsoda.LsodaImplicit._
 
+//import com.kabouterlabs.ode.experimental.implicits.RKEmbedded56Implicit._
+
 
 object VanderPol
 {

@@ -65,3 +65,4 @@ object RelativeTolerance
 
   implicit def convertTolerance(tol:Tolerance):RelativeTolerance = new RelativeTolerance(tol.tol)
 }
+
