@@ -10,10 +10,24 @@ import com.kabouterlabs.ode.util.{LogIt, HandleException}
 import com.kabouterlabs.ode.{FuncParams, StackT, LineRangeT, OdeFuncM}
 import org.bridj.{IntValuedEnum, Pointer}
 import com.kabouterlabs.ode.odepack.OdePackTypes._
-/**
-  * Created by fons on 1/16/17.
-  */
 
+
+/** Simplified OdePack interface
+  *
+  *  Provides a sensible set of defaults so only the ode function needs to be provided
+  *
+  *
+  * @note : for more information on the underlying algorithm follow this link and look for odepack [[https://computation.llnl.gov/casc/odepack/]].
+  *         More info here [[http://www.netlib.org/odepack/opkd-sum]] and here (pdf) [[https://computation.llnl.gov/casc/nsde/pubs/u113855.pdf]]
+  *
+  * @constructor  Basic OdePack Ode Solver instance.
+  * @param  dim    : Dimension of the ODE
+  * @param  funcM  : ODE solver call back
+  * @param  func   : Type of solver to use
+  * @param  params : Parameters
+  * @param  config : Configuration parameters
+  *
+  */
 
 case class OdePackBasic(dim:Int, funcM:OdeFuncM[Double], func:OdePackTypes.OdeBasicFunMfT,
                         params:FuncParams[Double], config:Config)(implicit ev$MfConfigT:MethodFlagConfigT)
@@ -37,6 +51,14 @@ case class OdePackBasic(dim:Int, funcM:OdeFuncM[Double], func:OdePackTypes.OdeBa
 
   private val func_sp: Pointer[codepack_ode_func] = Pointer.getPointer(func1)
 
+  /** Solves the ODE on a 1D grid (i.e. line) for a set of initial conditions
+    *
+    * @param range : Range of the independent variable. Cannot be infinite.
+    * @param init  : Initial conditions in the same order as the variables returned by the class back function
+    * @return  a stack containing the solution on each grid point
+    *
+    *
+    */
 
   def run(range:LineRangeT[Double], init:Array[Double]):Option[StackT] =
     HandleException {

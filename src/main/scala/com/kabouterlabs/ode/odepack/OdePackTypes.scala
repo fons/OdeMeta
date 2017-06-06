@@ -3,8 +3,9 @@ package com.kabouterlabs.ode.odepack
 import com.kabouterlabs.jodeint.codepack.CodepackLibrary
 import org.bridj.{Pointer, IntValuedEnum}
 import scala.language.implicitConversions
-/**
-  * Created by fons on 1/16/17.
+/** Implicit conversion for odepack functions
+  *
+  *
   */
 object OdePackTypes {
 

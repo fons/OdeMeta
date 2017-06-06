@@ -17,14 +17,15 @@ import scala.language.postfixOps
 
 
 import com.kabouterlabs.ode.implicits.OdeImplicits._
-import com.kabouterlabs.ode.symplectic.implicits.GniLmm2Implicit._
+//import com.kabouterlabs.ode.symplectic.implicits.GniIrk2Implicit._
+import com.kabouterlabs.ode.experimental.symplectic.implicits.Irk2Implicit._
 
 object Main extends App
 {
   var called = 0
   LogIt().level.info()
 
-  val ivpsolver = Ivp(dim = 1) + (Config(Methods.SYMPLECTIC_801_STAGES) -> AbsoluteTolerance(Array[Double]())) +
+  val ivpsolver = Ivp(dim = 1) + (Config(Methods.SYMPLECTIC_6_STAGES) -> AbsoluteTolerance(Array[Double]())) +
     ((dim: Int, x: Double, y: Array[Double], ydot: Array[Double], params: FuncParams[Double]) => {
       called =  called + 1
       //ydot(0) = y(1)

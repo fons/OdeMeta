@@ -11,8 +11,19 @@ import com.kabouterlabs.ode.{StackT, LineRangeT, FuncParams, OdeFuncM}
 
 import org.bridj.Pointer
 
-/**
-  * Created by fons on 2/27/17.
+/** Simplified Dvode interface
+  *
+  *  Provides a sensible set of defaults so only the ode function needs to be provided 
+  *
+  *
+  * @note : for more information on the underlying algorithm follow this link and look for dvode [[https://computation.llnl.gov/casc/odepack/]].
+  *
+  * @constructor  Basic Dvode Ode Solver instance.
+  * @param  dim    : Dimension of the ODE
+  * @param  funcM  : ODE solver call back
+  * @param  params : Parameters
+  * @param  config : Configuration parameters
+  *
   */
 case class DvodeBasic(dim:Int, funcM:OdeFuncM[Double], params:FuncParams[Double], config:Config)
 {
@@ -34,7 +45,15 @@ case class DvodeBasic(dim:Int, funcM:OdeFuncM[Double], params:FuncParams[Double]
 
   private val func_sp: Pointer[cdvode_ode_func] = Pointer.getPointer(func1)
 
-
+  /** Solves the ODE on a 1D grid (i.e. line) for a set of initial conditions
+    *
+    * @param range : Range of the independent variable. Cannot be infinite.
+    * @param init  : Initial conditions in the same order as the variables returned by the class back function
+    * @return  a stack containing the solution on each grid point
+    *
+    *
+    */
+  
   def run(range:LineRangeT[Double], init:Array[Double]):Option[StackT] =
     HandleException {
       val stack = StackDouble(dim, range)

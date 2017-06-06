@@ -49,8 +49,9 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Created by fons on 1/16/17.
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This class wraps the codepack function lsodar.</p><p>lsodar implements root finding.</p><p>When a root is found a special event callback is  called allowing a new set of initial
+to the ode solution to be supplied.</p></div><dl class="paramcmts block"><dt class="param">dim</dt><dd class="cmt"><p>: Dimension of the ODE</p></dd><dt class="param">funcM</dt><dd class="cmt"><p>: ODE solver call back</p></dd><dt class="param">jacM</dt><dd class="cmt"><p>: Jacobian</p></dd><dt class="param">nconstraints</dt><dd class="cmt"><p>: Number of constraints i.e. roots</p></dd><dt class="param">eventM</dt><dd class="cmt"><p>: event function called when constarints is met</p></dd><dt class="param">params</dt><dd class="cmt"><p>: Parameters</p></dd><dt class="param">config</dt><dd class="cmt"><p>: Configuration parameters</p></dd></dl><dl class="attributes block"> <dt>Note</dt><dd><span class="cmt"><p>: for more information on the underlying algorithm follow this link and look for odepack <a href="https://computation.llnl.gov/casc/odepack/" target="_blank">https://computation.llnl.gov/casc/odepack/</a>.
+      More info here <a href="http://www.netlib.org/odepack/opkd-sum" target="_blank">http://www.netlib.org/odepack/opkd-sum</a> and here (pdf) <a href="https://computation.llnl.gov/casc/nsde/pubs/u113855.pdf" target="_blank">https://computation.llnl.gov/casc/nsde/pubs/u113855.pdf</a></p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -106,7 +107,7 @@
       </a>
     </span>
       
-    </li><li name="com.kabouterlabs.ode.odepack.Lsodar#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.kabouterlabs.ode.odepack.Lsodar#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(dim:Int,funcM:com.kabouterlabs.ode.OdeFuncM[Double],jacM:com.kabouterlabs.ode.JacobianFuncM[Double],nconstraints:Int,conM:com.kabouterlabs.ode.ConstraintFuncM[Double],eventM:com.kabouterlabs.ode.EventFuncM[Double],params:com.kabouterlabs.ode.FuncParams[Double],config:com.kabouterlabs.ode.config.Config):com.kabouterlabs.ode.odepack.Lsodar"></a>
       <a id="&lt;init&gt;:Lsodar"></a>
       <h4 class="signature">
@@ -122,31 +123,11 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Lsodar Ode Solver instance.</p><div class="fullcomment"><div class="comment cmt"><p>Lsodar Ode Solver instance.</p></div><dl class="paramcmts block"><dt class="param">dim</dt><dd class="cmt"><p>: Dimension of the ODE</p></dd><dt class="param">funcM</dt><dd class="cmt"><p>: ODE solver call back</p></dd><dt class="param">jacM</dt><dd class="cmt"><p>: Jacobian</p></dd><dt class="param">nconstraints</dt><dd class="cmt"><p>: Number of constraints i.e. roots</p></dd><dt class="param">eventM</dt><dd class="cmt"><p>: event function called when constarints is met</p></dd><dt class="param">params</dt><dd class="cmt"><p>: Parameters</p></dd><dt class="param">config</dt><dd class="cmt"><p>: Configuration parameters</p></dd></dl></div>
     </li></ol>
             </div>
 
-        <div id="types" class="types members">
-              <h3>Type Members</h3>
-              <ol><li name="com.kabouterlabs.ode.odepack.Lsodar.ev$config" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="ev$configextendsAnyRef"></a>
-      <a id="ev$config:ev$config"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">class</span>
-      </span>
-      <span class="symbol">
-        <a href="Lsodar$ev$config.html"><span class="name">ev$config</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.kabouterlabs.ode.odepack.Lsodar@ev$configextendsAnyRef" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li></ol>
-            </div>
+        
 
         
 
@@ -276,58 +257,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.kabouterlabs.ode.odepack.Lsodar#diagnostics" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="diagnostics:Unit"></a>
-      <a id="diagnostics:Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">diagnostics</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.kabouterlabs.ode.odepack.Lsodar@diagnostics:Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="com.kabouterlabs.ode.odepack.Lsodar#diagnostics_off" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="diagnostics_off():Unit"></a>
-      <a id="diagnostics_off():Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">diagnostics_off</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.kabouterlabs.ode.odepack.Lsodar@diagnostics_off():Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="com.kabouterlabs.ode.odepack.Lsodar#diagnostics_on" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="diagnostics_on():Unit"></a>
-      <a id="diagnostics_on():Unit"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">diagnostics_on</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.kabouterlabs.ode.odepack.Lsodar@diagnostics_on():Unit" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
+      <p class="shortcomment cmt">: Configuration parameters</p>
     </li><li name="com.kabouterlabs.ode.odepack.Lsodar#dim" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="dim:Int"></a>
       <a id="dim:Int"></a>
@@ -344,7 +274,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">: Dimension of the ODE</p>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -378,7 +308,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">: event function called when constarints is met</p>
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -418,7 +348,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">: ODE solver call back</p>
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -469,8 +399,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.kabouterlabs.ode.odepack.Lsodar#nconstraints" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">: Jacobian</p>
+    </li><li name="com.kabouterlabs.ode.odepack.Lsodar#nconstraints" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="nconstraints:Int"></a>
       <a id="nconstraints:Int"></a>
       <h4 class="signature">
@@ -486,7 +416,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">: Number of constraints i.e.</p><div class="fullcomment"><div class="comment cmt"><p>: Number of constraints i.e. roots</p></div></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -554,8 +484,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.kabouterlabs.ode.odepack.Lsodar#run" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">: Parameters</p>
+    </li><li name="com.kabouterlabs.ode.odepack.Lsodar#run" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="run(range:com.kabouterlabs.ode.LineRangeT[Double],init:Array[Double]):Option[com.kabouterlabs.ode.StackT]"></a>
       <a id="run(LineRangeT[Double],Array[Double]):Option[StackT]"></a>
       <h4 class="signature">
@@ -571,7 +501,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Solves the ODE on a 1D grid (i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Solves the ODE on a 1D grid (i.e. line) for a set of initial conditions
+</p></div><dl class="paramcmts block"><dt class="param">range</dt><dd class="cmt"><p>: Range of the independent variable. Cannot be infinite.</p></dd><dt class="param">init</dt><dd class="cmt"><p>: Initial conditions in the same order as the variables returned by the class back function</p></dd><dt>returns</dt><dd class="cmt"><p>a stack containing the solution on each grid point</p></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>

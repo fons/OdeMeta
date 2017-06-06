@@ -10,8 +10,21 @@ import com.kabouterlabs.ode.stack.StackDouble
 import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 import org.bridj.Pointer
 
-/**
-  * Created by fons on 3/10/17.
+/** Bimd interface
+  *
+  * The code BIMD numerically solves (stiff) ODE or linearly implicit DAE problems of index up to 3 with constant mass matrix.
+  *
+  * @note : for more information on the underlying algorithm : [[http://web.math.unifi.it/users/brugnano/BiM/index.html]]
+  *
+  * @constructor  Bimd Ode Solver instance.
+  * @param  dim    : Dimension of the ODE
+  * @param  funcM  : ODE solver call back
+  * @param  jacM   : Jacobian
+  * @param  massM  : Mass function; Determines whether this is a DAE
+  * @param  daoVar : Index for the DAE system
+  * @param  params : Parameters
+  * @param  config : Configuration parameters
+  *
   */
 case class Bimd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], massM:MassMatrixFuncM[Double],
                 daoVar: DaeIndexVariables, params:FuncParams[Double], config:Config)
@@ -371,6 +384,15 @@ case class Bimd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], mas
   log_tolerance_settings(itol,rtol,atol)
 
   LogIt().info(" lrw : " + lwork.get() + " liw : " + liwork.get())
+
+  /** Solves the ODE on a 1D grid (i.e. line) for a set of initial conditions
+    *
+    * @param range : Range of the independent variable. Cannot be infinite.
+    * @param init  : Initial conditions in the same order as the variables returned by the class back function
+    * @return  a stack containing the solution on each grid point
+    *
+    *
+   */
 
   def run(range: LineRangeT[Double], init: Array[Double]): Option[StackT] = HandleException {
     LogIt().info("starting with range : " + range + " initial conditions : {" + init.mkString(",") + "}")

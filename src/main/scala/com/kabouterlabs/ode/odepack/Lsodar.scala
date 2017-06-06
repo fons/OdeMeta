@@ -19,6 +19,19 @@ import org.bridj.Pointer
   * to the ode solution to be supplied.
   *
   *
+  * @note : for more information on the underlying algorithm follow this link and look for odepack [[https://computation.llnl.gov/casc/odepack/]].
+  *       More info here [[http://www.netlib.org/odepack/opkd-sum]] and here (pdf) [[https://computation.llnl.gov/casc/nsde/pubs/u113855.pdf]]
+  *
+  * @constructor  Lsodar Ode Solver instance.
+  * @param  dim    : Dimension of the ODE
+  * @param  funcM  : ODE solver call back
+  * @param  jacM   : Jacobian
+  * @param  nconstraints : Number of constraints i.e. roots
+  * @param  comM   : Constraint function
+  * @param  eventM : event function called when constarints is met
+  * @param  params : Parameters
+  * @param  config : Configuration parameters
+  *
   */
 
 
@@ -289,6 +302,16 @@ case class Lsodar(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], n
     }
     case _ => diagnostics_off()
   }
+
+
+  /** Solves the ODE on a 1D grid (i.e. line) for a set of initial conditions
+    *
+    * @param range : Range of the independent variable. Cannot be infinite.
+    * @param init  : Initial conditions in the same order as the variables returned by the class back function
+    * @return  a stack containing the solution on each grid point
+    *
+    *
+    */
 
   def run(range:LineRangeT[Double], init:Array[Double]):Option[StackT] = HandleException {
 

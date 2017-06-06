@@ -70,7 +70,7 @@
 
         <div id="values" class="values members">
               <h3>Value Members</h3>
-              <ol><li name="com.kabouterlabs.ode" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="com.kabouterlabs.ode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ode"></a>
       <a id="ode:ode"></a>
       <h4 class="signature">
@@ -86,7 +86,130 @@
         <img src="../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt"> OdeMeta provides solvers for Ordinary Differential Equations (ODE) and Differential Algebraic Equations.</p><div class="fullcomment"><div class="comment cmt"><h3> OdeMeta </h3><p> OdeMeta provides solvers for Ordinary Differential Equations (ODE) and Differential Algebraic Equations.
+ It does so by using JavaOdeInt which provides an interface to well known Fortran solvers.</p><h4> Overview </h4><p> The following Fortan solvers are supported :</p><p> Ode solvers :</p><ul><li>odepack</li><li>vode</li><li>dopri5</li><li>dop853</li><li>rkf45</li></ul><p> DAO solvers :</p><ul><li>radau5</li><li>bimd</li><li>gamd</li></ul><p> Symplectic integration :</p><ul><li>gnicodes</li></ul><p> The follwoing experimental pure scala solvers are provided :</p><ul><li>Various Runge Kutta methods, embeded or otherwise</li><li>Symplectic Implicit Runge Kutta (reimplementation of gni irk2 in Scala)</li></ul><h4> Usage </h4><p> Each solver has an associated implicit.</p><p> The implicit object implements an ODE type class.</p><p> The same interface is used for all solvers, accounting for differences in the underlying Fortran interface.</p><p> You should be able to use all solvers interchangeably, but the solver may disregard some of the options you provide.</p><p> Have a look at the various examples</p><h4> Synopsis </h4><pre>    LogIt().level.info()
+
+Initialize the solver. This is a <span class="num">3</span> d problem <span class="kw">with</span> <span class="num">0</span> constraints (roots we need to satisfy) by default.
+Only the lsodar variant has root finding capability and <span class="kw">this</span> is activiated <span class="kw">if</span> the number of constraints is larger than <span class="num">0</span>
+
+ <span class="kw">val</span> ivpsolver = Ivp(dim = <span class="num">3</span>, constraints=constraints) +
+
+Configure the solver. Notice that Backward Differention (BDF) is selected.
+The solver will ignore options it does not require, e.g. the soda slover will automtically detect the right differention scheme and will ignore <span class="kw">this</span> option.
+
+The following options are used :
+
+ - Method       : This is the basic linear mutistep method : BDF (backward differentiation) or Adams. The full method flag is determined in combination
+                  <span class="kw">with</span> othet configuration parameters provided, notably the jocobian <span class="kw">type</span>.
+
+ - JacobianType : In <span class="kw">this</span> <span class="kw">case</span> a full jacobian is assumed. If the jacobian function is present the suer supplied jobian option will be selected
+                  in the codepack wrapper. Other options as banded and sparse.
+
+ - Tolerances   : The Tolerance <span class="kw">class</span> can be used to simply provide the same relative and absolute tolerances. Below the absolute tolerance
+                   is different <span class="kw">for</span> each dependent variable and the relative tolerance is the same
+
+
+   (Config(Methods.BDF) -&gt; JacobianType.FullJacobian -&gt; RelativeTolerance(<span class="num">0.000001</span>)  -&gt; AbsoluteTolerance(<span class="std">Array</span>(<span class="num">0.000000001</span>, <span class="num">0.000000000000001</span>, <span class="num">0.000001</span>))) +
+
+The parameters used in the functions. This is a standardized way of supplying data to the ode functions and bypasses the way fortran code.
+
+   FuncParams(<span class="lit">"alpha"</span> -&gt; -<span class="num">0.04</span>, <span class="lit">"beta"</span> -&gt; <span class="lit">"1.0e4"</span>.toDouble, <span class="lit">"gamma"</span> -&gt; <span class="lit">"3.0e7"</span>.toDouble) +
+
+This is the ODE callback function.
+
+It implements the differential equation.
+x is the independent variable; y are the depdent variables.
+ydot are the <span class="kw">new</span> values of the differentials
+Only ydot is marshalled and unmarshalled, so that's the only data set that is allowed to change
+
+      ((dim: <span class="std">Int</span>, x: <span class="std">Double</span>, y: <span class="std">Array</span>[<span class="std">Double</span>], ydot: <span class="std">Array</span>[<span class="std">Double</span>], params: FuncParams[<span class="std">Double</span>]) <span class="kw">=&gt;</span> {
+        ydot(<span class="num">0</span>) = (params -&gt; <span class="lit">"alpha"</span>) * y(<span class="num">0</span>) + (params -&gt; <span class="lit">"beta"</span>) * y(<span class="num">1</span>) * y(<span class="num">2</span>)
+        ydot(<span class="num">2</span>) = (params -&gt; <span class="lit">"gamma"</span>) * y(<span class="num">1</span>) * y(<span class="num">1</span>)
+        ydot(<span class="num">1</span>) = -ydot(<span class="num">0</span>) - ydot(<span class="num">2</span>)
+      }) +
+
+<span class="kw">this</span> is the jacobian callback function.  Returns the Jacobian in column order in <span class="std">Array</span> pd;
+Also shown is the use of the ConvertArrayToFortranMatrix
+This enables fortran like indexing (<span class="num">1</span> based) into the array pd
+ConvertArrayToMatrix uses <span class="num">0</span> based indexing
+
+      ((dim: <span class="std">Int</span>, x: <span class="std">Double</span>, y: <span class="std">Array</span>[<span class="std">Double</span>], mul: <span class="std">Int</span>, mpk: <span class="std">Int</span>, pd: <span class="std">Array</span>[<span class="std">Double</span>], pdr: <span class="std">Int</span>, params: FuncParams[<span class="std">Double</span>]) <span class="kw">=&gt;</span> {
+        <span class="kw">val</span> alpha = params -&gt; <span class="lit">"alpha"</span>
+        <span class="kw">val</span> beta = params -&gt; <span class="lit">"beta"</span>
+        <span class="kw">val</span> gamma = params -&gt; <span class="lit">"gamma"</span>
+        <span class="kw">val</span> converted = ConvertArrayToFortranMatrix(pd)
+        converted(<span class="num">1</span>,<span class="num">1</span>,alpha)
+        converted(<span class="num">1</span>,<span class="num">2</span>, beta*y(<span class="num">2</span>))
+        converted(<span class="num">1</span>,<span class="num">3</span>, beta * y(<span class="num">1</span>))
+
+        converted(<span class="num">2</span>,<span class="num">1</span>, -alpha)
+        <span class="cmt">//(2,2) => see below</span>
+        converted(<span class="num">2</span>,<span class="num">3</span>, -beta * y(<span class="num">1</span>))
+
+        converted(<span class="num">3</span>,<span class="num">1</span>, <span class="num">0.0</span>)
+        converted(<span class="num">3</span>,<span class="num">2</span>, <span class="num">2.0</span> * gamma * y(<span class="num">1</span>))
+        converted(<span class="num">3</span>,<span class="num">3</span>,<span class="num">0.0</span>)
+
+        converted(<span class="num">2</span>,<span class="num">2</span>, -converted(<span class="num">1</span>,<span class="num">2</span>) - converted(<span class="num">3</span>,<span class="num">2</span>))
+
+
+        <span class="cmt">//        pd(0) = alpha</span>
+        <span class="cmt">//        pd(1) = -alpha</span>
+        <span class="cmt">//        pd(2) = 0.0</span>
+        <span class="cmt">//</span>
+        <span class="cmt">//   pd(3) = beta * y(2)</span>
+        <span class="cmt">//        pd(4) = -beta * y(2) - 2.0 * gamma * y(1)</span>
+        <span class="cmt">//        pd(5) = 2.0 * gamma * y(1)</span>
+        <span class="cmt">//</span>
+        <span class="cmt">// pd(6) = beta * y(1)</span>
+        <span class="cmt">//        pd(7) = -1.0 * beta * y(1)</span>
+        <span class="cmt">//        pd(8) = 0.0</span>
+
+      }) +
+
+Constraint callback function to find roots by sodar.
+gout are the constraint fucntions and the determine the zeros'
+
+      ((dim:<span class="std">Int</span>, x:<span class="std">Double</span>, y:<span class="std">Array</span>[<span class="std">Double</span>], ng:<span class="std">Int</span>, gout:<span class="std">Array</span>[<span class="std">Double</span>], params: FuncParams[<span class="std">Double</span>]) <span class="kw">=&gt;</span> {
+        gout(<span class="num">0</span>) = y(<span class="num">0</span>) - <span class="num">0.0001</span>
+        gout(<span class="num">1</span>) = y(<span class="num">2</span>) - <span class="num">0.01</span>
+      }) +
+
+Event function called when roots are found
+The array of dependent variables can be changed here.
+
+      ((dim: <span class="std">Int</span>, x:<span class="std">Double</span>, y:<span class="std">Array</span>[<span class="std">Double</span>], ng:<span class="std">Int</span>, jroot:<span class="std">Array</span>[<span class="std">Int</span>], params: FuncParams[<span class="std">Double</span>])<span class="kw">=&gt;</span>{
+
+        println(<span class="lit">"root found : "</span> + x + <span class="lit">" "</span> + y.mkString(<span class="lit">" , "</span>) + <span class="lit">" add jroot : [ "</span> + jroot.mkString(<span class="lit">" , "</span>) + <span class="lit">" ]"</span>)
+
+      }) +
+
+Settting optional parameters. Those differ per solver but the most common ones have been factored out.
+In the setting below the diagnostic messages have not been suppressed and an initial step size is provided.
+The optional parameters are highly specific to the fortran ode solver being called.
+Use the OptionalParameters to pass in iwork or rwark arrays <span class="kw">if</span> that's needed.
+
+  (OptionalParameters(OptionalParameterType.DIAGNOSTICS, <span class="kw">true</span>) ++ (OptionalParameterType.INITIAL_STEP_SIZE, <span class="num">0.1</span>)) +&gt;  <span class="cmt">//+> is the termintor; this returns the solver</span>
+
+
+This creates an array of independent variables (time in <span class="kw">this</span> <span class="kw">case</span>).
+
+ <span class="kw">val</span> range = <span class="kw">for</span> (index <span class="kw">&lt;-</span> Range(<span class="num">0</span>, <span class="num">13</span>)) <span class="kw">yield</span>  {
+   <span class="kw">if</span> (index == <span class="num">0</span>) <span class="num">0.0</span> <span class="kw">else</span> <span class="num">0.04</span> * math.pow(<span class="num">10.0</span>, index)
+ }
+
+ <span class="kw">val</span> eval = ivpsolver.solve(LineRange(range.toArray), <span class="std">Array</span>(<span class="num">1.0</span>, <span class="num">0.0</span>, <span class="num">0.0</span>))
+
+eval returns a <span class="kw">lazy</span> <span class="kw">object</span> which needs to be executed to get the values
+
+    <span class="kw">val</span> result = eval()
+    <span class="kw">val</span> last = <span class="kw">for</span> (stack <span class="kw">&lt;-</span> result) <span class="kw">yield</span> {
+      stack.last
+    }
+
+    println(last)
+    result.map(_.show)
+  }</pre></div></div>
     </li></ol>
             </div>
 

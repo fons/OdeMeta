@@ -3,8 +3,8 @@ package com.kabouterlabs.ode.odepack
 import com.kabouterlabs.jodeint.codepack.CodepackLibrary
 import com.kabouterlabs.ode.config.Config
 
-/**
-  * Created by fons on 1/23/17.
+/** Trait used to convert solver type to odepack method
+  *
   */
 trait MethodFlagConfigT
 {

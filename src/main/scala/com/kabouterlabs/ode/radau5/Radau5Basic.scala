@@ -9,8 +9,19 @@ import com.kabouterlabs.ode.{FuncParams, OdeFuncM, StackT, LineRangeT}
 import com.kabouterlabs.ode.util.{HandleException, LogIt}
 import org.bridj.Pointer
 
-/**
-  * Created by fons on 3/6/17.
+/** Basic Radau5 interface
+  *
+  * Implicit Runge-Kutta method of order 5 (Radau IIA) for problems of the form y'=f(x,y). Provides a simple interface to radau5, with sensible defaults.
+  *
+  * @note : for more information on the underlying algorithm : [[http://www.unige.ch/~hairer/prog/stiff/radau5.f]] or [[http://www.unige.ch/~hairer/software.html]]
+  *
+  * @constructor  Radau Ode Solver instance.
+  * @param  dim    : Dimension of the ODE
+  * @param  funcM  : ODE solver call back
+  * @param  params : Parameters
+  * @param  config : Configuration parameters
+  *
+  *
   */
 class Radau5Basic(dim:Int, funcM:OdeFuncM[Double], params:FuncParams[Double], config:Config)
 {
@@ -31,7 +42,14 @@ class Radau5Basic(dim:Int, funcM:OdeFuncM[Double], params:FuncParams[Double], co
 
   private val func_sp: Pointer[radau5_ode_func] = Pointer.getPointer(func1)
 
-
+  /** Solves the ODE on a 1D grid (i.e. line) for a set of initial conditions
+    *
+    * @param range : Range of the independent variable. Cannot be infinite.
+    * @param init  : Initial conditions in the same order as the variables returned by the class back function
+    * @return  a stack containing the solution on each grid point
+    *
+    *
+    */
   def run(range:LineRangeT[Double], init:Array[Double]):Option[StackT] =
     HandleException {
       val stack = StackDouble(dim, range)

@@ -49,8 +49,7 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Created by fons on 2/27/17.
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Simplified Dvode interface</p><p> Provides a sensible set of defaults so only the ode function needs to be provided</p></div><dl class="paramcmts block"><dt class="param">dim</dt><dd class="cmt"><p>: Dimension of the ODE</p></dd><dt class="param">funcM</dt><dd class="cmt"><p>: ODE solver call back</p></dd><dt class="param">params</dt><dd class="cmt"><p>: Parameters</p></dd><dt class="param">config</dt><dd class="cmt"><p>: Configuration parameters</p></dd></dl><dl class="attributes block"> <dt>Note</dt><dd><span class="cmt"><p>: for more information on the underlying algorithm follow this link and look for dvode <a href="https://computation.llnl.gov/casc/odepack/" target="_blank">https://computation.llnl.gov/casc/odepack/</a>.</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -89,7 +88,7 @@
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="com.kabouterlabs.ode.dvode.DvodeBasic#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="com.kabouterlabs.ode.dvode.DvodeBasic#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(dim:Int,funcM:com.kabouterlabs.ode.OdeFuncM[Double],params:com.kabouterlabs.ode.FuncParams[Double],config:com.kabouterlabs.ode.config.Config):com.kabouterlabs.ode.dvode.DvodeBasic"></a>
       <a id="&lt;init&gt;:DvodeBasic"></a>
       <h4 class="signature">
@@ -105,7 +104,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Basic Dvode Ode Solver instance.</p><div class="fullcomment"><div class="comment cmt"><p>Basic Dvode Ode Solver instance.</p></div><dl class="paramcmts block"><dt class="param">dim</dt><dd class="cmt"><p>: Dimension of the ODE</p></dd><dt class="param">funcM</dt><dd class="cmt"><p>: ODE solver call back</p></dd><dt class="param">params</dt><dd class="cmt"><p>: Parameters</p></dd><dt class="param">config</dt><dd class="cmt"><p>: Configuration parameters</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -222,7 +221,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">: Configuration parameters</p>
     </li><li name="com.kabouterlabs.ode.dvode.DvodeBasic#dim" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="dim:Int"></a>
       <a id="dim:Int"></a>
@@ -239,7 +238,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">: Dimension of the ODE</p>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -296,7 +295,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">: ODE solver call back</p>
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -398,8 +397,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.kabouterlabs.ode.dvode.DvodeBasic#run" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">: Parameters</p>
+    </li><li name="com.kabouterlabs.ode.dvode.DvodeBasic#run" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="run(range:com.kabouterlabs.ode.LineRangeT[Double],init:Array[Double]):Option[com.kabouterlabs.ode.StackT]"></a>
       <a id="run(LineRangeT[Double],Array[Double]):Option[StackT]"></a>
       <h4 class="signature">
@@ -415,7 +414,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Solves the ODE on a 1D grid (i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Solves the ODE on a 1D grid (i.e. line) for a set of initial conditions
+</p></div><dl class="paramcmts block"><dt class="param">range</dt><dd class="cmt"><p>: Range of the independent variable. Cannot be infinite.</p></dd><dt class="param">init</dt><dd class="cmt"><p>: Initial conditions in the same order as the variables returned by the class back function</p></dd><dt>returns</dt><dd class="cmt"><p>a stack containing the solution on each grid point</p></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>

@@ -66,7 +66,7 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="com.kabouterlabs.ode.odepack.Lsoda" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="com.kabouterlabs.ode.odepack.Lsoda" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="LsodaextendsProductwithSerializable"></a>
       <a id="Lsoda:Lsoda"></a>
       <h4 class="signature">
@@ -82,8 +82,11 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Created by fons on 1/16/17.</p>
-    </li><li name="com.kabouterlabs.ode.odepack.Lsodar" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">This class wraps odepack's lsoda.</p><div class="fullcomment"><div class="comment cmt"><p>This class wraps odepack's lsoda.
+lsoda switches automatically between adams and bdf methods
+This makes it great for solving problems whose stiffness is not known or which varies over the solution range.</p></div><dl class="paramcmts block"><dt class="param">dim</dt><dd class="cmt"><p>: Dimension of the ODE</p></dd><dt class="param">funcM</dt><dd class="cmt"><p>: ODE solver call back</p></dd><dt class="param">jacM</dt><dd class="cmt"><p>: Jacobian</p></dd><dt class="param">params</dt><dd class="cmt"><p>: Parameters</p></dd><dt class="param">config</dt><dd class="cmt"><p>: Configuration parameters</p></dd></dl><dl class="attributes block"> <dt>Note</dt><dd><span class="cmt"><p>: for more information on the underlying algorithm follow this link and look for odepack <a href="https://computation.llnl.gov/casc/odepack/" target="_blank">https://computation.llnl.gov/casc/odepack/</a>.
+        More info here <a href="http://www.netlib.org/odepack/opkd-sum" target="_blank">http://www.netlib.org/odepack/opkd-sum</a> and here (pdf) <a href="https://computation.llnl.gov/casc/nsde/pubs/u113855.pdf" target="_blank">https://computation.llnl.gov/casc/nsde/pubs/u113855.pdf</a></p></span></dd></dl></div>
+    </li><li name="com.kabouterlabs.ode.odepack.Lsodar" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="LsodarextendsProductwithSerializable"></a>
       <a id="Lsodar:Lsodar"></a>
       <h4 class="signature">
@@ -99,8 +102,10 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Created by fons on 1/16/17.</p>
-    </li><li name="com.kabouterlabs.ode.odepack.Lsode" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">This class wraps the codepack function lsodar.</p><div class="fullcomment"><div class="comment cmt"><p>This class wraps the codepack function lsodar.</p><p>lsodar implements root finding.</p><p>When a root is found a special event callback is  called allowing a new set of initial
+to the ode solution to be supplied.</p></div><dl class="paramcmts block"><dt class="param">dim</dt><dd class="cmt"><p>: Dimension of the ODE</p></dd><dt class="param">funcM</dt><dd class="cmt"><p>: ODE solver call back</p></dd><dt class="param">jacM</dt><dd class="cmt"><p>: Jacobian</p></dd><dt class="param">nconstraints</dt><dd class="cmt"><p>: Number of constraints i.e. roots</p></dd><dt class="param">eventM</dt><dd class="cmt"><p>: event function called when constarints is met</p></dd><dt class="param">params</dt><dd class="cmt"><p>: Parameters</p></dd><dt class="param">config</dt><dd class="cmt"><p>: Configuration parameters</p></dd></dl><dl class="attributes block"> <dt>Note</dt><dd><span class="cmt"><p>: for more information on the underlying algorithm follow this link and look for odepack <a href="https://computation.llnl.gov/casc/odepack/" target="_blank">https://computation.llnl.gov/casc/odepack/</a>.
+      More info here <a href="http://www.netlib.org/odepack/opkd-sum" target="_blank">http://www.netlib.org/odepack/opkd-sum</a> and here (pdf) <a href="https://computation.llnl.gov/casc/nsde/pubs/u113855.pdf" target="_blank">https://computation.llnl.gov/casc/nsde/pubs/u113855.pdf</a></p></span></dd></dl></div>
+    </li><li name="com.kabouterlabs.ode.odepack.Lsode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="LsodeextendsProductwithSerializable"></a>
       <a id="Lsode:Lsode"></a>
       <h4 class="signature">
@@ -116,8 +121,9 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Created by fons on 1/24/17.</p>
-    </li><li name="com.kabouterlabs.ode.odepack.Lsodes" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Solves the initial value problem for stiff or nonstiff systems of ordinary differential equations (ODE).</p><div class="fullcomment"><div class="comment cmt"><p>Solves the initial value problem for stiff or nonstiff systems of ordinary differential equations (ODE).</p></div><dl class="paramcmts block"><dt class="param">dim</dt><dd class="cmt"><p>: Dimension of the ODE</p></dd><dt class="param">funcM</dt><dd class="cmt"><p>: ODE solver call back</p></dd><dt class="param">jacM</dt><dd class="cmt"><p>: Jacobian</p></dd><dt class="param">params</dt><dd class="cmt"><p>: Parameters</p></dd><dt class="param">config</dt><dd class="cmt"><p>: Configuration parameters</p></dd></dl><dl class="attributes block"> <dt>Note</dt><dd><span class="cmt"><p>: for more information on the underlying algorithm follow this link and look for odepack <a href="https://computation.llnl.gov/casc/odepack/" target="_blank">https://computation.llnl.gov/casc/odepack/</a>.
+        More info here <a href="http://www.netlib.org/odepack/opkd-sum" target="_blank">http://www.netlib.org/odepack/opkd-sum</a> and here (pdf) <a href="https://computation.llnl.gov/casc/nsde/pubs/u113855.pdf" target="_blank">https://computation.llnl.gov/casc/nsde/pubs/u113855.pdf</a></p></span></dd></dl></div>
+    </li><li name="com.kabouterlabs.ode.odepack.Lsodes" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="LsodesextendsProductwithSerializable"></a>
       <a id="Lsodes:Lsodes"></a>
       <h4 class="signature">
@@ -133,7 +139,11 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Created by fons on 1/29/17.</p>
+      <p class="shortcomment cmt">Solves the initial value problem for stiff or nonstiff systems of ordinary differential equations (ODE).</p><div class="fullcomment"><div class="comment cmt"><p>Solves the initial value problem for stiff or nonstiff systems of ordinary differential equations (ODE).
+ DLSODES is a variant of the DLSODE package, and is intended for problems in which the Jacobian matrix df/dy has an arbitrary
+sparse structure (when the problem is stiff).
+</p></div><dl class="paramcmts block"><dt class="param">dim</dt><dd class="cmt"><p>: Dimension of the ODE</p></dd><dt class="param">funcM</dt><dd class="cmt"><p>: ODE solver call back</p></dd><dt class="param">jacM</dt><dd class="cmt"><p>: Jacobian</p></dd><dt class="param">params</dt><dd class="cmt"><p>: Parameters</p></dd><dt class="param">config</dt><dd class="cmt"><p>: Configuration parameters</p></dd></dl><dl class="attributes block"> <dt>Note</dt><dd><span class="cmt"><p>: for more information on the underlying algorithm follow this link and look for odepack <a href="https://computation.llnl.gov/casc/odepack/" target="_blank">https://computation.llnl.gov/casc/odepack/</a>.
+        More info here <a href="http://www.netlib.org/odepack/opkd-sum" target="_blank">http://www.netlib.org/odepack/opkd-sum</a> and here (pdf) <a href="https://computation.llnl.gov/casc/nsde/pubs/u113855.pdf" target="_blank">https://computation.llnl.gov/casc/nsde/pubs/u113855.pdf</a></p></span></dd></dl></div>
     </li><li name="com.kabouterlabs.ode.odepack.MethodFlagConfigT" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="MethodFlagConfigTextendsAnyRef"></a>
       <a id="MethodFlagConfigT:MethodFlagConfigT"></a>
@@ -150,8 +160,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Created by fons on 1/23/17.</p>
-    </li><li name="com.kabouterlabs.ode.odepack.OdePackBasic" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Trait used to convert solver type to odepack method</p>
+    </li><li name="com.kabouterlabs.ode.odepack.OdePackBasic" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="OdePackBasicextendsProductwithSerializable"></a>
       <a id="OdePackBasic:OdePackBasic"></a>
       <h4 class="signature">
@@ -167,7 +177,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Created by fons on 1/16/17.</p>
+      <p class="shortcomment cmt">Simplified OdePack interface</p><div class="fullcomment"><div class="comment cmt"><p>Simplified OdePack interface</p><p> Provides a sensible set of defaults so only the ode function needs to be provided</p></div><dl class="paramcmts block"><dt class="param">dim</dt><dd class="cmt"><p>: Dimension of the ODE</p></dd><dt class="param">funcM</dt><dd class="cmt"><p>: ODE solver call back</p></dd><dt class="param">func</dt><dd class="cmt"><p>: Type of solver to use</p></dd><dt class="param">params</dt><dd class="cmt"><p>: Parameters</p></dd><dt class="param">config</dt><dd class="cmt"><p>: Configuration parameters</p></dd></dl><dl class="attributes block"> <dt>Note</dt><dd><span class="cmt"><p>: for more information on the underlying algorithm follow this link and look for odepack <a href="https://computation.llnl.gov/casc/odepack/" target="_blank">https://computation.llnl.gov/casc/odepack/</a>.
+        More info here <a href="http://www.netlib.org/odepack/opkd-sum" target="_blank">http://www.netlib.org/odepack/opkd-sum</a> and here (pdf) <a href="https://computation.llnl.gov/casc/nsde/pubs/u113855.pdf" target="_blank">https://computation.llnl.gov/casc/nsde/pubs/u113855.pdf</a></p></span></dd></dl></div>
     </li></ol>
             </div>
 
@@ -191,7 +202,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Created by fons on 1/16/17.</p>
+      <p class="shortcomment cmt">Implicit conversion for odepack functions</p>
     </li></ol>
             </div>
 

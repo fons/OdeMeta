@@ -49,8 +49,8 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Created by fons on 3/6/17.
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Basic Radau5 interface</p><p>Implicit Runge-Kutta method of order 5 (Radau IIA) for problems of the form y'=f(x,y). Provides a simple interface to radau5, with sensible defaults.
+</p></div><dl class="attributes block"> <dt>Note</dt><dd><span class="cmt"><p>: for more information on the underlying algorithm : <a href="http://www.unige.ch/~hairer/prog/stiff/radau5.f" target="_blank">http://www.unige.ch/~hairer/prog/stiff/radau5.f</a> or <a href="http://www.unige.ch/~hairer/software.html" target="_blank">http://www.unige.ch/~hairer/software.html</a></p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -89,7 +89,7 @@
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="com.kabouterlabs.ode.radau5.Radau5Basic#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="com.kabouterlabs.ode.radau5.Radau5Basic#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(dim:Int,funcM:com.kabouterlabs.ode.OdeFuncM[Double],params:com.kabouterlabs.ode.FuncParams[Double],config:com.kabouterlabs.ode.config.Config):com.kabouterlabs.ode.radau5.Radau5Basic"></a>
       <a id="&lt;init&gt;:Radau5Basic"></a>
       <h4 class="signature">
@@ -105,7 +105,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Radau Ode Solver instance.</p><div class="fullcomment"><div class="comment cmt"><p>Radau Ode Solver instance.</p></div><dl class="paramcmts block"><dt class="param">dim</dt><dd class="cmt"><p>: Dimension of the ODE</p></dd><dt class="param">funcM</dt><dd class="cmt"><p>: ODE solver call back</p></dd><dt class="param">params</dt><dd class="cmt"><p>: Parameters</p></dd><dt class="param">config</dt><dd class="cmt"><p>: Configuration parameters</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -365,7 +365,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="com.kabouterlabs.ode.radau5.Radau5Basic#run" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.kabouterlabs.ode.radau5.Radau5Basic#run" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="run(range:com.kabouterlabs.ode.LineRangeT[Double],init:Array[Double]):Option[com.kabouterlabs.ode.StackT]"></a>
       <a id="run(LineRangeT[Double],Array[Double]):Option[StackT]"></a>
       <h4 class="signature">
@@ -381,7 +381,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Solves the ODE on a 1D grid (i.e.</p><div class="fullcomment"><div class="comment cmt"><p>Solves the ODE on a 1D grid (i.e. line) for a set of initial conditions
+</p></div><dl class="paramcmts block"><dt class="param">range</dt><dd class="cmt"><p>: Range of the independent variable. Cannot be infinite.</p></dd><dt class="param">init</dt><dd class="cmt"><p>: Initial conditions in the same order as the variables returned by the class back function</p></dd><dt>returns</dt><dd class="cmt"><p>a stack containing the solution on each grid point</p></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>

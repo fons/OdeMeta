@@ -66,7 +66,7 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="com.kabouterlabs.ode.radau5.Radau5" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="com.kabouterlabs.ode.radau5.Radau5" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="Radau5extendsProductwithSerializable"></a>
       <a id="Radau5:Radau5"></a>
       <h4 class="signature">
@@ -82,8 +82,9 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Created by fons on 3/7/17.</p>
-    </li><li name="com.kabouterlabs.ode.radau5.Radau5Basic" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Radau5 interface</p><div class="fullcomment"><div class="comment cmt"><p>Radau5 interface</p><p>implicit Runge-Kutta method of order 5 (Radau IIA) for problems of the form My'=f(x,y) with possibly singular matrix M; with dense output (collocation solution).
+</p></div><dl class="paramcmts block"><dt class="param">dim</dt><dd class="cmt"><p>: Dimension of the ODE</p></dd><dt class="param">funcM</dt><dd class="cmt"><p>: ODE solver call back</p></dd><dt class="param">jacM</dt><dd class="cmt"><p>: Jacobian</p></dd><dt class="param">massM</dt><dd class="cmt"><p>: Mass function; Determines whether this is a DAE</p></dd><dt class="param">daoVar</dt><dd class="cmt"><p>: Index for the DAE system</p></dd><dt class="param">params</dt><dd class="cmt"><p>: Parameters</p></dd><dt class="param">config</dt><dd class="cmt"><p>: Configuration parameters</p></dd></dl><dl class="attributes block"> <dt>Note</dt><dd><span class="cmt"><p>: for more information on the underlying algorithm : <a href="http://www.unige.ch/~hairer/prog/stiff/radau5.f" target="_blank">http://www.unige.ch/~hairer/prog/stiff/radau5.f</a> or <a href="http://www.unige.ch/~hairer/software.html" target="_blank">http://www.unige.ch/~hairer/software.html</a></p></span></dd></dl></div>
+    </li><li name="com.kabouterlabs.ode.radau5.Radau5Basic" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="Radau5BasicextendsAnyRef"></a>
       <a id="Radau5Basic:Radau5Basic"></a>
       <h4 class="signature">
@@ -99,7 +100,8 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Created by fons on 3/6/17.</p>
+      <p class="shortcomment cmt">Basic Radau5 interface</p><div class="fullcomment"><div class="comment cmt"><p>Basic Radau5 interface</p><p>Implicit Runge-Kutta method of order 5 (Radau IIA) for problems of the form y'=f(x,y). Provides a simple interface to radau5, with sensible defaults.
+</p></div><dl class="attributes block"> <dt>Note</dt><dd><span class="cmt"><p>: for more information on the underlying algorithm : <a href="http://www.unige.ch/~hairer/prog/stiff/radau5.f" target="_blank">http://www.unige.ch/~hairer/prog/stiff/radau5.f</a> or <a href="http://www.unige.ch/~hairer/software.html" target="_blank">http://www.unige.ch/~hairer/software.html</a></p></span></dd></dl></div>
     </li></ol>
             </div>
 

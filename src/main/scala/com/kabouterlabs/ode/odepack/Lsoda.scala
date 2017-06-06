@@ -18,6 +18,17 @@ import org.slf4j.LoggerFactory
   * lsoda switches automatically between adams and bdf methods
   * This makes it great for solving problems whose stiffness is not known or which varies over the solution range.
   *
+  *
+  * @note : for more information on the underlying algorithm follow this link and look for odepack [[https://computation.llnl.gov/casc/odepack/]].
+  *         More info here [[http://www.netlib.org/odepack/opkd-sum]] and here (pdf) [[https://computation.llnl.gov/casc/nsde/pubs/u113855.pdf]]
+  *
+  * @constructor  Lsoda Ode Solver instance.
+  * @param  dim    : Dimension of the ODE
+  * @param  funcM  : ODE solver call back
+  * @param  jacM   : Jacobian
+  * @param  params : Parameters
+  * @param  config : Configuration parameters
+  *
 **/
 
 case class Lsoda(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], params:FuncParams[Double], config:Config)
@@ -254,6 +265,16 @@ case class Lsoda(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], pa
     }
     case _ => diagnostics_off
   }
+
+  /** Solves the ODE on a 1D grid (i.e. line) for a set of initial conditions
+    *
+    * @param range : Range of the independent variable. Cannot be infinite.
+    * @param init  : Initial conditions in the same order as the variables returned by the class back function
+    * @return  a stack containing the solution on each grid point
+    *
+    *
+    */
+
 
   def run(range:LineRangeT[Double], init:Array[Double]):Option[StackT] = HandleException {
 
