@@ -1,0 +1,444 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>experimental - OdeMeta documentation - com.kabouterlabs.ode.experimental</title>
+          <meta name="description" content="experimental - OdeMeta documentation - com.kabouterlabs.ode.experimental" />
+          <meta name="keywords" content="experimental OdeMeta documentation com.kabouterlabs.ode.experimental" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../../index.html';
+            var hash = 'com.kabouterlabs.ode.experimental.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img alt="Package" src="../../../../lib/package_big.png" />
+        <p id="owner"><a href="../../../package.html" class="extype" name="com">com</a>.<a href="../../package.html" class="extype" name="com.kabouterlabs">kabouterlabs</a>.<a href="../package.html" class="extype" name="com.kabouterlabs.ode">ode</a></p>
+        <h1>experimental</h1><span class="permalink">
+      <a href="../../../../index.html#com.kabouterlabs.ode.experimental.package" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">experimental</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        
+        
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="com.kabouterlabs.ode.experimental.ExplicitRungeKutta" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ExplicitRungeKutta[T&lt;:com.kabouterlabs.ode.experimental.butcher.tableau.ButcherTableauT]extendsOdeStepSolverTwithProductwithSerializable"></a>
+      <a id="ExplicitRungeKutta[T&lt;:ButcherTableauT]:ExplicitRungeKutta[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="ExplicitRungeKutta.html"><span class="name">ExplicitRungeKutta</span></a><span class="tparams">[<span name="T">T &lt;: <a href="butcher/tableau/ButcherTableauT.html" class="extype" name="com.kabouterlabs.ode.experimental.butcher.tableau.ButcherTableauT">ButcherTableauT</a></span>]</span><span class="params">(<span name="butcherTableauT">butcherTableauT: <span class="extype" name="com.kabouterlabs.ode.experimental.ExplicitRungeKutta.T">T</span></span>)</span><span class="result"> extends <a href="OdeStepSolverT.html" class="extype" name="com.kabouterlabs.ode.experimental.OdeStepSolverT">OdeStepSolverT</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.kabouterlabs.ode.experimental.package@ExplicitRungeKutta[T&lt;:com.kabouterlabs.ode.experimental.butcher.tableau.ButcherTableauT]extendsOdeStepSolverTwithProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.kabouterlabs.ode.experimental.OdeSolver" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="OdeSolverextendsProductwithSerializable"></a>
+      <a id="OdeSolver:OdeSolver"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="OdeSolver.html"><span class="name">OdeSolver</span></a><span class="params">(<span name="odeSolver">odeSolver: <a href="OdeStepSolverT.html" class="extype" name="com.kabouterlabs.ode.experimental.OdeStepSolverT">OdeStepSolverT</a></span>, <span name="dim">dim: <span class="extype" name="scala.Int">Int</span></span>, <span name="Func">Func: (<span class="extype" name="scala.Double">Double</span>, <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]) ⇒ <span class="extype" name="scala.List">List</span>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="accuracy">accuracy: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.kabouterlabs.ode.experimental.package@OdeSolverextendsProductwithSerializable" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.kabouterlabs.ode.experimental.OdeStepSolverT" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="OdeStepSolverTextendsAnyRef"></a>
+      <a id="OdeStepSolverT:OdeStepSolverT"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="OdeStepSolverT.html"><span class="name">OdeStepSolverT</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.kabouterlabs.ode.experimental.package@OdeStepSolverTextendsAnyRef" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="com.kabouterlabs.ode.experimental.BS23" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BS23"></a>
+      <a id="BS23:BS23"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BS23$.html"><span class="name">BS23</span></a><span class="result"> extends <a href="OdeStepSolverT.html" class="extype" name="com.kabouterlabs.ode.experimental.OdeStepSolverT">OdeStepSolverT</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.kabouterlabs.ode.experimental.package@BS23" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.kabouterlabs.ode.experimental.Euler" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Euler"></a>
+      <a id="Euler:Euler"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Euler$.html"><span class="name">Euler</span></a><span class="result"> extends <a href="OdeStepSolverT.html" class="extype" name="com.kabouterlabs.ode.experimental.OdeStepSolverT">OdeStepSolverT</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.kabouterlabs.ode.experimental.package@Euler" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.kabouterlabs.ode.experimental.ExplicitMidPoint" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ExplicitMidPoint"></a>
+      <a id="ExplicitMidPoint:ExplicitMidPoint"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ExplicitMidPoint$.html"><span class="name">ExplicitMidPoint</span></a><span class="result"> extends <a href="ExplicitRungeKutta.html" class="extype" name="com.kabouterlabs.ode.experimental.ExplicitRungeKutta">ExplicitRungeKutta</a>[<a href="butcher/tableau/ExplicitMidPointTableau$.html" class="extype" name="com.kabouterlabs.ode.experimental.butcher.tableau.ExplicitMidPointTableau">ExplicitMidPointTableau</a>.type]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.kabouterlabs.ode.experimental.package@ExplicitMidPoint" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.kabouterlabs.ode.experimental.ExplicitRungeKutta4" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ExplicitRungeKutta4"></a>
+      <a id="ExplicitRungeKutta4:ExplicitRungeKutta4"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ExplicitRungeKutta4$.html"><span class="name">ExplicitRungeKutta4</span></a><span class="result"> extends <a href="OdeStepSolverT.html" class="extype" name="com.kabouterlabs.ode.experimental.OdeStepSolverT">OdeStepSolverT</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.kabouterlabs.ode.experimental.package@ExplicitRungeKutta4" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.kabouterlabs.ode.experimental.RKEmbedded23" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="RKEmbedded23"></a>
+      <a id="RKEmbedded23:RKEmbedded23"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="RKEmbedded23$.html"><span class="name">RKEmbedded23</span></a><span class="result"> extends <a href="ExplicitRungeKutta.html" class="extype" name="com.kabouterlabs.ode.experimental.ExplicitRungeKutta">ExplicitRungeKutta</a>[<a href="butcher/tableau/RKE23Tableau$.html" class="extype" name="com.kabouterlabs.ode.experimental.butcher.tableau.RKE23Tableau">RKE23Tableau</a>.type]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.kabouterlabs.ode.experimental.package@RKEmbedded23" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.kabouterlabs.ode.experimental.RKEmbedded56" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="RKEmbedded56"></a>
+      <a id="RKEmbedded56:RKEmbedded56"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="RKEmbedded56$.html"><span class="name">RKEmbedded56</span></a><span class="result"> extends <a href="ExplicitRungeKutta.html" class="extype" name="com.kabouterlabs.ode.experimental.ExplicitRungeKutta">ExplicitRungeKutta</a>[<a href="butcher/tableau/RKE56Tableau$.html" class="extype" name="com.kabouterlabs.ode.experimental.butcher.tableau.RKE56Tableau">RKE56Tableau</a>.type]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.kabouterlabs.ode.experimental.package@RKEmbedded56" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.kabouterlabs.ode.experimental.RKEmbeddedCashKarp" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="RKEmbeddedCashKarp"></a>
+      <a id="RKEmbeddedCashKarp:RKEmbeddedCashKarp"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="RKEmbeddedCashKarp$.html"><span class="name">RKEmbeddedCashKarp</span></a><span class="result"> extends <a href="ExplicitRungeKutta.html" class="extype" name="com.kabouterlabs.ode.experimental.ExplicitRungeKutta">ExplicitRungeKutta</a>[<a href="butcher/tableau/CashKarpTableau$.html" class="extype" name="com.kabouterlabs.ode.experimental.butcher.tableau.CashKarpTableau">CashKarpTableau</a>.type]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.kabouterlabs.ode.experimental.package@RKEmbeddedCashKarp" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.kabouterlabs.ode.experimental.RKEmbeddedDormandPrince" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="RKEmbeddedDormandPrince"></a>
+      <a id="RKEmbeddedDormandPrince:RKEmbeddedDormandPrince"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="RKEmbeddedDormandPrince$.html"><span class="name">RKEmbeddedDormandPrince</span></a><span class="result"> extends <a href="ExplicitRungeKutta.html" class="extype" name="com.kabouterlabs.ode.experimental.ExplicitRungeKutta">ExplicitRungeKutta</a>[<a href="butcher/tableau/RKDormPrin336BTableau$.html" class="extype" name="com.kabouterlabs.ode.experimental.butcher.tableau.RKDormPrin336BTableau">RKDormPrin336BTableau</a>.type]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.kabouterlabs.ode.experimental.package@RKEmbeddedDormandPrince" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.kabouterlabs.ode.experimental.RKEmbeddedDormandPrince54" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="RKEmbeddedDormandPrince54"></a>
+      <a id="RKEmbeddedDormandPrince54:RKEmbeddedDormandPrince54"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="RKEmbeddedDormandPrince54$.html"><span class="name">RKEmbeddedDormandPrince54</span></a><span class="result"> extends <a href="ExplicitRungeKutta.html" class="extype" name="com.kabouterlabs.ode.experimental.ExplicitRungeKutta">ExplicitRungeKutta</a>[<a href="butcher/tableau/RKDormPrince54Tableau$.html" class="extype" name="com.kabouterlabs.ode.experimental.butcher.tableau.RKDormPrince54Tableau">RKDormPrince54Tableau</a>.type]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.kabouterlabs.ode.experimental.package@RKEmbeddedDormandPrince54" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.kabouterlabs.ode.experimental.RKEmbeddedFehlberg56" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="RKEmbeddedFehlberg56"></a>
+      <a id="RKEmbeddedFehlberg56:RKEmbeddedFehlberg56"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="RKEmbeddedFehlberg56$.html"><span class="name">RKEmbeddedFehlberg56</span></a><span class="result"> extends <a href="ExplicitRungeKutta.html" class="extype" name="com.kabouterlabs.ode.experimental.ExplicitRungeKutta">ExplicitRungeKutta</a>[<a href="butcher/tableau/RKFehlberg56Tableau$.html" class="extype" name="com.kabouterlabs.ode.experimental.butcher.tableau.RKFehlberg56Tableau">RKFehlberg56Tableau</a>.type]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.kabouterlabs.ode.experimental.package@RKEmbeddedFehlberg56" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.kabouterlabs.ode.experimental.RKEmbeddedFehlberg78" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="RKEmbeddedFehlberg78"></a>
+      <a id="RKEmbeddedFehlberg78:RKEmbeddedFehlberg78"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="RKEmbeddedFehlberg78$.html"><span class="name">RKEmbeddedFehlberg78</span></a><span class="result"> extends <a href="ExplicitRungeKutta.html" class="extype" name="com.kabouterlabs.ode.experimental.ExplicitRungeKutta">ExplicitRungeKutta</a>[<a href="butcher/tableau/RKFehlberg78Tableau$.html" class="extype" name="com.kabouterlabs.ode.experimental.butcher.tableau.RKFehlberg78Tableau">RKFehlberg78Tableau</a>.type]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.kabouterlabs.ode.experimental.package@RKEmbeddedFehlberg78" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.kabouterlabs.ode.experimental.RKEmbeddedVerner" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="RKEmbeddedVerner"></a>
+      <a id="RKEmbeddedVerner:RKEmbeddedVerner"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="RKEmbeddedVerner$.html"><span class="name">RKEmbeddedVerner</span></a><span class="result"> extends <a href="ExplicitRungeKutta.html" class="extype" name="com.kabouterlabs.ode.experimental.ExplicitRungeKutta">ExplicitRungeKutta</a>[<a href="butcher/tableau/RKVernerTableau$.html" class="extype" name="com.kabouterlabs.ode.experimental.butcher.tableau.RKVernerTableau">RKVernerTableau</a>.type]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.kabouterlabs.ode.experimental.package@RKEmbeddedVerner" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.kabouterlabs.ode.experimental.RungeKutta42" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="RungeKutta42"></a>
+      <a id="RungeKutta42:RungeKutta42"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="RungeKutta42$.html"><span class="name">RungeKutta42</span></a><span class="result"> extends <a href="ExplicitRungeKutta.html" class="extype" name="com.kabouterlabs.ode.experimental.ExplicitRungeKutta">ExplicitRungeKutta</a>[<a href="butcher/tableau/RK42Tableau$.html" class="extype" name="com.kabouterlabs.ode.experimental.butcher.tableau.RK42Tableau">RK42Tableau</a>.type]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.kabouterlabs.ode.experimental.package@RungeKutta42" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.kabouterlabs.ode.experimental.RungeKuttaWithRk5Tableau" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="RungeKuttaWithRk5Tableau"></a>
+      <a id="RungeKuttaWithRk5Tableau:RungeKuttaWithRk5Tableau"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="RungeKuttaWithRk5Tableau$.html"><span class="name">RungeKuttaWithRk5Tableau</span></a><span class="result"> extends <a href="ExplicitRungeKutta.html" class="extype" name="com.kabouterlabs.ode.experimental.ExplicitRungeKutta">ExplicitRungeKutta</a>[<a href="butcher/tableau/RK5Tableau$.html" class="extype" name="com.kabouterlabs.ode.experimental.butcher.tableau.RK5Tableau">RK5Tableau</a>.type]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.kabouterlabs.ode.experimental.package@RungeKuttaWithRk5Tableau" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.kabouterlabs.ode.experimental.butcher" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="butcher"></a>
+      <a id="butcher:butcher"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="butcher/package.html"><span class="name">butcher</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.kabouterlabs.ode.experimental.package@butcher" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.kabouterlabs.ode.experimental.implicits" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="implicits"></a>
+      <a id="implicits:implicits"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="implicits/package.html"><span class="name">implicits</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.kabouterlabs.ode.experimental.package@implicits" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.kabouterlabs.ode.experimental.symplectic" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="symplectic"></a>
+      <a id="symplectic:symplectic"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="symplectic/package.html"><span class="name">symplectic</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.kabouterlabs.ode.experimental.package@symplectic" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>
