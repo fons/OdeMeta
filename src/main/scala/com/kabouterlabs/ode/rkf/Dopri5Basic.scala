@@ -3,9 +3,11 @@ package com.kabouterlabs.ode.rkf
 import java.lang
 
 import com.kabouterlabs.jodeint.cdopri5.Cdopri5Library._
-import com.kabouterlabs.ode.config.{Methods, Config}
-import com.kabouterlabs.ode.stack.StackDouble
-import com.kabouterlabs.ode.{StackT, LineRangeT, FuncParams, OdeFuncM}
+import com.kabouterlabs.ode.config.{Config, Methods}
+import com.kabouterlabs.ode.kernel.OdeFuncM
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.{StackDouble, StackT}
+import com.kabouterlabs.ode.FuncParams
 import com.kabouterlabs.ode.util.{HandleException, LogIt}
 import org.bridj.Pointer
 

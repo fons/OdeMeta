@@ -1,8 +1,8 @@
-package com.kabouterlabs.ode
+package com.kabouterlabs.ode.kernel
 
+import com.kabouterlabs.ode.FuncParams
 import com.kabouterlabs.ode.config.{Config, DaeIndexVariables}
 import com.kabouterlabs.ode.util.LogIt
-
 
 /**
   * Created by fons on 1/6/17.

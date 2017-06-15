@@ -1,6 +1,5 @@
-package com.kabouterlabs.ode.range
+package com.kabouterlabs.ode.linerange
 
-import com.kabouterlabs.ode.LineRangeT
 import com.kabouterlabs.ode.util.LogIt
 
 /**

@@ -5,16 +5,18 @@ import java.lang
 import com.kabouterlabs.jodeint.cradau5.Cradau5Library
 import com.kabouterlabs.jodeint.cradau5.Cradau5Library._
 import com.kabouterlabs.ode.config._
-import com.kabouterlabs.ode.stack.StackDouble
+import com.kabouterlabs.ode.stack.{StackDouble, StackT}
 import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 import com.kabouterlabs.ode._
+import com.kabouterlabs.ode.kernel.{JacobianFuncM, MassMatrixFuncM, OdeFuncM}
+import com.kabouterlabs.ode.linerange.LineRangeT
 import org.bridj.Pointer
 
 /** Radau5 interface
   *
   * implicit Runge-Kutta method of order 5 (Radau IIA) for problems of the form My'=f(x,y) with possibly singular matrix M; with dense output (collocation solution).
   *
-  * @note : for more information on the underlying algorithm : [[http://www.unige.ch/~hairer/prog/stiff/radau5.f]] or [[http://www.unige.ch/~hairer/software.html]]
+  * @see for more information on the underlying algorithm : [[http://www.unige.ch/~hairer/prog/stiff/radau5.f]] or [[http://www.unige.ch/~hairer/software.html]]
   *
   * @constructor  Radau Ode Solver instance.
   * @param  dim    : Dimension of the ODE
@@ -344,7 +346,7 @@ case class Radau5(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], m
     *
     */
   def run(range: LineRangeT[Double], init: Array[Double]): Option[StackT] = HandleException {
-    LogIt().info("dimension :" + dim + " ; starting with range : " + range + " initial conditions : {" + init.mkString(",") + "}")
+    LogIt().info("dimension :" + dim + " ; starting with linerange : " + range + " initial conditions : {" + init.mkString(",") + "}")
     val stack = StackDouble(dim, range)
     y.setDoubles(init.slice(0, neq.get()))
     x.set(range.start)

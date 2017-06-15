@@ -1,22 +1,18 @@
 package com.kabouterlabs.ode.main
 
 
-import com.kabouterlabs.ode.OdeSolver._
-
+import com.kabouterlabs.ode.kernel.OdeSolver._
 import com.kabouterlabs.ode.config._
-
 import com.kabouterlabs.ode.{FuncParams, Ivp}
-
-import com.kabouterlabs.ode.range.LineRange
+import com.kabouterlabs.ode.linerange.LineRange
 import com.kabouterlabs.ode.util.LogIt
 
 import scala.language.existentials
 import scala.language.reflectiveCalls
 import scala.language.higherKinds
 import scala.language.postfixOps
-
-
 import com.kabouterlabs.ode.implicits.OdeImplicits._
+
 //import com.kabouterlabs.ode.symplectic.implicits.GniIrk2Implicit._
 import com.kabouterlabs.ode.experimental.symplectic.implicits.Irk2Implicit._
 
@@ -48,6 +44,7 @@ object Main extends App
       println(item.mkString(",") + " hamil : " + hamil + "  drift : " + drift)
     }
   }
+
 
   /*
   .000000000000e+00 ,3.138451060936e+00 ,0.000000000000e+00 ,

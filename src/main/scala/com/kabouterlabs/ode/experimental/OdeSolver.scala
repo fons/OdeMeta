@@ -1,7 +1,8 @@
 package com.kabouterlabs.ode.experimental
 
-import com.kabouterlabs.ode.stack.StackDouble
-import com.kabouterlabs.ode.{FuncParams, LineRangeT, StackT}
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.{StackDouble, StackT}
+import com.kabouterlabs.ode.FuncParams
 import com.kabouterlabs.ode.util.{HandleException, LogIt}
 
 import scala.annotation.tailrec
@@ -207,7 +208,7 @@ case class OdeSolver(odeSolver: OdeStepSolverT, dim:Int, Func: (Double, List[Dou
   }
 
   def run(range: LineRangeT[Double], init: Array[Double]): Option[StackT] = HandleException {
-    LogIt().info("dimension :" + dim + " ; starting with range : " + range + " initial conditions : {" + init.mkString(",") + "}")
+    LogIt().info("dimension :" + dim + " ; starting with linerange : " + range + " initial conditions : {" + init.mkString(",") + "}")
     val stack = StackDouble(dim, range)
     run(range.start, range.end, range.stepSize, init.toList) match {
       case Failure(_) => None

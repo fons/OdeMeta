@@ -1,10 +1,13 @@
 package com.kabouterlabs.ode.implicits.rkf
 
-import com.kabouterlabs.ode.OdeSolver.OdeSolverTC
+import com.kabouterlabs.ode.kernel.OdeSolver.OdeSolverTC
 import com.kabouterlabs.ode.config.{Config, DaeIndexVariables}
+import com.kabouterlabs.ode.kernel._
 import com.kabouterlabs.ode.util.HandleException
-import com.kabouterlabs.ode.{OdeM, _}
+import com.kabouterlabs.ode._
+import com.kabouterlabs.ode.linerange.LineRangeT
 import com.kabouterlabs.ode.rkf.Dop853Basic
+import com.kabouterlabs.ode.stack.StackT
 
 /**
   * Created by fons on 3/2/17.

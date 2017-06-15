@@ -1,15 +1,19 @@
 package com.kabouterlabs.ode.implicits.dvode
 
 //import com.kabouterlabs.jodeint.codepack.CodepackLibrary._
-import com.kabouterlabs.ode.OdeSolver.OdeSolverTC
+import com.kabouterlabs.ode.kernel.OdeSolver.OdeSolverTC
 import com.kabouterlabs.ode.config.{Config, DaeIndexVariables}
 import com.kabouterlabs.ode.dvode.DvodeBasic
 import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 import com.kabouterlabs.ode._
+import com.kabouterlabs.ode.kernel._
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.StackT
 
 
 /**
-  * Created by fons on 2/28/17.
+  *
+  *
   */
 object DvodeBasicImplicit
 {

@@ -6,7 +6,9 @@ import com.kabouterlabs.jodeint.codepack.CodepackLibrary
 import com.kabouterlabs.jodeint.codepack.CodepackLibrary._
 import com.kabouterlabs.ode._
 import com.kabouterlabs.ode.config.{Config, JacobianType, LowerBandWidth, UpperBandWidth}
-import com.kabouterlabs.ode.stack.StackDouble
+import com.kabouterlabs.ode.kernel.{ConstraintFuncM, EventFuncM, JacobianFuncM, OdeFuncM}
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.{StackDouble, StackT}
 import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 import org.bridj.Pointer
 
@@ -19,7 +21,7 @@ import org.bridj.Pointer
   * to the ode solution to be supplied.
   *
   *
-  * @note : for more information on the underlying algorithm follow this link and look for odepack [[https://computation.llnl.gov/casc/odepack/]].
+  * @see for more information on the underlying algorithm follow this link and look for odepack [[https://computation.llnl.gov/casc/odepack/]].
   *       More info here [[http://www.netlib.org/odepack/opkd-sum]] and here (pdf) [[https://computation.llnl.gov/casc/nsde/pubs/u113855.pdf]]
   *
   * @constructor  Lsodar Ode Solver instance.
@@ -315,7 +317,7 @@ case class Lsodar(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], n
 
   def run(range:LineRangeT[Double], init:Array[Double]):Option[StackT] = HandleException {
 
-    LogIt().info("starting with range : " + range + " initial conditions : {" + init.mkString(",") + "}")
+    LogIt().info("starting with linerange : " + range + " initial conditions : {" + init.mkString(",") + "}")
 
     /*
       initialize the output stack with the initial conditions

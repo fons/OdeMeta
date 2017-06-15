@@ -44,17 +44,50 @@
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">class</span>
+        <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">Ivp</span><span class="tparams">[<span name="U">U</span>, <span name="A">A</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <span class="name">Ivp</span><span class="tparams">[<span name="U">U</span>, <span name="A">A</span>]</span><span class="params">(<span name="dim">dim: <span class="extype" name="scala.Int">Int</span></span>, <span name="func">func: <a href="kernel/OdeFuncM.html" class="extype" name="com.kabouterlabs.ode.kernel.OdeFuncM">OdeFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>, <span name="jac">jac: <a href="kernel/JacobianFuncM.html" class="extype" name="com.kabouterlabs.ode.kernel.JacobianFuncM">JacobianFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>, <span name="constraints">constraints: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="con">con: <a href="kernel/ConstraintFuncM.html" class="extype" name="com.kabouterlabs.ode.kernel.ConstraintFuncM">ConstraintFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>, <span name="ev">ev: <a href="kernel/EventFuncM.html" class="extype" name="com.kabouterlabs.ode.kernel.EventFuncM">EventFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>, <span name="params">params: <a href="FuncParams.html" class="extype" name="com.kabouterlabs.ode.FuncParams">FuncParams</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>, <span name="config">config: <a href="config/Config.html" class="extype" name="com.kabouterlabs.ode.config.Config">Config</a></span>, <span name="daeIndex">daeIndex: <a href="config/DaeIndexVariables.html" class="extype" name="com.kabouterlabs.ode.config.DaeIndexVariables">DaeIndexVariables</a></span>, <span name="mass">mass: <a href="kernel/MassMatrixFuncM.html" class="extype" name="com.kabouterlabs.ode.kernel.MassMatrixFuncM">MassMatrixFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>, <span name="opt">opt: <a href="config/OptionalParameters.html" class="extype" name="com.kabouterlabs.ode.config.OptionalParameters">OptionalParameters</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ev$1">ev$1: <a href="kernel/OdeSolver$$OdeSolverTC.html" class="extype" name="com.kabouterlabs.ode.kernel.OdeSolver.OdeSolverTC">OdeSolverTC</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.A">A</span>] { type SolverDataType = U }</span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Created by fons on 1/19/17.
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Ivp is the collection of inputs to the ode solver
+</p></div><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p>Use the Ivp in conjunction with <a href="implicits/OdeImplicits$.html" class="extype" name="com.kabouterlabs.ode.implicits.OdeImplicits">com.kabouterlabs.ode.implicits.OdeImplicits</a></p><pre><span class="cmt">// for convenient conversions from lambda's to classes</span>
+<span class="kw">import</span> com.kabouterlabs.ode.implicits.OdeImplicits._
+<span class="cmt">// import ODE implicit</span>
+<span class="kw">import</span> com.kabouterlabs.ode.implicits.dvode.DvodeImplicit._
+[...]
+<span class="kw">val</span> alpha = -<span class="num">0.04</span>
+<span class="kw">val</span> beta  = <span class="lit">"1.0e4"</span>.toDouble
+<span class="kw">val</span> gamma =  <span class="lit">"3.0e7"</span>.toDouble
+<span class="kw">val</span> params =  FuncParams +\ (<span class="lit">"alpha"</span> -&gt; alpha, <span class="lit">"beta"</span> -&gt; beta, <span class="lit">"gamma"</span> -&gt; gamma)
+<span class="kw">val</span> w = Ivp(dim=<span class="num">3</span>, constraints=<span class="num">0</span>) +
+         (Config(Methods.BDF) -&gt; JacobianType.FullJacobian -&gt; Tolerance(<span class="num">0.000000001</span>)) +
+         FuncParams(<span class="lit">"alpha"</span> -&gt; -<span class="num">0.04</span>, <span class="lit">"beta"</span> -&gt; <span class="lit">"1.0e4"</span>.toDouble, <span class="lit">"gamma"</span> -&gt; <span class="lit">"3.0e7"</span>.toDouble ) +
+  ( (dim:<span class="std">Int</span>, x:<span class="std">Double</span>, y:<span class="std">Array</span>[<span class="std">Double</span>], ydot:<span class="std">Array</span>[<span class="std">Double</span>], params:FuncParams[<span class="std">Double</span>]) <span class="kw">=&gt;</span> {
+    ydot(<span class="num">0</span>) = (params -&gt; <span class="lit">"alpha"</span>) * y(<span class="num">0</span>) + (params -&gt; <span class="lit">"beta"</span>) * y(<span class="num">1</span>) * y(<span class="num">2</span>)
+    ydot(<span class="num">2</span>) = (params -&gt; <span class="lit">"gamma"</span>) * y(<span class="num">1</span>)*y(<span class="num">1</span>)
+    ydot(<span class="num">1</span>) = -ydot(<span class="num">0</span>) - ydot(<span class="num">2</span>)
+  } ) +
+         ((dim:<span class="std">Int</span>, x:<span class="std">Double</span>, y:<span class="std">Array</span>[<span class="std">Double</span>], mul:<span class="std">Int</span>, mpk:<span class="std">Int</span>, pd:<span class="std">Array</span>[<span class="std">Double</span>], pdr:<span class="std">Int</span>, params:FuncParams[<span class="std">Double</span>])<span class="kw">=&gt;</span> {
+  <span class="kw">val</span> alpha  = params -&gt; <span class="lit">"alpha"</span>
+  <span class="kw">val</span> beta   = params -&gt; <span class="lit">"beta"</span>
+  <span class="kw">val</span> gamma  = params -&gt; <span class="lit">"gamma"</span>
+  pd(<span class="num">0</span>) = alpha
+  pd(<span class="num">1</span>) = -alpha
+  pd(<span class="num">2</span>) = <span class="num">0.0</span>
+  pd(<span class="num">3</span>) = beta * y(<span class="num">2</span>)
+  pd(<span class="num">4</span>) = -beta*y(<span class="num">2</span>) - <span class="num">2.0</span> * gamma * y(<span class="num">1</span>)
+  pd(<span class="num">5</span>) = <span class="num">2.0</span> * gamma * y(<span class="num">1</span>)
+  pd(<span class="num">6</span>) = beta * y(<span class="num">1</span>)
+  pd(<span class="num">7</span>) = -<span class="num">1.0</span> * beta * y(<span class="num">1</span>)
+  pd(<span class="num">8</span>) = <span class="num">0.0</span>
+} ) + (OptionalParameters(OptionalParameterType.DIAGNOSTICS, <span class="kw">true</span>) ++ (OptionalParameterType.INITIAL_STEP_SIZE, <span class="num">0.000001</span>) ) +&gt;
+w.solve(LineRange(<span class="num">0.0</span>, <span class="num">4.0</span>, <span class="num">0.1</span>), <span class="std">Array</span>(<span class="num">1.0</span>, <span class="num">0.0</span>,<span class="num">0.0</span>,<span class="num">0.0</span>))().map(_.show)</pre></li></ol>
+            </div></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -72,7 +105,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="com.kabouterlabs.ode.Ivp"><span>Ivp</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="com.kabouterlabs.ode.Ivp"><span>Ivp</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -92,7 +125,7 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="com.kabouterlabs.ode.Ivp#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(dim:Int,func:com.kabouterlabs.ode.OdeFuncM[U],jac:com.kabouterlabs.ode.JacobianFuncM[U],constraints:Option[Int],con:com.kabouterlabs.ode.ConstraintFuncM[U],ev:com.kabouterlabs.ode.EventFuncM[U],params:com.kabouterlabs.ode.FuncParams[U],config:com.kabouterlabs.ode.config.Config,daeIndex:com.kabouterlabs.ode.config.DaeIndexVariables,mass:com.kabouterlabs.ode.MassMatrixFuncM[U],opt:com.kabouterlabs.ode.config.OptionalParameters)(implicitev$1:com.kabouterlabs.ode.OdeSolver.OdeSolverTC[A]{typeSolverDataType=U}):com.kabouterlabs.ode.Ivp[U,A]"></a>
+      <a id="&lt;init&gt;(dim:Int,func:com.kabouterlabs.ode.kernel.OdeFuncM[U],jac:com.kabouterlabs.ode.kernel.JacobianFuncM[U],constraints:Option[Int],con:com.kabouterlabs.ode.kernel.ConstraintFuncM[U],ev:com.kabouterlabs.ode.kernel.EventFuncM[U],params:com.kabouterlabs.ode.FuncParams[U],config:com.kabouterlabs.ode.config.Config,daeIndex:com.kabouterlabs.ode.config.DaeIndexVariables,mass:com.kabouterlabs.ode.kernel.MassMatrixFuncM[U],opt:com.kabouterlabs.ode.config.OptionalParameters)(implicitev$1:com.kabouterlabs.ode.kernel.OdeSolver.OdeSolverTC[A]{typeSolverDataType=U}):com.kabouterlabs.ode.Ivp[U,A]"></a>
       <a id="&lt;init&gt;:Ivp[U,A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -100,14 +133,15 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">Ivp</span><span class="params">(<span name="dim">dim: <span class="extype" name="scala.Int">Int</span></span>, <span name="func">func: <a href="OdeFuncM.html" class="extype" name="com.kabouterlabs.ode.OdeFuncM">OdeFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>, <span name="jac">jac: <a href="JacobianFuncM.html" class="extype" name="com.kabouterlabs.ode.JacobianFuncM">JacobianFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>, <span name="constraints">constraints: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="con">con: <a href="ConstraintFuncM.html" class="extype" name="com.kabouterlabs.ode.ConstraintFuncM">ConstraintFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>, <span name="ev">ev: <a href="EventFuncM.html" class="extype" name="com.kabouterlabs.ode.EventFuncM">EventFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>, <span name="params">params: <a href="FuncParams.html" class="extype" name="com.kabouterlabs.ode.FuncParams">FuncParams</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>, <span name="config">config: <a href="config/Config.html" class="extype" name="com.kabouterlabs.ode.config.Config">Config</a></span>, <span name="daeIndex">daeIndex: <a href="config/DaeIndexVariables.html" class="extype" name="com.kabouterlabs.ode.config.DaeIndexVariables">DaeIndexVariables</a></span>, <span name="mass">mass: <a href="MassMatrixFuncM.html" class="extype" name="com.kabouterlabs.ode.MassMatrixFuncM">MassMatrixFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>, <span name="opt">opt: <a href="config/OptionalParameters.html" class="extype" name="com.kabouterlabs.ode.config.OptionalParameters">OptionalParameters</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="OdeSolver$$OdeSolverTC.html" class="extype" name="com.kabouterlabs.ode.OdeSolver.OdeSolverTC">OdeSolverTC</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.A">A</span>] { type SolverDataType = U }</span>)</span>
+        <span class="name">Ivp</span><span class="params">(<span name="dim">dim: <span class="extype" name="scala.Int">Int</span></span>, <span name="func">func: <a href="kernel/OdeFuncM.html" class="extype" name="com.kabouterlabs.ode.kernel.OdeFuncM">OdeFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>, <span name="jac">jac: <a href="kernel/JacobianFuncM.html" class="extype" name="com.kabouterlabs.ode.kernel.JacobianFuncM">JacobianFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>, <span name="constraints">constraints: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>, <span name="con">con: <a href="kernel/ConstraintFuncM.html" class="extype" name="com.kabouterlabs.ode.kernel.ConstraintFuncM">ConstraintFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>, <span name="ev">ev: <a href="kernel/EventFuncM.html" class="extype" name="com.kabouterlabs.ode.kernel.EventFuncM">EventFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>, <span name="params">params: <a href="FuncParams.html" class="extype" name="com.kabouterlabs.ode.FuncParams">FuncParams</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>, <span name="config">config: <a href="config/Config.html" class="extype" name="com.kabouterlabs.ode.config.Config">Config</a></span>, <span name="daeIndex">daeIndex: <a href="config/DaeIndexVariables.html" class="extype" name="com.kabouterlabs.ode.config.DaeIndexVariables">DaeIndexVariables</a></span>, <span name="mass">mass: <a href="kernel/MassMatrixFuncM.html" class="extype" name="com.kabouterlabs.ode.kernel.MassMatrixFuncM">MassMatrixFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>, <span name="opt">opt: <a href="config/OptionalParameters.html" class="extype" name="com.kabouterlabs.ode.config.OptionalParameters">OptionalParameters</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="kernel/OdeSolver$$OdeSolverTC.html" class="extype" name="com.kabouterlabs.ode.kernel.OdeSolver.OdeSolverTC">OdeSolverTC</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.A">A</span>] { type SolverDataType = U }</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@&lt;init&gt;(dim:Int,func:com.kabouterlabs.ode.OdeFuncM[U],jac:com.kabouterlabs.ode.JacobianFuncM[U],constraints:Option[Int],con:com.kabouterlabs.ode.ConstraintFuncM[U],ev:com.kabouterlabs.ode.EventFuncM[U],params:com.kabouterlabs.ode.FuncParams[U],config:com.kabouterlabs.ode.config.Config,daeIndex:com.kabouterlabs.ode.config.DaeIndexVariables,mass:com.kabouterlabs.ode.MassMatrixFuncM[U],opt:com.kabouterlabs.ode.config.OptionalParameters)(implicitev$1:com.kabouterlabs.ode.OdeSolver.OdeSolverTC[A]{typeSolverDataType=U}):com.kabouterlabs.ode.Ivp[U,A]" title="Permalink" target="_top">
+      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@&lt;init&gt;(dim:Int,func:com.kabouterlabs.ode.kernel.OdeFuncM[U],jac:com.kabouterlabs.ode.kernel.JacobianFuncM[U],constraints:Option[Int],con:com.kabouterlabs.ode.kernel.ConstraintFuncM[U],ev:com.kabouterlabs.ode.kernel.EventFuncM[U],params:com.kabouterlabs.ode.FuncParams[U],config:com.kabouterlabs.ode.config.Config,daeIndex:com.kabouterlabs.ode.config.DaeIndexVariables,mass:com.kabouterlabs.ode.kernel.MassMatrixFuncM[U],opt:com.kabouterlabs.ode.config.OptionalParameters)(implicitev$1:com.kabouterlabs.ode.kernel.OdeSolver.OdeSolverTC[A]{typeSolverDataType=U}):com.kabouterlabs.ode.Ivp[U,A]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Use the companion object to create an instance
+New inputs can be added using the + operator.</p>
     </li></ol>
             </div>
 
@@ -169,7 +203,7 @@
     </span>
       
     </li><li name="com.kabouterlabs.ode.Ivp#+" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="+(daoIndex1:com.kabouterlabs.ode.config.DaeIndexVariables):com.kabouterlabs.ode.Ivp[U,A]"></a>
+      <a id="+(daeIndex1:com.kabouterlabs.ode.config.DaeIndexVariables):com.kabouterlabs.ode.Ivp[U,A]"></a>
       <a id="+(DaeIndexVariables):Ivp[U,A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -177,10 +211,10 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $plus" class="name">+</span><span class="params">(<span name="daoIndex1">daoIndex1: <a href="config/DaeIndexVariables.html" class="extype" name="com.kabouterlabs.ode.config.DaeIndexVariables">DaeIndexVariables</a></span>)</span><span class="result">: <a href="" class="extype" name="com.kabouterlabs.ode.Ivp">Ivp</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>, <span class="extype" name="com.kabouterlabs.ode.Ivp.A">A</span>]</span>
+        <span title="gt4s: $plus" class="name">+</span><span class="params">(<span name="daeIndex1">daeIndex1: <a href="config/DaeIndexVariables.html" class="extype" name="com.kabouterlabs.ode.config.DaeIndexVariables">DaeIndexVariables</a></span>)</span><span class="result">: <a href="" class="extype" name="com.kabouterlabs.ode.Ivp">Ivp</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>, <span class="extype" name="com.kabouterlabs.ode.Ivp.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@+(daoIndex1:com.kabouterlabs.ode.config.DaeIndexVariables):com.kabouterlabs.ode.Ivp[U,A]" title="Permalink" target="_top">
+      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@+(daeIndex1:com.kabouterlabs.ode.config.DaeIndexVariables):com.kabouterlabs.ode.Ivp[U,A]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -220,7 +254,7 @@
     </span>
       
     </li><li name="com.kabouterlabs.ode.Ivp#+" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="+(mass1:com.kabouterlabs.ode.MassMatrixFuncM[U]):com.kabouterlabs.ode.Ivp[U,A]"></a>
+      <a id="+(mass1:com.kabouterlabs.ode.kernel.MassMatrixFuncM[U]):com.kabouterlabs.ode.Ivp[U,A]"></a>
       <a id="+(MassMatrixFuncM[U]):Ivp[U,A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -228,16 +262,16 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $plus" class="name">+</span><span class="params">(<span name="mass1">mass1: <a href="MassMatrixFuncM.html" class="extype" name="com.kabouterlabs.ode.MassMatrixFuncM">MassMatrixFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.kabouterlabs.ode.Ivp">Ivp</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>, <span class="extype" name="com.kabouterlabs.ode.Ivp.A">A</span>]</span>
+        <span title="gt4s: $plus" class="name">+</span><span class="params">(<span name="mass1">mass1: <a href="kernel/MassMatrixFuncM.html" class="extype" name="com.kabouterlabs.ode.kernel.MassMatrixFuncM">MassMatrixFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.kabouterlabs.ode.Ivp">Ivp</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>, <span class="extype" name="com.kabouterlabs.ode.Ivp.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@+(mass1:com.kabouterlabs.ode.MassMatrixFuncM[U]):com.kabouterlabs.ode.Ivp[U,A]" title="Permalink" target="_top">
+      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@+(mass1:com.kabouterlabs.ode.kernel.MassMatrixFuncM[U]):com.kabouterlabs.ode.Ivp[U,A]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
     </li><li name="com.kabouterlabs.ode.Ivp#+" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="+(ev1:com.kabouterlabs.ode.EventFuncM[U]):com.kabouterlabs.ode.Ivp[U,A]"></a>
+      <a id="+(ev1:com.kabouterlabs.ode.kernel.EventFuncM[U]):com.kabouterlabs.ode.Ivp[U,A]"></a>
       <a id="+(EventFuncM[U]):Ivp[U,A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -245,16 +279,16 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $plus" class="name">+</span><span class="params">(<span name="ev1">ev1: <a href="EventFuncM.html" class="extype" name="com.kabouterlabs.ode.EventFuncM">EventFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.kabouterlabs.ode.Ivp">Ivp</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>, <span class="extype" name="com.kabouterlabs.ode.Ivp.A">A</span>]</span>
+        <span title="gt4s: $plus" class="name">+</span><span class="params">(<span name="ev1">ev1: <a href="kernel/EventFuncM.html" class="extype" name="com.kabouterlabs.ode.kernel.EventFuncM">EventFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.kabouterlabs.ode.Ivp">Ivp</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>, <span class="extype" name="com.kabouterlabs.ode.Ivp.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@+(ev1:com.kabouterlabs.ode.EventFuncM[U]):com.kabouterlabs.ode.Ivp[U,A]" title="Permalink" target="_top">
+      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@+(ev1:com.kabouterlabs.ode.kernel.EventFuncM[U]):com.kabouterlabs.ode.Ivp[U,A]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
     </li><li name="com.kabouterlabs.ode.Ivp#+" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="+(con1:com.kabouterlabs.ode.ConstraintFuncM[U]):com.kabouterlabs.ode.Ivp[U,A]"></a>
+      <a id="+(con1:com.kabouterlabs.ode.kernel.ConstraintFuncM[U]):com.kabouterlabs.ode.Ivp[U,A]"></a>
       <a id="+(ConstraintFuncM[U]):Ivp[U,A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -262,16 +296,16 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $plus" class="name">+</span><span class="params">(<span name="con1">con1: <a href="ConstraintFuncM.html" class="extype" name="com.kabouterlabs.ode.ConstraintFuncM">ConstraintFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.kabouterlabs.ode.Ivp">Ivp</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>, <span class="extype" name="com.kabouterlabs.ode.Ivp.A">A</span>]</span>
+        <span title="gt4s: $plus" class="name">+</span><span class="params">(<span name="con1">con1: <a href="kernel/ConstraintFuncM.html" class="extype" name="com.kabouterlabs.ode.kernel.ConstraintFuncM">ConstraintFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.kabouterlabs.ode.Ivp">Ivp</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>, <span class="extype" name="com.kabouterlabs.ode.Ivp.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@+(con1:com.kabouterlabs.ode.ConstraintFuncM[U]):com.kabouterlabs.ode.Ivp[U,A]" title="Permalink" target="_top">
+      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@+(con1:com.kabouterlabs.ode.kernel.ConstraintFuncM[U]):com.kabouterlabs.ode.Ivp[U,A]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
     </li><li name="com.kabouterlabs.ode.Ivp#+" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="+(jac1:com.kabouterlabs.ode.JacobianFuncM[U]):com.kabouterlabs.ode.Ivp[U,A]"></a>
+      <a id="+(jac1:com.kabouterlabs.ode.kernel.JacobianFuncM[U]):com.kabouterlabs.ode.Ivp[U,A]"></a>
       <a id="+(JacobianFuncM[U]):Ivp[U,A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -279,16 +313,16 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $plus" class="name">+</span><span class="params">(<span name="jac1">jac1: <a href="JacobianFuncM.html" class="extype" name="com.kabouterlabs.ode.JacobianFuncM">JacobianFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.kabouterlabs.ode.Ivp">Ivp</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>, <span class="extype" name="com.kabouterlabs.ode.Ivp.A">A</span>]</span>
+        <span title="gt4s: $plus" class="name">+</span><span class="params">(<span name="jac1">jac1: <a href="kernel/JacobianFuncM.html" class="extype" name="com.kabouterlabs.ode.kernel.JacobianFuncM">JacobianFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.kabouterlabs.ode.Ivp">Ivp</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>, <span class="extype" name="com.kabouterlabs.ode.Ivp.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@+(jac1:com.kabouterlabs.ode.JacobianFuncM[U]):com.kabouterlabs.ode.Ivp[U,A]" title="Permalink" target="_top">
+      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@+(jac1:com.kabouterlabs.ode.kernel.JacobianFuncM[U]):com.kabouterlabs.ode.Ivp[U,A]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
     </li><li name="com.kabouterlabs.ode.Ivp#+" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="+(func1:com.kabouterlabs.ode.OdeFuncM[U]):com.kabouterlabs.ode.Ivp[U,A]"></a>
+      <a id="+(func1:com.kabouterlabs.ode.kernel.OdeFuncM[U]):com.kabouterlabs.ode.Ivp[U,A]"></a>
       <a id="+(OdeFuncM[U]):Ivp[U,A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -296,15 +330,15 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $plus" class="name">+</span><span class="params">(<span name="func1">func1: <a href="OdeFuncM.html" class="extype" name="com.kabouterlabs.ode.OdeFuncM">OdeFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.kabouterlabs.ode.Ivp">Ivp</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>, <span class="extype" name="com.kabouterlabs.ode.Ivp.A">A</span>]</span>
+        <span title="gt4s: $plus" class="name">+</span><span class="params">(<span name="func1">func1: <a href="kernel/OdeFuncM.html" class="extype" name="com.kabouterlabs.ode.kernel.OdeFuncM">OdeFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.kabouterlabs.ode.Ivp">Ivp</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>, <span class="extype" name="com.kabouterlabs.ode.Ivp.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@+(func1:com.kabouterlabs.ode.OdeFuncM[U]):com.kabouterlabs.ode.Ivp[U,A]" title="Permalink" target="_top">
+      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@+(func1:com.kabouterlabs.ode.kernel.OdeFuncM[U]):com.kabouterlabs.ode.Ivp[U,A]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
-    </li><li name="com.kabouterlabs.ode.Ivp#+&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.kabouterlabs.ode.Ivp#+&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="+&gt;:A"></a>
       <a id="+&gt;:A"></a>
       <h4 class="signature">
@@ -320,7 +354,7 @@
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>an instance of the ODE solver whose implicit type class implementation is in scope</p></dd></dl></div>
     </li><li name="scala.AnyRef#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="==(x$1:Any):Boolean"></a>
       <a id="==(Any):Boolean"></a>
@@ -338,7 +372,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.kabouterlabs.ode.Ivp#apply" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.kabouterlabs.ode.Ivp#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="apply():A"></a>
       <a id="apply():A"></a>
       <h4 class="signature">
@@ -354,7 +388,7 @@
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>an instance of the ODE solver whose implicit type class implementation is in scope</p></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -395,91 +429,6 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="com.kabouterlabs.ode.Ivp#con" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="con:com.kabouterlabs.ode.ConstraintFuncM[U]"></a>
-      <a id="con:ConstraintFuncM[U]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">con</span><span class="result">: <a href="ConstraintFuncM.html" class="extype" name="com.kabouterlabs.ode.ConstraintFuncM">ConstraintFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@con:com.kabouterlabs.ode.ConstraintFuncM[U]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="com.kabouterlabs.ode.Ivp#config" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="config:com.kabouterlabs.ode.config.Config"></a>
-      <a id="config:Config"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">config</span><span class="result">: <a href="config/Config.html" class="extype" name="com.kabouterlabs.ode.config.Config">Config</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@config:com.kabouterlabs.ode.config.Config" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="com.kabouterlabs.ode.Ivp#constraints" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="constraints:Option[Int]"></a>
-      <a id="constraints:Option[Int]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">constraints</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Int">Int</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@constraints:Option[Int]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="com.kabouterlabs.ode.Ivp#daeIndex" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="daeIndex:com.kabouterlabs.ode.config.DaeIndexVariables"></a>
-      <a id="daeIndex:DaeIndexVariables"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">daeIndex</span><span class="result">: <a href="config/DaeIndexVariables.html" class="extype" name="com.kabouterlabs.ode.config.DaeIndexVariables">DaeIndexVariables</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@daeIndex:com.kabouterlabs.ode.config.DaeIndexVariables" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="com.kabouterlabs.ode.Ivp#dim" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="dim:Int"></a>
-      <a id="dim:Int"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">dim</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@dim:Int" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -497,40 +446,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="equals(x$1:Any):Boolean"></a>
-      <a id="equals(Any):Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@equals(x$1:Any):Boolean" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.kabouterlabs.ode.Ivp#ev" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="ev:com.kabouterlabs.ode.EventFuncM[U]"></a>
-      <a id="ev:EventFuncM[U]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">ev</span><span class="result">: <a href="EventFuncM.html" class="extype" name="com.kabouterlabs.ode.EventFuncM">EventFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@ev:com.kabouterlabs.ode.EventFuncM[U]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -554,23 +469,6 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="com.kabouterlabs.ode.Ivp#func" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="func:com.kabouterlabs.ode.OdeFuncM[U]"></a>
-      <a id="func:OdeFuncM[U]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">func</span><span class="result">: <a href="OdeFuncM.html" class="extype" name="com.kabouterlabs.ode.OdeFuncM">OdeFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@func:com.kabouterlabs.ode.OdeFuncM[U]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -584,23 +482,6 @@
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#com.kabouterlabs.ode.Ivp@getClass():Class[_]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="hashCode():Int"></a>
-      <a id="hashCode():Int"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@hashCode():Int" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -622,40 +503,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.kabouterlabs.ode.Ivp#jac" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="jac:com.kabouterlabs.ode.JacobianFuncM[U]"></a>
-      <a id="jac:JacobianFuncM[U]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">jac</span><span class="result">: <a href="JacobianFuncM.html" class="extype" name="com.kabouterlabs.ode.JacobianFuncM">JacobianFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@jac:com.kabouterlabs.ode.JacobianFuncM[U]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="com.kabouterlabs.ode.Ivp#mass" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="mass:com.kabouterlabs.ode.MassMatrixFuncM[U]"></a>
-      <a id="mass:MassMatrixFuncM[U]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">mass</span><span class="result">: <a href="MassMatrixFuncM.html" class="extype" name="com.kabouterlabs.ode.MassMatrixFuncM">MassMatrixFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@mass:com.kabouterlabs.ode.MassMatrixFuncM[U]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -707,40 +554,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="com.kabouterlabs.ode.Ivp#opt" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="opt:com.kabouterlabs.ode.config.OptionalParameters"></a>
-      <a id="opt:OptionalParameters"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">opt</span><span class="result">: <a href="config/OptionalParameters.html" class="extype" name="com.kabouterlabs.ode.config.OptionalParameters">OptionalParameters</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@opt:com.kabouterlabs.ode.config.OptionalParameters" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="com.kabouterlabs.ode.Ivp#params" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="params:com.kabouterlabs.ode.FuncParams[U]"></a>
-      <a id="params:FuncParams[U]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">params</span><span class="result">: <a href="FuncParams.html" class="extype" name="com.kabouterlabs.ode.FuncParams">FuncParams</a>[<span class="extype" name="com.kabouterlabs.ode.Ivp.U">U</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@params:com.kabouterlabs.ode.FuncParams[U]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -758,23 +571,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="toString():String"></a>
-      <a id="toString():String"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.Ivp@toString():String" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
@@ -853,7 +649,15 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="scala.AnyRef">
+        <div class="parent" name="scala.Serializable">
+              <h3>Inherited from <span class="extype" name="scala.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="java.io.Serializable">
+              <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="scala.Product">
+              <h3>Inherited from <span class="extype" name="scala.Product">Product</span></h3>
+            </div><div class="parent" name="scala.Equals">
+              <h3>Inherited from <span class="extype" name="scala.Equals">Equals</span></h3>
+            </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>

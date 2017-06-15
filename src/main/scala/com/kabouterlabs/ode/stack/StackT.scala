@@ -1,4 +1,4 @@
-package com.kabouterlabs.ode
+package com.kabouterlabs.ode.stack
 
 /**
   *
@@ -6,7 +6,7 @@ package com.kabouterlabs.ode
   * The results for each integration step are stored in an array of data type U.
   * The first element in that array is the independent variable, followed by the dependent variables in the order
   * they appear in the solution array.
-  * 
+  *
   */
 trait StackT
 {

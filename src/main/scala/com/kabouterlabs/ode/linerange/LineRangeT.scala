@@ -1,4 +1,4 @@
-package com.kabouterlabs.ode
+package com.kabouterlabs.ode.linerange
 
 /**
   * Created by fons on 1/7/17.

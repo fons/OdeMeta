@@ -4,8 +4,10 @@ import java.lang
 
 import com.kabouterlabs.jodeint.cradau5.Cradau5Library._
 import com.kabouterlabs.ode.config.Config
-import com.kabouterlabs.ode.stack.StackDouble
-import com.kabouterlabs.ode.{FuncParams, OdeFuncM, StackT, LineRangeT}
+import com.kabouterlabs.ode.kernel.OdeFuncM
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.{StackDouble, StackT}
+import com.kabouterlabs.ode.FuncParams
 import com.kabouterlabs.ode.util.{HandleException, LogIt}
 import org.bridj.Pointer
 
@@ -13,7 +15,7 @@ import org.bridj.Pointer
   *
   * Implicit Runge-Kutta method of order 5 (Radau IIA) for problems of the form y'=f(x,y). Provides a simple interface to radau5, with sensible defaults.
   *
-  * @note : for more information on the underlying algorithm : [[http://www.unige.ch/~hairer/prog/stiff/radau5.f]] or [[http://www.unige.ch/~hairer/software.html]]
+  * @see for more information on the underlying algorithm : [[http://www.unige.ch/~hairer/prog/stiff/radau5.f]] or [[http://www.unige.ch/~hairer/software.html]]
   *
   * @constructor  Radau Ode Solver instance.
   * @param  dim    : Dimension of the ODE

@@ -1,4 +1,5 @@
 package com.kabouterlabs.ode.experimental.butcher.tableau
+import scala.language.postfixOps
 
 /**
  * Created with IntelliJ IDEA.

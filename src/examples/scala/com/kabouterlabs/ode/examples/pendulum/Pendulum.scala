@@ -1,11 +1,11 @@
 package com.kabouterlabs.ode.examples.pendulum
 
 
-import com.kabouterlabs.ode.OdeSolver.OdeSolverTC
-import com.kabouterlabs.ode.OdeSolver._
+import com.kabouterlabs.ode.kernel.OdeSolver.OdeSolverTC
+import com.kabouterlabs.ode.kernel.OdeSolver._
 import com.kabouterlabs.ode.config._
 import com.kabouterlabs.ode.{FuncParams, Ivp}
-import com.kabouterlabs.ode.range.LineRange
+import com.kabouterlabs.ode.linerange.LineRange
 import com.kabouterlabs.ode.util.LogIt
 
 import scala.language.{existentials, higherKinds, postfixOps, reflectiveCalls}

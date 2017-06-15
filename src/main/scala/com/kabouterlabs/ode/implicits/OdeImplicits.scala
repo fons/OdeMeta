@@ -3,6 +3,7 @@ package com.kabouterlabs.ode.implicits
 
 import scala.language.implicitConversions
 import com.kabouterlabs.ode._
+import com.kabouterlabs.ode.kernel._
 
 /**
   * Created by fons on 1/6/17.

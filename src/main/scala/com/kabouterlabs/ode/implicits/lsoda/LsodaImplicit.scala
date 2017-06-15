@@ -4,11 +4,14 @@ package com.kabouterlabs.ode.implicits.lsoda
   * Created by fons on 1/13/17.
   */
 
-import com.kabouterlabs.ode.OdeSolver.OdeSolverTC
+import com.kabouterlabs.ode.kernel.OdeSolver.OdeSolverTC
 import com.kabouterlabs.ode.config.{Config, DaeIndexVariables}
+import com.kabouterlabs.ode.kernel._
 import com.kabouterlabs.ode.odepack.Lsoda
 import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
-import com.kabouterlabs.ode.{OdeM, _}
+import com.kabouterlabs.ode._
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.StackT
 
 
 object LsodaImplicit

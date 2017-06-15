@@ -6,7 +6,9 @@ import com.kabouterlabs.jodeint.codepack.CodepackLibrary
 import com.kabouterlabs.jodeint.codepack.CodepackLibrary._
 import com.kabouterlabs.ode._
 import com.kabouterlabs.ode.config._
-import com.kabouterlabs.ode.stack.StackDouble
+import com.kabouterlabs.ode.kernel.{JacobianFuncM, OdeFuncM}
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.{StackDouble, StackT}
 import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 import com.typesafe.scalalogging.Logger
 import org.bridj.Pointer
@@ -16,10 +18,10 @@ import org.slf4j.LoggerFactory
   *
   * This class wraps odepack's lsoda.
   * lsoda switches automatically between adams and bdf methods
-  * This makes it great for solving problems whose stiffness is not known or which varies over the solution range.
+  * This makes it great for solving problems whose stiffness is not known or which varies over the solution linerange.
   *
   *
-  * @note : for more information on the underlying algorithm follow this link and look for odepack [[https://computation.llnl.gov/casc/odepack/]].
+  * @see for more information on the underlying algorithm follow this link and look for odepack [[https://computation.llnl.gov/casc/odepack/]].
   *         More info here [[http://www.netlib.org/odepack/opkd-sum]] and here (pdf) [[https://computation.llnl.gov/casc/nsde/pubs/u113855.pdf]]
   *
   * @constructor  Lsoda Ode Solver instance.
@@ -278,7 +280,7 @@ case class Lsoda(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], pa
 
   def run(range:LineRangeT[Double], init:Array[Double]):Option[StackT] = HandleException {
 
-    LogIt().info("starting with range : " + range + " initial conditions : {" + init.mkString(",") + "}")
+    LogIt().info("starting with linerange : " + range + " initial conditions : {" + init.mkString(",") + "}")
     /*
      * initialize the output stack with the initial values
      */

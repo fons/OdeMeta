@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>OdeFuncM - OdeMeta documentation - com.kabouterlabs.ode.OdeFuncM</title>
-          <meta name="description" content="OdeFuncM - OdeMeta documentation - com.kabouterlabs.ode.OdeFuncM" />
-          <meta name="keywords" content="OdeFuncM OdeMeta documentation com.kabouterlabs.ode.OdeFuncM" />
+          <title>OdeFuncM - OdeMeta documentation - com.kabouterlabs.ode.kernel.OdeFuncM</title>
+          <meta name="description" content="OdeFuncM - OdeMeta documentation - com.kabouterlabs.ode.kernel.OdeFuncM" />
+          <meta name="keywords" content="OdeFuncM OdeMeta documentation com.kabouterlabs.ode.kernel.OdeFuncM" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -51,8 +51,16 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Created by fons on 1/6/17.
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Contains the call back fucntion for the ODE routines
+</p></div><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p></p><pre> <span class="kw">val</span> func = (d:<span class="std">Int</span>, x:<span class="std">Double</span>, y:<span class="std">Array</span>[<span class="std">Double</span>], ydot:<span class="std">Array</span>[<span class="std">Double</span>], p:FuncParams[<span class="std">Double</span>]) <span class="kw">=&gt;</span> {ydot(<span class="num">0</span>) = y(<span class="num">0</span>)/(x+<span class="num">1</span>)
+ <span class="kw">val</span> fm = OdeFuncM[<span class="std">Double</span>](<span class="std">Some</span>(func))
+     <span class="kw">val</span> next:<span class="std">Option</span>[<span class="std">Array</span>[<span class="std">Double</span>]] = <span class="kw">for</span> (f <span class="kw">&lt;-</span> fm) <span class="kw">yield</span> {
+        <span class="kw">val</span> res = <span class="std">Array</span>.ofDim[<span class="std">Double</span>](<span class="num">1</span>)
+        f(<span class="num">1</span>, <span class="num">2.0</span> , <span class="std">Array</span>(<span class="num">2.0</span>), res, FuncParams[<span class="std">Double</span>]())
+        res
+}</pre></li></ol>
+            </div><dt>See also</dt><dd><span class="cmt"><p>type converters in <a href="implicits/OdeImplicits$.html" class="extype" name="com.kabouterlabs.ode.implicits.OdeImplicits">com.kabouterlabs.ode.implicits.OdeImplicits</a> for convenient conversions</p></span><span class="cmt"><p><span class="extype" name="com.kabouterlabs.ode.OdeFuncM[U].FuncT">com.kabouterlabs.ode.OdeFuncM[U].FuncT</span> for a description of the arguments</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -107,7 +115,8 @@
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">: Option of type (Int,Double, Array[U], Array[U], FuncParams[U]=&gt; Unit)
+This is the function signature used by most of the Fortran routines.</p>
     </li></ol>
             </div>
 
@@ -129,7 +138,7 @@
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Dependent parameter type</p>
     </li><li name="com.kabouterlabs.ode.OdeFuncM.FuncT" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="FuncT=(Int,Double,Array[U],Array[U],com.kabouterlabs.ode.FuncParams[U])=&gt;Unit"></a>
       <a id="FuncT:FuncT"></a>
@@ -146,7 +155,7 @@
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Function signature</p>
     </li></ol>
             </div>
 
@@ -205,8 +214,8 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.kabouterlabs.ode.OdeFuncM#apply" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="apply(n:Int,x:Double,y:Array[U],ydot:Array[U],params:com.kabouterlabs.ode.FuncParams[U]):Option[Unit]"></a>
+    </li><li name="com.kabouterlabs.ode.OdeFuncM#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="apply(dim:Int,x:Double,y:Array[U],ydot:Array[U],params:com.kabouterlabs.ode.FuncParams[U]):Option[Unit]"></a>
       <a id="apply(Int,Double,Array[U],Array[U],FuncParams[U]):Option[Unit]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -214,14 +223,14 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="params">(<span name="n">n: <span class="extype" name="scala.Int">Int</span></span>, <span name="x">x: <span class="extype" name="scala.Double">Double</span></span>, <span name="y">y: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.kabouterlabs.ode.OdeFuncM.U">U</span>]</span>, <span name="ydot">ydot: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.kabouterlabs.ode.OdeFuncM.U">U</span>]</span>, <span name="params">params: <a href="FuncParams.html" class="extype" name="com.kabouterlabs.ode.FuncParams">FuncParams</a>[<span class="extype" name="com.kabouterlabs.ode.OdeFuncM.U">U</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Unit">Unit</span>]</span>
+        <span class="name">apply</span><span class="params">(<span name="dim">dim: <span class="extype" name="scala.Int">Int</span></span>, <span name="x">x: <span class="extype" name="scala.Double">Double</span></span>, <span name="y">y: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.kabouterlabs.ode.OdeFuncM.U">U</span>]</span>, <span name="ydot">ydot: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.kabouterlabs.ode.OdeFuncM.U">U</span>]</span>, <span name="params">params: <a href="FuncParams.html" class="extype" name="com.kabouterlabs.ode.FuncParams">FuncParams</a>[<span class="extype" name="com.kabouterlabs.ode.OdeFuncM.U">U</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Unit">Unit</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.OdeFuncM@apply(n:Int,x:Double,y:Array[U],ydot:Array[U],params:com.kabouterlabs.ode.FuncParams[U]):Option[Unit]" title="Permalink" target="_top">
+      <a href="../../../index.html#com.kabouterlabs.ode.OdeFuncM@apply(dim:Int,x:Double,y:Array[U],ydot:Array[U],params:com.kabouterlabs.ode.FuncParams[U]):Option[Unit]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Call the function</p><div class="fullcomment"><div class="comment cmt"><p>Call the function</p></div><dl class="paramcmts block"><dt class="param">dim</dt><dd class="cmt"><p>: dimensionality</p></dd><dt class="param">x</dt><dd class="cmt"><p>: independent variable</p></dd><dt class="param">y</dt><dd class="cmt"><p>: Array of dimension dim holding the depent variable values</p></dd><dt class="param">ydot</dt><dd class="cmt"><p>: Array of dimension dim holding the new derivative values</p></dd><dt class="param">params</dt><dd class="cmt"><p>: Parameters; @see  <a href="FuncParams.html" class="extype" name="com.kabouterlabs.ode.FuncParams">com.kabouterlabs.ode.FuncParams</a></p></dd><dt>returns</dt><dd class="cmt"><p>: Unit Option</p></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -302,23 +311,6 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="com.kabouterlabs.ode.OdeFuncM#funcOption" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="funcOption:Option[(Int,Double,Array[U],Array[U],com.kabouterlabs.ode.FuncParams[U])=&gt;Unit]"></a>
-      <a id="funcOption:Option[(Int,Double,Array[U],Array[U],FuncParams[U])⇒Unit]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">funcOption</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[(<span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Double">Double</span>, <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.kabouterlabs.ode.OdeFuncM.U">U</span>], <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="com.kabouterlabs.ode.OdeFuncM.U">U</span>], <a href="FuncParams.html" class="extype" name="com.kabouterlabs.ode.FuncParams">FuncParams</a>[<span class="extype" name="com.kabouterlabs.ode.OdeFuncM.U">U</span>]) ⇒ <span class="extype" name="scala.Unit">Unit</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.OdeFuncM@funcOption:Option[(Int,Double,Array[U],Array[U],com.kabouterlabs.ode.FuncParams[U])=&gt;Unit]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -353,23 +345,25 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.kabouterlabs.ode.OdeFuncM#map" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="map(h:OdeFuncM.this.FuncT=&gt;OdeFuncM.this.FuncT):com.kabouterlabs.ode.OdeFuncM[U]"></a>
-      <a id="map((FuncT)⇒FuncT):OdeFuncM[U]"></a>
+    </li><li name="com.kabouterlabs.ode.OdeFuncM#map" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="map[M](t:OdeFuncM.this.FuncT=&gt;M):Option[M]"></a>
+      <a id="map[M]((FuncT)⇒M):Option[M]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">map</span><span class="params">(<span name="h">h: (<a href="#FuncT=(Int,Double,Array[U],Array[U],com.kabouterlabs.ode.FuncParams[U])=&gt;Unit" class="extmbr" name="com.kabouterlabs.ode.OdeFuncM.FuncT">FuncT</a>) ⇒ <a href="#FuncT=(Int,Double,Array[U],Array[U],com.kabouterlabs.ode.FuncParams[U])=&gt;Unit" class="extmbr" name="com.kabouterlabs.ode.OdeFuncM.FuncT">FuncT</a></span>)</span><span class="result">: <a href="" class="extype" name="com.kabouterlabs.ode.OdeFuncM">OdeFuncM</a>[<span class="extype" name="com.kabouterlabs.ode.OdeFuncM.U">U</span>]</span>
+        <span class="name">map</span><span class="tparams">[<span name="M">M</span>]</span><span class="params">(<span name="t">t: (<a href="#FuncT=(Int,Double,Array[U],Array[U],com.kabouterlabs.ode.FuncParams[U])=&gt;Unit" class="extmbr" name="com.kabouterlabs.ode.OdeFuncM.FuncT">FuncT</a>) ⇒ <span class="extype" name="com.kabouterlabs.ode.OdeFuncM.map.M">M</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.kabouterlabs.ode.OdeFuncM.map.M">M</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../index.html#com.kabouterlabs.ode.OdeFuncM@map(h:OdeFuncM.this.FuncT=&gt;OdeFuncM.this.FuncT):com.kabouterlabs.ode.OdeFuncM[U]" title="Permalink" target="_top">
+      <a href="../../../index.html#com.kabouterlabs.ode.OdeFuncM@map[M](t:OdeFuncM.this.FuncT=&gt;M):Option[M]" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Map FuncT to an Option of a new type
+</p><div class="fullcomment"><div class="comment cmt"><p>Map FuncT to an Option of a new type
+</p></div><dl class="paramcmts block"><dt class="tparam">M</dt><dd class="cmt"><p>: new type parameter</p></dd><dt class="param">t</dt><dd class="cmt"><p>: function of type FuncT =&gt; M</p></dd><dt>returns</dt><dd class="cmt"><p>: Option[M]</p></dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>

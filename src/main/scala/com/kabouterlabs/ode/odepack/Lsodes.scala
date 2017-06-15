@@ -7,7 +7,9 @@ import com.kabouterlabs.jodeint.codepack.CodepackLibrary._
 import com.kabouterlabs.ode.config.{LowerBandWidth, UpperBandWidth}
 import com.kabouterlabs.ode.config.{Config, JacobianType, Methods}
 import com.kabouterlabs.ode._
-import com.kabouterlabs.ode.stack.StackDouble
+import com.kabouterlabs.ode.kernel.{JacobianFuncM, OdeFuncM}
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.{StackDouble, StackT}
 import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 import org.bridj.Pointer
 
@@ -17,7 +19,7 @@ import org.bridj.Pointer
   *  DLSODES is a variant of the DLSODE package, and is intended for problems in which the Jacobian matrix df/dy has an arbitrary
   * sparse structure (when the problem is stiff).
   *
-  * @note : for more information on the underlying algorithm follow this link and look for odepack [[https://computation.llnl.gov/casc/odepack/]].
+  * @see for more information on the underlying algorithm follow this link and look for odepack [[https://computation.llnl.gov/casc/odepack/]].
   *         More info here [[http://www.netlib.org/odepack/opkd-sum]] and here (pdf) [[https://computation.llnl.gov/casc/nsde/pubs/u113855.pdf]]
   *
   * @constructor  Lsoda Ode Solver instance.

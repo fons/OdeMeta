@@ -90,7 +90,7 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="com.kabouterlabs.ode.rkf.Rkf45#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(dim:Int,funcM:com.kabouterlabs.ode.OdeFuncM[Double],params:com.kabouterlabs.ode.FuncParams[Double],config:com.kabouterlabs.ode.config.Config):com.kabouterlabs.ode.rkf.Rkf45"></a>
+      <a id="&lt;init&gt;(dim:Int,funcM:com.kabouterlabs.ode.kernel.OdeFuncM[Double],params:com.kabouterlabs.ode.FuncParams[Double],config:com.kabouterlabs.ode.config.Config):com.kabouterlabs.ode.rkf.Rkf45"></a>
       <a id="&lt;init&gt;:Rkf45"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -98,10 +98,10 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">Rkf45</span><span class="params">(<span name="dim">dim: <span class="extype" name="scala.Int">Int</span></span>, <span name="funcM">funcM: <a href="../OdeFuncM.html" class="extype" name="com.kabouterlabs.ode.OdeFuncM">OdeFuncM</a>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="params">params: <a href="../FuncParams.html" class="extype" name="com.kabouterlabs.ode.FuncParams">FuncParams</a>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="config">config: <a href="../config/Config.html" class="extype" name="com.kabouterlabs.ode.config.Config">Config</a></span>)</span>
+        <span class="name">Rkf45</span><span class="params">(<span name="dim">dim: <span class="extype" name="scala.Int">Int</span></span>, <span name="funcM">funcM: <a href="../kernel/OdeFuncM.html" class="extype" name="com.kabouterlabs.ode.kernel.OdeFuncM">OdeFuncM</a>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="params">params: <a href="../FuncParams.html" class="extype" name="com.kabouterlabs.ode.FuncParams">FuncParams</a>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="config">config: <a href="../config/Config.html" class="extype" name="com.kabouterlabs.ode.config.Config">Config</a></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.kabouterlabs.ode.rkf.Rkf45@&lt;init&gt;(dim:Int,funcM:com.kabouterlabs.ode.OdeFuncM[Double],params:com.kabouterlabs.ode.FuncParams[Double],config:com.kabouterlabs.ode.config.Config):com.kabouterlabs.ode.rkf.Rkf45" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.kabouterlabs.ode.rkf.Rkf45@&lt;init&gt;(dim:Int,funcM:com.kabouterlabs.ode.kernel.OdeFuncM[Double],params:com.kabouterlabs.ode.FuncParams[Double],config:com.kabouterlabs.ode.config.Config):com.kabouterlabs.ode.rkf.Rkf45" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -386,7 +386,7 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="com.kabouterlabs.ode.rkf.Rkf45#run" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="run(range:com.kabouterlabs.ode.LineRangeT[Double],init:Array[Double]):Option[com.kabouterlabs.ode.StackT]"></a>
+      <a id="run(range:com.kabouterlabs.ode.linerange.LineRangeT[Double],init:Array[Double]):Option[com.kabouterlabs.ode.stack.StackT]"></a>
       <a id="run(LineRangeT[Double],Array[Double]):Option[StackT]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -394,10 +394,10 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">run</span><span class="params">(<span name="range">range: <a href="../LineRangeT.html" class="extype" name="com.kabouterlabs.ode.LineRangeT">LineRangeT</a>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="init">init: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../StackT.html" class="extype" name="com.kabouterlabs.ode.StackT">StackT</a>]</span>
+        <span class="name">run</span><span class="params">(<span name="range">range: <a href="../linerange/LineRangeT.html" class="extype" name="com.kabouterlabs.ode.linerange.LineRangeT">LineRangeT</a>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="init">init: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../stack/StackT.html" class="extype" name="com.kabouterlabs.ode.stack.StackT">StackT</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.kabouterlabs.ode.rkf.Rkf45@run(range:com.kabouterlabs.ode.LineRangeT[Double],init:Array[Double]):Option[com.kabouterlabs.ode.StackT]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.kabouterlabs.ode.rkf.Rkf45@run(range:com.kabouterlabs.ode.linerange.LineRangeT[Double],init:Array[Double]):Option[com.kabouterlabs.ode.stack.StackT]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

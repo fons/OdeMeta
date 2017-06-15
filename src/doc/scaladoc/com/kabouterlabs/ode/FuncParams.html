@@ -51,8 +51,11 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Created by fons on 1/17/17.
-</p></div><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Function parameters</p><p>Use the companion object to create an instance.</p><p>FuncParams can be used to pass parameters to the ODE or Jacobian function.
+It recognizes two parameter types : Int and V (which is typicallly Double).</p></div><dl class="attributes block"> <div class="block">Example:
+               <ol><li class="cmt"><p></p><pre><span class="kw">val</span> params =  FuncParams +\ (<span class="lit">"alpha"</span> -&gt; alpha, <span class="lit">"beta"</span> -&gt; beta, <span class="lit">"gamma"</span> -&gt; gamma)
+<span class="kw">val</span> alpha  = params -&gt; <span class="lit">"alpha"</span></pre></li></ol>
+            </div></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -151,7 +154,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.kabouterlabs.ode.FuncParams#+\" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.kabouterlabs.ode.FuncParams#+\" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="+\(tv:(String,V)*):com.kabouterlabs.ode.FuncParams[V]"></a>
       <a id="+\((String,V)*):FuncParams[V]"></a>
       <h4 class="signature">
@@ -167,8 +170,10 @@
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.kabouterlabs.ode.FuncParams#+\" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Add a list of named parameters of type V
+</p><div class="fullcomment"><div class="comment cmt"><p>Add a list of named parameters of type V
+</p></div><dl class="paramcmts block"><dt class="param">tv</dt><dd class="cmt"><p>: List of key value pairs</p></dd><dt>returns</dt><dd class="cmt"><p>: updated instance</p></dd></dl></div>
+    </li><li name="com.kabouterlabs.ode.FuncParams#+\" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="+\(tv:(String,V)):com.kabouterlabs.ode.FuncParams[V]"></a>
       <a id="+\((String,V)):FuncParams[V]"></a>
       <h4 class="signature">
@@ -184,8 +189,10 @@
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.kabouterlabs.ode.FuncParams#+|" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Add a named parameter of type V
+</p><div class="fullcomment"><div class="comment cmt"><p>Add a named parameter of type V
+</p></div><dl class="paramcmts block"><dt class="param">tv</dt><dd class="cmt"><p>: key-value pair with the value of type V</p></dd><dt>returns</dt><dd class="cmt"><p>updated instance</p></dd></dl></div>
+    </li><li name="com.kabouterlabs.ode.FuncParams#+|" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="+|(tv:(String,Int)*):com.kabouterlabs.ode.FuncParams[V]"></a>
       <a id="+|((String,Int)*):FuncParams[V]"></a>
       <h4 class="signature">
@@ -201,8 +208,10 @@
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.kabouterlabs.ode.FuncParams#+|" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Add a list of named integer parameter
+</p><div class="fullcomment"><div class="comment cmt"><p>Add a list of named integer parameter
+</p></div><dl class="paramcmts block"><dt class="param">tv</dt><dd class="cmt"><p>: list of named integer parameters</p></dd></dl></div>
+    </li><li name="com.kabouterlabs.ode.FuncParams#+|" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="+|(tv:(String,Int)):com.kabouterlabs.ode.FuncParams[V]"></a>
       <a id="+|((String,Int)):FuncParams[V]"></a>
       <h4 class="signature">
@@ -218,8 +227,10 @@
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.kabouterlabs.ode.FuncParams#-&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Add a named Integer parameter
+</p><div class="fullcomment"><div class="comment cmt"><p>Add a named Integer parameter
+</p></div><dl class="paramcmts block"><dt class="param">tv</dt><dd class="cmt"><p>: named integer parameter.</p></dd><dt>returns</dt><dd class="cmt"><p>: updated instance</p></dd></dl></div>
+    </li><li name="com.kabouterlabs.ode.FuncParams#-&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="-&gt;(vv:String):V"></a>
       <a id="-&gt;(String):V"></a>
       <h4 class="signature">
@@ -235,7 +246,9 @@
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">get the value of a parameter of type V
+</p><div class="fullcomment"><div class="comment cmt"><p>get the value of a parameter of type V
+</p></div><dl class="paramcmts block"><dt class="param">vv</dt><dd class="cmt"><p>: parameter name</p></dd><dt>returns</dt><dd class="cmt"><p>: value of the parameter</p></dd></dl></div>
     </li><li name="scala.AnyRef#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="==(x$1:Any):Boolean"></a>
       <a id="==(Any):Boolean"></a>
@@ -384,7 +397,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.kabouterlabs.ode.FuncParams#ipar" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.kabouterlabs.ode.FuncParams#ipar" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ipar(vv:String):Int"></a>
       <a id="ipar(String):Int"></a>
       <h4 class="signature">
@@ -400,8 +413,10 @@
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.kabouterlabs.ode.FuncParams#ipar" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">get the value of an integer parameter
+</p><div class="fullcomment"><div class="comment cmt"><p>get the value of an integer parameter
+</p></div><dl class="paramcmts block"><dt class="param">vv</dt><dd class="cmt"><p>: parameter name</p></dd><dt>returns</dt><dd class="cmt"><p>: value of the parameter</p></dd></dl></div>
+    </li><li name="com.kabouterlabs.ode.FuncParams#ipar" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ipar(tv:(String,Int)):com.kabouterlabs.ode.FuncParams[V]"></a>
       <a id="ipar((String,Int)):FuncParams[V]"></a>
       <h4 class="signature">
@@ -417,8 +432,10 @@
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.kabouterlabs.ode.FuncParams#isEmpty" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Add a named Integer parameter
+</p><div class="fullcomment"><div class="comment cmt"><p>Add a named Integer parameter
+</p></div><dl class="paramcmts block"><dt class="param">tv</dt><dd class="cmt"><p>: named integer parameter.</p></dd><dt>returns</dt><dd class="cmt"><p>: updated instance</p></dd></dl></div>
+    </li><li name="com.kabouterlabs.ode.FuncParams#isEmpty" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isEmpty:Boolean"></a>
       <a id="isEmpty:Boolean"></a>
       <h4 class="signature">
@@ -434,7 +451,9 @@
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">check the presenc eof parameters
+</p><div class="fullcomment"><div class="comment cmt"><p>check the presenc eof parameters
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>boolean indicating if there are no parameters</p></dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <a id="isInstanceOf[T0]:Boolean"></a>
@@ -503,7 +522,7 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="com.kabouterlabs.ode.FuncParams#rpar" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.kabouterlabs.ode.FuncParams#rpar" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="rpar(vv:String):V"></a>
       <a id="rpar(String):V"></a>
       <h4 class="signature">
@@ -519,8 +538,10 @@
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.kabouterlabs.ode.FuncParams#rpar" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">get the value of a parameter of type V
+</p><div class="fullcomment"><div class="comment cmt"><p>get the value of a parameter of type V
+</p></div><dl class="paramcmts block"><dt class="param">vv</dt><dd class="cmt"><p>: parameter name</p></dd><dt>returns</dt><dd class="cmt"><p>: value of the parameter</p></dd></dl></div>
+    </li><li name="com.kabouterlabs.ode.FuncParams#rpar" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="rpar(tv:(String,V)):com.kabouterlabs.ode.FuncParams[V]"></a>
       <a id="rpar((String,V)):FuncParams[V]"></a>
       <h4 class="signature">
@@ -536,7 +557,9 @@
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Add a named parameter of type V
+</p><div class="fullcomment"><div class="comment cmt"><p>Add a named parameter of type V
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>updated instance</p></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -640,7 +663,7 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="com.kabouterlabs.ode.FuncParams#~&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.kabouterlabs.ode.FuncParams#~&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="~&gt;(vv:String):Int"></a>
       <a id="~&gt;(String):Int"></a>
       <h4 class="signature">
@@ -656,7 +679,9 @@
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">get the value of an integer parameter
+</p><div class="fullcomment"><div class="comment cmt"><p>get the value of an integer parameter
+</p></div><dl class="paramcmts block"><dt class="param">vv</dt><dd class="cmt"><p>: parameter name</p></dd><dt>returns</dt><dd class="cmt"><p>: value of the parameter</p></dd></dl></div>
     </li></ol>
             </div>
 

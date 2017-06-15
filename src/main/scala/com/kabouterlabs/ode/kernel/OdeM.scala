@@ -1,11 +1,12 @@
-package com.kabouterlabs.ode
+package com.kabouterlabs.ode.kernel
 
+import com.kabouterlabs.ode._
 import com.kabouterlabs.ode.config.{Config, DaeIndexVariables}
 
-/**
-  * Created by fons on 1/5/17.
+/** Wraps an ODE solver
+  * @constructor : use the companian object to create instances
+  *
   */
-
 
 
 case class OdeM[U] (ode:Option[U])
@@ -18,6 +19,9 @@ case class OdeM[U] (ode:Option[U])
 
 }
 
+/** Create ODE solver instances
+  *
+  */
 object OdeM
 {
 

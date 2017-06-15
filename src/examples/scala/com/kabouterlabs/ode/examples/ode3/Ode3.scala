@@ -3,10 +3,10 @@ package com.kabouterlabs.ode.examples.ode3
 /**
   * Created by fons on 4/3/17.
   */
-import com.kabouterlabs.ode.OdeSolver.{OdeSolverTC, _}
+import com.kabouterlabs.ode.kernel.OdeSolver.{OdeSolverTC, _}
 import com.kabouterlabs.ode.config._
 import com.kabouterlabs.ode.implicits.OdeImplicits._
-import com.kabouterlabs.ode.range.LineRange
+import com.kabouterlabs.ode.linerange.LineRange
 import com.kabouterlabs.ode.util.{ConvertArrayToFortranMatrix, LogIt}
 import com.kabouterlabs.ode.{FuncParams, Ivp}
 

@@ -10,19 +10,22 @@ import com.kabouterlabs.ode.util.ConvertArrayToMatrix
 
 
 import breeze.plot._
-import com.kabouterlabs.ode.OdeSolver.{OdeSolverTC, _}
+
+import com.kabouterlabs.ode.kernel.OdeSolver._
+
 import com.kabouterlabs.ode.config._
 import com.kabouterlabs.ode.implicits.OdeImplicits._
-import com.kabouterlabs.ode.range.LineRange
+import com.kabouterlabs.ode.linerange.LineRange
 import com.kabouterlabs.ode.util.LogIt
 import com.kabouterlabs.ode.{FuncParams, Ivp}
 
 import scala.language.{existentials, higherKinds, postfixOps, reflectiveCalls}
 
 
-/*
+/**
  * Solving the Arenstorf equation.
  *
+  *
  * y_1'' = y1 + 2y_1' - mu_2 (y1 + mu_1)/D1 - mu_1 (y_1-mu_2)/D2
  * y_2'' = y2 + 2y_1' - mu_2 y2/D1 - mu_1 y_2/D2
  *
@@ -39,7 +42,7 @@ object ArenstorfExample {
   def apply[A](init:Array[Double])(implicit ev1: OdeSolverTC[A] {type SolverDataType = Double}):(List[Double], List[Double], List[Double], List[Double], List[Double])  = {
 
     LogIt().level.info()
-    /*
+    /**
      * Initialize the solver. This is a 3 d problem with 0 constraints (roots we need to satisfy) by default.
       * Only the lsodar variant has root finding capability and this is activiated if the number of constraints is larger than 0
      */
@@ -95,7 +98,7 @@ object ArenstorfExample {
 
 
     val eval = ivpsolver.solve(LineRange(0.0, 20.0, 0.005), init)
-    /*
+    /**
      * eval returns a lazy object which needs to be executed to get the values
      */
     val result = for (result <- eval()) yield ( (List[Double](), List[Double](), List[Double](), List[Double](), List[Double]()) /: result.toArray){collect(_,_)}
@@ -109,7 +112,7 @@ object ArenstorfExample {
   }
 }
 
-//import com.kabouterlabs.ode.implicits.radau5.Radau5Implicit._
+/////import com.kabouterlabs.ode.implicits.radau5.Radau5Implicit._
 import com.kabouterlabs.ode.experimental.implicits.RKEmbeddedFehlberg56Implicit._
 
 object Arenstorf {

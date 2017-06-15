@@ -1,9 +1,12 @@
 package com.kabouterlabs.ode.experimental.symplectic.implicits
 
-import com.kabouterlabs.ode.OdeSolver.OdeSolverTC
+import com.kabouterlabs.ode.kernel.OdeSolver.OdeSolverTC
 import com.kabouterlabs.ode._
 import com.kabouterlabs.ode.experimental.symplectic.irk2.Irk2
 import com.kabouterlabs.ode.config.{Config, DaeIndexVariables}
+import com.kabouterlabs.ode.kernel._
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.StackT
 import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 
 /**

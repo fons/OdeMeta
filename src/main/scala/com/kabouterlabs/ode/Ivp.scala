@@ -1,31 +1,79 @@
 package com.kabouterlabs.ode
 
 
-import com.kabouterlabs.ode.OdeSolver.OdeSolverTC
 import com.kabouterlabs.ode.config.{Config, DaeIndexVariables, OptionalParameters}
+import com.kabouterlabs.ode.kernel.OdeSolver.OdeSolverTC
+import com.kabouterlabs.ode.kernel._
 import com.kabouterlabs.ode.util.LogIt
 
 import scala.language.{existentials, higherKinds, postfixOps, reflectiveCalls}
 
-/**
-  * Created by fons on 1/19/17.
+/** Ivp is the collection of inputs to the ode solver
+  * 
+  * @constructor  Use the companion object to create an instance
+  *
+  * New inputs can be added using the + operator.
+  *
+  * @example Use the Ivp in conjunction with [[com.kabouterlabs.ode.implicits.OdeImplicits]]
+  *          
+  *          {{{
+  *  // for convenient conversions from lambda's to classes
+  *  import com.kabouterlabs.ode.implicits.OdeImplicits._
+  *
+             *  // import ODE implicit
+  *  import com.kabouterlabs.ode.implicits.dvode.DvodeImplicit._
+  *
+  *  [...]
+  *
+  *  val alpha = -0.04
+  *  val beta  = "1.0e4".toDouble
+  *  val gamma =  "3.0e7".toDouble
+  *  val params =  FuncParams +\ ("alpha" -> alpha, "beta" -> beta, "gamma" -> gamma)
+  *
+  *  val w = Ivp(dim=3, constraints=0) +
+  *           (Config(Methods.BDF) -> JacobianType.FullJacobian -> Tolerance(0.000000001)) +
+  *           FuncParams("alpha" -> -0.04, "beta" -> "1.0e4".toDouble, "gamma" -> "3.0e7".toDouble ) +
+  *    ( (dim:Int, x:Double, y:Array[Double], ydot:Array[Double], params:FuncParams[Double]) => {
+  *      ydot(0) = (params -> "alpha") * y(0) + (params -> "beta") * y(1) * y(2)
+  *      ydot(2) = (params -> "gamma") * y(1)*y(1)
+  *      ydot(1) = -ydot(0) - ydot(2)
+  *    } ) +
+  *           ((dim:Int, x:Double, y:Array[Double], mul:Int, mpk:Int, pd:Array[Double], pdr:Int, params:FuncParams[Double])=> {
+  *    val alpha  = params -> "alpha"
+  *    val beta   = params -> "beta"
+  *    val gamma  = params -> "gamma"
+  *    pd(0) = alpha
+  *    pd(1) = -alpha
+  *    pd(2) = 0.0
+  *    pd(3) = beta * y(2)
+  *    pd(4) = -beta*y(2) - 2.0 * gamma * y(1)
+  *    pd(5) = 2.0 * gamma * y(1)
+  *    pd(6) = beta * y(1)
+  *    pd(7) = -1.0 * beta * y(1)
+  *    pd(8) = 0.0
+  *  } ) + (OptionalParameters(OptionalParameterType.DIAGNOSTICS, true) ++ (OptionalParameterType.INITIAL_STEP_SIZE, 0.000001) ) +>
+  *
+  *  w.solve(LineRange(0.0, 4.0, 0.1), Array(1.0, 0.0,0.0,0.0))().map(_.show)
+  *          }}}
+  *
   */
 
 
-class Ivp[U,A](val dim:Int,
-               val func:OdeFuncM[U],
-               val jac:JacobianFuncM[U],
-               val constraints:Option[Int],
-               val con:ConstraintFuncM[U],
-               val ev:EventFuncM[U],
-               val params:FuncParams[U],
-               val config:Config,
-               val daeIndex:DaeIndexVariables,
-               val mass:MassMatrixFuncM[U],
-               val opt:OptionalParameters)(implicit ev$1:OdeSolverTC[A]{type SolverDataType=U})
+case class Ivp[U,A](private val dim:Int,
+               private val func:OdeFuncM[U],
+               private val jac:JacobianFuncM[U],
+               private val constraints:Option[Int],
+               private val con:ConstraintFuncM[U],
+               private val ev:EventFuncM[U],
+               private val params:FuncParams[U],
+               private val config:Config,
+               private val daeIndex:DaeIndexVariables,
+               private val mass:MassMatrixFuncM[U],
+               private val opt:OptionalParameters)(implicit ev$1:OdeSolverTC[A]{type SolverDataType=U})
 {
-
+ 
   def +(func1:OdeFuncM[U]) = new Ivp(dim, func1, jac, constraints, con,ev,params,config, daeIndex, mass, opt)
+
   def +(jac1:JacobianFuncM[U]) = new Ivp(dim, func, jac1, constraints, con,ev,params,config, daeIndex, mass, opt)
   def +(con1:ConstraintFuncM[U]) = constraints match {
       case Some(_) => new Ivp(dim, func, jac, constraints, con1, ev, params,config, daeIndex, mass, opt)
@@ -43,12 +91,19 @@ class Ivp[U,A](val dim:Int,
 
   def +(config1:Config) = new Ivp(dim, func, jac, constraints, con,ev, params, config1, daeIndex, mass, opt)
 
-  def +(daoIndex1:DaeIndexVariables) =  new Ivp(dim, func, jac, constraints, con,ev, params, config, daoIndex1, mass, opt)
+  def +(daeIndex1:DaeIndexVariables) =  new Ivp(dim, func, jac, constraints, con,ev, params, config, daeIndex1, mass, opt)
   def +(opt1:OptionalParameters)     = new Ivp(dim, func, jac, constraints, con, ev, params, config.addOpt(opt1), daeIndex, mass, opt1)
 
-
+  /**
+    *
+    * @return an instance of the ODE solver whose implicit type class implementation is in scope
+    */
   def +> = apply()
 
+  /**
+    *
+    * @return  an instance of the ODE solver whose implicit type class implementation is in scope
+    */
   def apply() = {
     LogIt().trace("Instantiating ode : func : " + func + " constraints : " + constraints + "dao index " + daeIndex)
     (func, constraints, daeIndex) match {
@@ -72,9 +127,21 @@ class Ivp[U,A](val dim:Int,
   }
 }
 
+/** Factory for [[com.kabouterlabs.ode.Ivp]] instances
+  *
+  */
 object Ivp
 {
-  def apply[U,A] (dim:Int)(implicit ev$1:OdeSolverTC[A]{type SolverDataType=U}) =  new Ivp[U,A](dim, OdeFuncM.none, JacobianFuncM.none, None, ConstraintFuncM.none, EventFuncM.none,
+
+  /**
+    *
+    * @param dim    : dimension of the problem
+    * @param ev     : implicit instance of the Ode Solver. Instances can be e.g. in com.kabouterlabs.ode.implicits
+    * @tparam U     : numeric data type
+    * @tparam A     : type of the solver
+    * @return       : Ivp instance
+    */
+  def apply[U,A] (dim:Int)(implicit ev:OdeSolverTC[A]{type SolverDataType=U}) =  new Ivp[U,A](dim, OdeFuncM.none, JacobianFuncM.none, None, ConstraintFuncM.none, EventFuncM.none,
                                   FuncParams.empty, Config(), DaeIndexVariables(), MassMatrixFuncM.none, OptionalParameters())
 
   def apply[U,A] (dim:Int, constraints:Int)(implicit ev$1:OdeSolverTC[A]{type SolverDataType=U}) = {

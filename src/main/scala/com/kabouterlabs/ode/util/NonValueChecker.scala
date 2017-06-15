@@ -1,7 +1,5 @@
 package com.kabouterlabs.ode.util
 
-import com.kabouterlabs.ode.NonValueCheckerT
-
 /**
   * Created by fons on 4/17/17.
   */

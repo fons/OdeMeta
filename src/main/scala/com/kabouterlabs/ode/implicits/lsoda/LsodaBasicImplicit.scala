@@ -7,8 +7,11 @@ import com.kabouterlabs.ode.config.{Config, DaeIndexVariables}
 
 import scala.language.reflectiveCalls
 import com.kabouterlabs.jodeint.codepack.CodepackLibrary.{codepack_method_e, lsoda_basic}
-import com.kabouterlabs.ode.OdeSolver.OdeSolverTC
-import com.kabouterlabs.ode.{OdeM, _}
+import com.kabouterlabs.ode.kernel.OdeSolver.OdeSolverTC
+import com.kabouterlabs.ode.kernel._
+import com.kabouterlabs.ode._
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.StackT
 import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 
 

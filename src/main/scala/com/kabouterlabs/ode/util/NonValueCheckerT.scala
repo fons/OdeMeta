@@ -1,4 +1,4 @@
-package com.kabouterlabs.ode
+package com.kabouterlabs.ode.util
 
 /**
   * Created by fons on 4/17/17.

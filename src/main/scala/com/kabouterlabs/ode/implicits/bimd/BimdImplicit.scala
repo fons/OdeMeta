@@ -1,18 +1,24 @@
 package com.kabouterlabs.ode.implicits.bimd
 
-import com.kabouterlabs.ode.OdeSolver.OdeSolverTC
+import com.kabouterlabs.ode.kernel.OdeSolver.OdeSolverTC
 import com.kabouterlabs.ode._
 import com.kabouterlabs.ode.config.{Config, DaeIndexVariables}
 import com.kabouterlabs.ode.bimd.Bimd
+import com.kabouterlabs.ode.kernel._
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.StackT
 import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 
-/**
-  * Created by fons on 3/10/17.
+/** Bimd Implicit
+  *
+  *
   */
 object BimdImplicit
 {
 
-
+  /**  OdeSolverFactoryT type class Implementation
+    *
+    */
   implicit val ev$OdeSolverFactoryT = new OdeSolverFactoryT[Double] {
 
     override type OdeSolverT = Bimd

@@ -2,15 +2,13 @@ package com.kabouterlabs.ode.rkf
 
 import java.lang
 
-
-
-import com.kabouterlabs.jodeint.cdopri5.Cdopri5Library.{dopri5_iout_e, dopri5_idid_e, dopri5_fcn_callback,dopri5, dopri5_itol_e}
-
-
+import com.kabouterlabs.jodeint.cdopri5.Cdopri5Library.{dopri5, dopri5_fcn_callback, dopri5_idid_e, dopri5_iout_e, dopri5_itol_e}
 import com.kabouterlabs.ode.config.Config
-import com.kabouterlabs.ode.stack.StackDouble
+import com.kabouterlabs.ode.stack.{StackDouble, StackT}
 import com.kabouterlabs.ode.util.{HandleException, LogIt}
 import com.kabouterlabs.ode._
+import com.kabouterlabs.ode.kernel.OdeFuncM
+import com.kabouterlabs.ode.linerange.LineRangeT
 import org.bridj.Pointer
 
 /**
@@ -103,7 +101,7 @@ case class Dopri5(dim:Int, funcM:OdeFuncM[Double], params:FuncParams[Double], co
     }
 
     def run(range:LineRangeT[Double], init:Array[Double]):Option[StackT] = HandleException {
-      LogIt().info("starting with range : " + range + " initial conditions : {" + init.mkString(",") + "}")
+      LogIt().info("starting with linerange : " + range + " initial conditions : {" + init.mkString(",") + "}")
       val stack = StackDouble(dim,range)
       y.setDoubles(init.slice(0, n.get()))
       x.set(range.start)

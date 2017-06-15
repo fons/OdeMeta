@@ -7,7 +7,9 @@ import com.kabouterlabs.ode.config._
 import com.kabouterlabs.ode._
 import java.lang
 
-import com.kabouterlabs.ode.stack.StackDouble
+import com.kabouterlabs.ode.kernel.{JacobianFuncM, MassMatrixFuncM, OdeFuncM}
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.{StackDouble, StackT}
 import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 import org.bridj.Pointer
 
@@ -15,7 +17,7 @@ import org.bridj.Pointer
   *
   * The code Gamd numerically solves (stiff) ODE or linearly implicit DAE.
   *
-  * @note : for more information on the underlying algorithm : [[http://archimede.dm.uniba.it/~testset/solvers/gamd.php]]
+  * @see for more information on the underlying algorithm : [[http://archimede.dm.uniba.it/~testset/solvers/gamd.php]]
   *
   * @constructor  Gamd Ode Solver instance.
   * @param  dim    : Dimension of the ODE
@@ -339,7 +341,7 @@ class Gamd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], massM:Ma
     *
     */
   def run(range: LineRangeT[Double], init: Array[Double]): Option[StackT] = HandleException {
-    LogIt().info("starting with range : " + range + " initial conditions : {" + init.mkString(",") + "}")
+    LogIt().info("starting with linerange : " + range + " initial conditions : {" + init.mkString(",") + "}")
     val stack = StackDouble(dim, range)
     y.setDoubles(init.slice(0, neq.get()))
     x.set(range.start)

@@ -13,10 +13,10 @@ import com.kabouterlabs.ode.examples.outerplanets.OuterPlanetsExample.TQP
 
 
 import breeze.plot._
-import com.kabouterlabs.ode.OdeSolver.{OdeSolverTC, _}
+import com.kabouterlabs.ode.kernel.OdeSolver.{OdeSolverTC, _}
 import com.kabouterlabs.ode.config._
 import com.kabouterlabs.ode.implicits.OdeImplicits._
-import com.kabouterlabs.ode.range.LineRange
+import com.kabouterlabs.ode.linerange.LineRange
 import com.kabouterlabs.ode.util.LogIt
 import com.kabouterlabs.ode.{FuncParams, Ivp}
 

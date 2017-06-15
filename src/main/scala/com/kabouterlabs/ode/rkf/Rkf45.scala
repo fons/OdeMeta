@@ -1,10 +1,12 @@
 package com.kabouterlabs.ode.rkf
 
 import com.kabouterlabs.jodeint.crkf45.Crkf45Library._
+import com.kabouterlabs.ode.FuncParams
 import com.kabouterlabs.ode.config.Config
-import com.kabouterlabs.ode.stack.StackDouble
+import com.kabouterlabs.ode.kernel.OdeFuncM
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.{StackDouble, StackT}
 import com.kabouterlabs.ode.util.HandleException
-import com.kabouterlabs.ode.{FuncParams, LineRangeT, OdeFuncM, StackT}
 
 /**
   * Created by fons on 3/2/17.
@@ -93,7 +95,7 @@ class Rkf45 (dim:Int, funcM:OdeFuncM[Double], params:FuncParams[Double], config:
   }
   config.set_err(relerr, abserr)
   def run(range:LineRangeT[Double], init:Array[Double]):Option[StackT] = HandleException {
-    LogIt().info("starting with range : " + range + " initial conditions : {" + init.mkString(",") + "}")
+    LogIt().info("starting with linerange : " + range + " initial conditions : {" + init.mkString(",") + "}")
     logger.info("===> rell err " + relerr.get() + " abserr " + abserr.get())
     val stack = StackDouble(dim,range)
     y.setDoubles(init.slice(0, neqn.get()))

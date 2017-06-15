@@ -1,4 +1,6 @@
-package com.kabouterlabs.ode
+package com.kabouterlabs.ode.kernel
+
+import com.kabouterlabs.ode.linerange.LineRangeT
 
 /**
   * Created by fons on 1/6/17.

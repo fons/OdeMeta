@@ -7,13 +7,16 @@ package com.kabouterlabs.ode.implicits.lsodar
 
 import com.kabouterlabs.jodeint.codepack.CodepackLibrary
 import com.kabouterlabs.jodeint.codepack.CodepackLibrary._
-import com.kabouterlabs.ode.{OdeM, _}
+import com.kabouterlabs.ode._
 import com.kabouterlabs.ode.odepack.{MethodFlagConfigT, OdePackBasic}
 import com.kabouterlabs.ode.config.{Config, DaeIndexVariables}
 
 import scala.language.reflectiveCalls
 import com.kabouterlabs.jodeint.codepack.CodepackLibrary.lsodar_basic
-import com.kabouterlabs.ode.OdeSolver.OdeSolverTC
+import com.kabouterlabs.ode.kernel.OdeSolver.OdeSolverTC
+import com.kabouterlabs.ode.kernel._
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.StackT
 import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 
 

@@ -1,9 +1,11 @@
 package com.kabouterlabs.ode.experimental.symplectic.irk2
 
 import com.kabouterlabs.ode.config.{Config, Methods}
-import com.kabouterlabs.ode.stack.StackDouble
+import com.kabouterlabs.ode.kernel.OdeFuncM
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.{StackDouble, StackT}
 import com.kabouterlabs.ode.util.LogIt
-import com.kabouterlabs.ode.{FuncParams, LineRangeT, OdeFuncM, StackT}
+import com.kabouterlabs.ode.FuncParams
 
 import scala.annotation.tailrec
 
@@ -189,20 +191,7 @@ private case class Irk2Runner(dim:Int, meth:Stages, func:FuncM, xstart:Double, x
 
 case class Irk2(dim:Int, func:OdeFuncM[Double], p:FuncParams[Double], config:Config)
 {
-  private def transForm():FuncM = {
-    val newg = func.funcOption match {
-      case Some(f1) => {
-        val g =   (neq:Int,x:Double, y:Array[Double]) => {
-                  val F:Array[Double] = Array.ofDim[Double](dim)
-                  f1(neq, x, y, F, p)
-                  F
-                }
-        Some(g)
-      }
-      case _ => None
-    }
-    FuncM(newg)
-  }
+
   private val method:Stages = {
       config.method match {
         case Methods.SYMPLECTIC_2_STAGES => _2Stages
@@ -211,18 +200,27 @@ case class Irk2(dim:Int, func:OdeFuncM[Double], p:FuncParams[Double], config:Con
         case _ => _2Stages
       }
   }
-  private val funct = transForm()
+
+  private val funct = func.map((f1) => {
+    val g =   (neq:Int,x:Double, y:Array[Double]) => {
+      val F:Array[Double] = Array.ofDim[Double](dim)
+      f1(neq, x, y, F, p)
+      F
+    }
+    g
+  })
+  
 
   private def runIrk2(method:Stages, xstart:Double, xend:Double, nsteps:Int, initQ:Array[Double], initP:Array[Double]):Array[Double] = {
     if (initP.length == initQ.length) {
-      Irk2Runner(initQ.length, method, funct, xstart, xend, nsteps, initQ, initP).run().map((x) => Array(x.x) ++ x.Q ++ x.P).flatten
+      Irk2Runner(initQ.length, method, FuncM(funct), xstart, xend, nsteps, initQ, initP).run().map((x) => Array(x.x) ++ x.Q ++ x.P).flatten
     }
     else {
       Array[Double]()
     }
   }
   def run(range: LineRangeT[Double], init: Array[Double]) :Option[StackT] = {
-    LogIt().info("dimension :" + dim + " ; starting with range : " + range + " initial conditions : {" + init.mkString(",") + "}")
+    LogIt().info("dimension :" + dim + " ; starting with linerange : " + range + " initial conditions : {" + init.mkString(",") + "}")
     val stack = StackDouble(2*dim, range)
     val result = runIrk2(method, range.start, range.end, range.steps, init.slice(0, dim), init.slice(dim, 2*dim))
     Some(stack.fromArray(result))

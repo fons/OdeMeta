@@ -1,10 +1,13 @@
 package com.kabouterlabs.ode.implicits.radau5
 
-import com.kabouterlabs.ode.OdeSolver.OdeSolverTC
+import com.kabouterlabs.ode.kernel.OdeSolver.OdeSolverTC
 import com.kabouterlabs.ode.config.{Config, DaeIndexVariables}
 import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 import com.kabouterlabs.ode._
+import com.kabouterlabs.ode.kernel._
 import com.kabouterlabs.ode.radau5.Radau5
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.StackT
 
 /**
   * Created by fons on 3/8/17.

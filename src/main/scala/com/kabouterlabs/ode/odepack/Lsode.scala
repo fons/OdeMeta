@@ -8,7 +8,9 @@ import com.kabouterlabs.ode._
 import com.kabouterlabs.ode.config.{Config, JacobianType, Methods}
 import com.kabouterlabs.ode.config.LowerBandWidth
 import com.kabouterlabs.ode.config.UpperBandWidth
-import com.kabouterlabs.ode.stack.StackDouble
+import com.kabouterlabs.ode.kernel.{JacobianFuncM, OdeFuncM}
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.{StackDouble, StackT}
 import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 import org.bridj.Pointer
 
@@ -16,7 +18,7 @@ import org.bridj.Pointer
   * Solves the initial value problem for stiff or nonstiff systems of ordinary differential equations (ODE).
   *
   *
-  * @note : for more information on the underlying algorithm follow this link and look for odepack [[https://computation.llnl.gov/casc/odepack/]].
+  * @see for more information on the underlying algorithm follow this link and look for odepack [[https://computation.llnl.gov/casc/odepack/]].
   *         More info here [[http://www.netlib.org/odepack/opkd-sum]] and here (pdf) [[https://computation.llnl.gov/casc/nsde/pubs/u113855.pdf]]
   *
   * @constructor  Lsoda Ode Solver instance.

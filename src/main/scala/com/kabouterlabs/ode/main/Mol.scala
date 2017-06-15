@@ -1,13 +1,13 @@
 package com.kabouterlabs.ode.main
 
-import com.kabouterlabs.ode.OdeSolver._
+import com.kabouterlabs.ode.kernel.OdeSolver._
 
 import scala.language.{postfixOps, reflectiveCalls}
 import com.kabouterlabs.ode.implicits.OdeImplicits._
 import com.kabouterlabs.ode.{FuncParams, Ivp}
-import com.kabouterlabs.ode.OdeSolver.OdeSolverTC
+import com.kabouterlabs.ode.kernel.OdeSolver.OdeSolverTC
 import com.kabouterlabs.ode.config.{Config, JacobianType, Methods, Tolerance}
-import com.kabouterlabs.ode.range.LineRange
+import com.kabouterlabs.ode.linerange.LineRange
 import com.kabouterlabs.ode.util.LogIt
 
 /*

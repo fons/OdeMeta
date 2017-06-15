@@ -1,6 +1,9 @@
-package com.kabouterlabs.ode
+package com.kabouterlabs.ode.kernel
 
+import com.kabouterlabs.ode._
 import com.kabouterlabs.ode.config.{Config, DaeIndexVariables}
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.StackT
 
 /**
   * Created by fons on 3/15/17.

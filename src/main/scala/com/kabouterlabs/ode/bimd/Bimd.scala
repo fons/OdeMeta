@@ -6,7 +6,9 @@ import com.kabouterlabs.ode._
 import java.lang
 
 import com.kabouterlabs.jodeint.cbimd.CbimdLibrary._
-import com.kabouterlabs.ode.stack.StackDouble
+import com.kabouterlabs.ode.kernel.{JacobianFuncM, MassMatrixFuncM, OdeFuncM}
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.{StackDouble, StackT}
 import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 import org.bridj.Pointer
 
@@ -14,7 +16,7 @@ import org.bridj.Pointer
   *
   * The code BIMD numerically solves (stiff) ODE or linearly implicit DAE problems of index up to 3 with constant mass matrix.
   *
-  * @note : for more information on the underlying algorithm : [[http://web.math.unifi.it/users/brugnano/BiM/index.html]]
+  * @see  for more information on the underlying algorithm : [[http://web.math.unifi.it/users/brugnano/BiM/index.html]]
   *
   * @constructor  Bimd Ode Solver instance.
   * @param  dim    : Dimension of the ODE
@@ -75,7 +77,7 @@ case class Bimd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], mas
           (0.0 /: arr){_ + _}/arr.length
         }
         case (_,_) => {
-          LogIt().error("cannot determine relative tolerance; returning out-of-range value ")
+          LogIt().error("cannot determine relative tolerance; returning out-of-linerange value ")
           -99999999.0
         }
       }
@@ -94,7 +96,7 @@ case class Bimd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], mas
         }
           
         case (_,_) => {
-          LogIt().error("cannot determine tolerances; returning out-o-range value ")
+          LogIt().error("cannot determine tolerances; returning out-o-linerange value ")
           itol.set(-99999)
           rtol.set(-9999999.0)
           atol.set(-9999999.0)
@@ -395,7 +397,7 @@ case class Bimd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], mas
    */
 
   def run(range: LineRangeT[Double], init: Array[Double]): Option[StackT] = HandleException {
-    LogIt().info("starting with range : " + range + " initial conditions : {" + init.mkString(",") + "}")
+    LogIt().info("starting with linerange : " + range + " initial conditions : {" + init.mkString(",") + "}")
     val stack = StackDouble(dim, range)
     y.setDoubles(init.slice(0, neq.get()))
     x.set(range.start)

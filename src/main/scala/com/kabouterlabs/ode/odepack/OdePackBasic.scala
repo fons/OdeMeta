@@ -4,12 +4,14 @@ import java.lang
 
 import com.kabouterlabs.jodeint.codepack.CodepackLibrary
 import com.kabouterlabs.jodeint.codepack.CodepackLibrary.{codepack_method_e, codepack_ode_err_e, codepack_ode_func}
-import com.kabouterlabs.ode.config.{Methods, Config}
-import com.kabouterlabs.ode.stack.StackDouble
-import com.kabouterlabs.ode.util.{LogIt, HandleException}
-import com.kabouterlabs.ode.{FuncParams, StackT, LineRangeT, OdeFuncM}
+import com.kabouterlabs.ode.config.{Config, Methods}
+import com.kabouterlabs.ode.kernel.OdeFuncM
+import com.kabouterlabs.ode.stack.{StackDouble, StackT}
+import com.kabouterlabs.ode.util.{HandleException, LogIt}
+import com.kabouterlabs.ode.FuncParams
 import org.bridj.{IntValuedEnum, Pointer}
 import com.kabouterlabs.ode.odepack.OdePackTypes._
+import com.kabouterlabs.ode.linerange.LineRangeT
 
 
 /** Simplified OdePack interface
@@ -17,7 +19,7 @@ import com.kabouterlabs.ode.odepack.OdePackTypes._
   *  Provides a sensible set of defaults so only the ode function needs to be provided
   *
   *
-  * @note : for more information on the underlying algorithm follow this link and look for odepack [[https://computation.llnl.gov/casc/odepack/]].
+  * @see for more information on the underlying algorithm follow this link and look for odepack [[https://computation.llnl.gov/casc/odepack/]].
   *         More info here [[http://www.netlib.org/odepack/opkd-sum]] and here (pdf) [[https://computation.llnl.gov/casc/nsde/pubs/u113855.pdf]]
   *
   * @constructor  Basic OdePack Ode Solver instance.

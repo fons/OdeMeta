@@ -45,14 +45,14 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">Lsodes</span><span class="params">(<span name="dim">dim: <span class="extype" name="scala.Int">Int</span></span>, <span name="funcM">funcM: <a href="../OdeFuncM.html" class="extype" name="com.kabouterlabs.ode.OdeFuncM">OdeFuncM</a>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="jacM">jacM: <a href="../JacobianFuncM.html" class="extype" name="com.kabouterlabs.ode.JacobianFuncM">JacobianFuncM</a>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="params">params: <a href="../FuncParams.html" class="extype" name="com.kabouterlabs.ode.FuncParams">FuncParams</a>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="config">config: <a href="../config/Config.html" class="extype" name="com.kabouterlabs.ode.config.Config">Config</a></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">Lsodes</span><span class="params">(<span name="dim">dim: <span class="extype" name="scala.Int">Int</span></span>, <span name="funcM">funcM: <a href="../kernel/OdeFuncM.html" class="extype" name="com.kabouterlabs.ode.kernel.OdeFuncM">OdeFuncM</a>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="jacM">jacM: <a href="../kernel/JacobianFuncM.html" class="extype" name="com.kabouterlabs.ode.kernel.JacobianFuncM">JacobianFuncM</a>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="params">params: <a href="../FuncParams.html" class="extype" name="com.kabouterlabs.ode.FuncParams">FuncParams</a>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="config">config: <a href="../config/Config.html" class="extype" name="com.kabouterlabs.ode.config.Config">Config</a></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Solves the initial value problem for stiff or nonstiff systems of ordinary differential equations (ODE).
  DLSODES is a variant of the DLSODE package, and is intended for problems in which the Jacobian matrix df/dy has an arbitrary
 sparse structure (when the problem is stiff).
-</p></div><dl class="paramcmts block"><dt class="param">dim</dt><dd class="cmt"><p>: Dimension of the ODE</p></dd><dt class="param">funcM</dt><dd class="cmt"><p>: ODE solver call back</p></dd><dt class="param">jacM</dt><dd class="cmt"><p>: Jacobian</p></dd><dt class="param">params</dt><dd class="cmt"><p>: Parameters</p></dd><dt class="param">config</dt><dd class="cmt"><p>: Configuration parameters</p></dd></dl><dl class="attributes block"> <dt>Note</dt><dd><span class="cmt"><p>: for more information on the underlying algorithm follow this link and look for odepack <a href="https://computation.llnl.gov/casc/odepack/" target="_blank">https://computation.llnl.gov/casc/odepack/</a>.
+</p></div><dl class="paramcmts block"><dt class="param">dim</dt><dd class="cmt"><p>: Dimension of the ODE</p></dd><dt class="param">funcM</dt><dd class="cmt"><p>: ODE solver call back</p></dd><dt class="param">jacM</dt><dd class="cmt"><p>: Jacobian</p></dd><dt class="param">params</dt><dd class="cmt"><p>: Parameters</p></dd><dt class="param">config</dt><dd class="cmt"><p>: Configuration parameters</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>for more information on the underlying algorithm follow this link and look for odepack <a href="https://computation.llnl.gov/casc/odepack/" target="_blank">https://computation.llnl.gov/casc/odepack/</a>.
         More info here <a href="http://www.netlib.org/odepack/opkd-sum" target="_blank">http://www.netlib.org/odepack/opkd-sum</a> and here (pdf) <a href="https://computation.llnl.gov/casc/nsde/pubs/u113855.pdf" target="_blank">https://computation.llnl.gov/casc/nsde/pubs/u113855.pdf</a></p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
@@ -93,7 +93,7 @@ sparse structure (when the problem is stiff).
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="com.kabouterlabs.ode.odepack.Lsodes#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="&lt;init&gt;(dim:Int,funcM:com.kabouterlabs.ode.OdeFuncM[Double],jacM:com.kabouterlabs.ode.JacobianFuncM[Double],params:com.kabouterlabs.ode.FuncParams[Double],config:com.kabouterlabs.ode.config.Config):com.kabouterlabs.ode.odepack.Lsodes"></a>
+      <a id="&lt;init&gt;(dim:Int,funcM:com.kabouterlabs.ode.kernel.OdeFuncM[Double],jacM:com.kabouterlabs.ode.kernel.JacobianFuncM[Double],params:com.kabouterlabs.ode.FuncParams[Double],config:com.kabouterlabs.ode.config.Config):com.kabouterlabs.ode.odepack.Lsodes"></a>
       <a id="&lt;init&gt;:Lsodes"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -101,10 +101,10 @@ sparse structure (when the problem is stiff).
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">Lsodes</span><span class="params">(<span name="dim">dim: <span class="extype" name="scala.Int">Int</span></span>, <span name="funcM">funcM: <a href="../OdeFuncM.html" class="extype" name="com.kabouterlabs.ode.OdeFuncM">OdeFuncM</a>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="jacM">jacM: <a href="../JacobianFuncM.html" class="extype" name="com.kabouterlabs.ode.JacobianFuncM">JacobianFuncM</a>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="params">params: <a href="../FuncParams.html" class="extype" name="com.kabouterlabs.ode.FuncParams">FuncParams</a>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="config">config: <a href="../config/Config.html" class="extype" name="com.kabouterlabs.ode.config.Config">Config</a></span>)</span>
+        <span class="name">Lsodes</span><span class="params">(<span name="dim">dim: <span class="extype" name="scala.Int">Int</span></span>, <span name="funcM">funcM: <a href="../kernel/OdeFuncM.html" class="extype" name="com.kabouterlabs.ode.kernel.OdeFuncM">OdeFuncM</a>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="jacM">jacM: <a href="../kernel/JacobianFuncM.html" class="extype" name="com.kabouterlabs.ode.kernel.JacobianFuncM">JacobianFuncM</a>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="params">params: <a href="../FuncParams.html" class="extype" name="com.kabouterlabs.ode.FuncParams">FuncParams</a>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="config">config: <a href="../config/Config.html" class="extype" name="com.kabouterlabs.ode.config.Config">Config</a></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.kabouterlabs.ode.odepack.Lsodes@&lt;init&gt;(dim:Int,funcM:com.kabouterlabs.ode.OdeFuncM[Double],jacM:com.kabouterlabs.ode.JacobianFuncM[Double],params:com.kabouterlabs.ode.FuncParams[Double],config:com.kabouterlabs.ode.config.Config):com.kabouterlabs.ode.odepack.Lsodes" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.kabouterlabs.ode.odepack.Lsodes@&lt;init&gt;(dim:Int,funcM:com.kabouterlabs.ode.kernel.OdeFuncM[Double],jacM:com.kabouterlabs.ode.kernel.JacobianFuncM[Double],params:com.kabouterlabs.ode.FuncParams[Double],config:com.kabouterlabs.ode.config.Config):com.kabouterlabs.ode.odepack.Lsodes" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -321,7 +321,7 @@ sparse structure (when the problem is stiff).
               
         </dd></dl></div>
     </li><li name="com.kabouterlabs.ode.odepack.Lsodes#funcM" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="funcM:com.kabouterlabs.ode.OdeFuncM[Double]"></a>
+      <a id="funcM:com.kabouterlabs.ode.kernel.OdeFuncM[Double]"></a>
       <a id="funcM:OdeFuncM[Double]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -329,10 +329,10 @@ sparse structure (when the problem is stiff).
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">funcM</span><span class="result">: <a href="../OdeFuncM.html" class="extype" name="com.kabouterlabs.ode.OdeFuncM">OdeFuncM</a>[<span class="extype" name="scala.Double">Double</span>]</span>
+        <span class="name">funcM</span><span class="result">: <a href="../kernel/OdeFuncM.html" class="extype" name="com.kabouterlabs.ode.kernel.OdeFuncM">OdeFuncM</a>[<span class="extype" name="scala.Double">Double</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.kabouterlabs.ode.odepack.Lsodes@funcM:com.kabouterlabs.ode.OdeFuncM[Double]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.kabouterlabs.ode.odepack.Lsodes@funcM:com.kabouterlabs.ode.kernel.OdeFuncM[Double]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -372,7 +372,7 @@ sparse structure (when the problem is stiff).
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="com.kabouterlabs.ode.odepack.Lsodes#jacM" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="jacM:com.kabouterlabs.ode.JacobianFuncM[Double]"></a>
+      <a id="jacM:com.kabouterlabs.ode.kernel.JacobianFuncM[Double]"></a>
       <a id="jacM:JacobianFuncM[Double]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -380,10 +380,10 @@ sparse structure (when the problem is stiff).
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">jacM</span><span class="result">: <a href="../JacobianFuncM.html" class="extype" name="com.kabouterlabs.ode.JacobianFuncM">JacobianFuncM</a>[<span class="extype" name="scala.Double">Double</span>]</span>
+        <span class="name">jacM</span><span class="result">: <a href="../kernel/JacobianFuncM.html" class="extype" name="com.kabouterlabs.ode.kernel.JacobianFuncM">JacobianFuncM</a>[<span class="extype" name="scala.Double">Double</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.kabouterlabs.ode.odepack.Lsodes@jacM:com.kabouterlabs.ode.JacobianFuncM[Double]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.kabouterlabs.ode.odepack.Lsodes@jacM:com.kabouterlabs.ode.kernel.JacobianFuncM[Double]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -457,7 +457,7 @@ sparse structure (when the problem is stiff).
     </span>
       <p class="shortcomment cmt">: Parameters</p>
     </li><li name="com.kabouterlabs.ode.odepack.Lsodes#run" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="run(range:com.kabouterlabs.ode.LineRangeT[Double],init:Array[Double]):Option[com.kabouterlabs.ode.StackT]"></a>
+      <a id="run(range:com.kabouterlabs.ode.linerange.LineRangeT[Double],init:Array[Double]):Option[com.kabouterlabs.ode.stack.StackT]"></a>
       <a id="run(LineRangeT[Double],Array[Double]):Option[StackT]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -465,10 +465,10 @@ sparse structure (when the problem is stiff).
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">run</span><span class="params">(<span name="range">range: <a href="../LineRangeT.html" class="extype" name="com.kabouterlabs.ode.LineRangeT">LineRangeT</a>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="init">init: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../StackT.html" class="extype" name="com.kabouterlabs.ode.StackT">StackT</a>]</span>
+        <span class="name">run</span><span class="params">(<span name="range">range: <a href="../linerange/LineRangeT.html" class="extype" name="com.kabouterlabs.ode.linerange.LineRangeT">LineRangeT</a>[<span class="extype" name="scala.Double">Double</span>]</span>, <span name="init">init: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Double">Double</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="../stack/StackT.html" class="extype" name="com.kabouterlabs.ode.stack.StackT">StackT</a>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.kabouterlabs.ode.odepack.Lsodes@run(range:com.kabouterlabs.ode.LineRangeT[Double],init:Array[Double]):Option[com.kabouterlabs.ode.StackT]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.kabouterlabs.ode.odepack.Lsodes@run(range:com.kabouterlabs.ode.linerange.LineRangeT[Double],init:Array[Double]):Option[com.kabouterlabs.ode.stack.StackT]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

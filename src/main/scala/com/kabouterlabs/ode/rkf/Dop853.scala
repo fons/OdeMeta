@@ -4,9 +4,11 @@ import java.lang
 
 import com.kabouterlabs.jodeint.cdop853.Cdop853Library._
 import com.kabouterlabs.ode.config.Config
-import com.kabouterlabs.ode.stack.StackDouble
+import com.kabouterlabs.ode.kernel.OdeFuncM
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.{StackDouble, StackT}
 import com.kabouterlabs.ode.util.{HandleException, LogIt}
-import com.kabouterlabs.ode.{StackT, LineRangeT, FuncParams, OdeFuncM}
+import com.kabouterlabs.ode.FuncParams
 import org.bridj.Pointer
 
 /**
@@ -99,7 +101,7 @@ class Dop853 (dim:Int, funcM:OdeFuncM[Double], params:FuncParams[Double], config
   }
 
   def run(range:LineRangeT[Double], init:Array[Double]):Option[StackT] = HandleException {
-    LogIt().info("starting with range : " + range + " initial conditions : {" + init.mkString(",") + "}")
+    LogIt().info("starting with linerange : " + range + " initial conditions : {" + init.mkString(",") + "}")
     val stack = StackDouble(dim,range)
     y.setDoubles(init.slice(0, n.get()))
     x.set(range.start)

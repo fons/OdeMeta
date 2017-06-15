@@ -1,17 +1,16 @@
 package com.kabouterlabs.ode.rkf
 
 import com.kabouterlabs.jodeint.cdop853.Cdop853Library._
-import com.kabouterlabs.ode.stack.StackDouble
+import com.kabouterlabs.ode.stack.{StackDouble, StackT}
 import com.kabouterlabs.ode.util.HandleException
-import com.kabouterlabs.ode.StackT
-import com.kabouterlabs.ode.LineRangeT
 import com.kabouterlabs.ode.util.LogIt
 import java.lang
-import org.bridj.Pointer
 
+import org.bridj.Pointer
 import com.kabouterlabs.ode.config.Config
 import com.kabouterlabs.ode.FuncParams
-import com.kabouterlabs.ode.OdeFuncM
+import com.kabouterlabs.ode.kernel.OdeFuncM
+import com.kabouterlabs.ode.linerange.LineRangeT
 
 /**
   * Created by fons on 3/2/17.

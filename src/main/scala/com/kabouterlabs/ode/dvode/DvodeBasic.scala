@@ -4,11 +4,12 @@ import java.lang
 
 import com.kabouterlabs.jodeint.cdvode.CdvodeLibrary._
 import com.kabouterlabs.jodeint.cdvode.CdvodeLibrary.cdvode_ode_func
-import com.kabouterlabs.ode.config.{Methods, Config}
-import com.kabouterlabs.ode.stack.StackDouble
+import com.kabouterlabs.ode.config.{Config, Methods}
+import com.kabouterlabs.ode.kernel.OdeFuncM
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.{StackDouble, StackT}
 import com.kabouterlabs.ode.util.{HandleException, LogIt}
-import com.kabouterlabs.ode.{StackT, LineRangeT, FuncParams, OdeFuncM}
-
+import com.kabouterlabs.ode.FuncParams
 import org.bridj.Pointer
 
 /** Simplified Dvode interface
@@ -16,7 +17,7 @@ import org.bridj.Pointer
   *  Provides a sensible set of defaults so only the ode function needs to be provided 
   *
   *
-  * @note : for more information on the underlying algorithm follow this link and look for dvode [[https://computation.llnl.gov/casc/odepack/]].
+  * @see for more information on the underlying algorithm follow this link and look for dvode [[https://computation.llnl.gov/casc/odepack/]].
   *
   * @constructor  Basic Dvode Ode Solver instance.
   * @param  dim    : Dimension of the ODE

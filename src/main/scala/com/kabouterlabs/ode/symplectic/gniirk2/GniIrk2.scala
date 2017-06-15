@@ -6,9 +6,11 @@ import java.lang
 import com.kabouterlabs.jodeint.cgnicodes.CgnicodesLibrary
 import com.kabouterlabs.jodeint.cgnicodes.CgnicodesLibrary._
 import com.kabouterlabs.ode.config._
-import com.kabouterlabs.ode.stack.StackDouble
+import com.kabouterlabs.ode.stack.{StackDouble, StackT}
 import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 import com.kabouterlabs.ode._
+import com.kabouterlabs.ode.kernel.OdeFuncM
+import com.kabouterlabs.ode.linerange.LineRangeT
 import org.bridj.Pointer
 
 /**
@@ -76,7 +78,7 @@ case class GniIrk2(dim:Int, funcM:OdeFuncM[Double], params:FuncParams[Double], c
     The init array contains both the initial position (Q) and velocity (P)
      */
   def run(range: LineRangeT[Double], init: Array[Double]): Option[StackT] = HandleException {
-    LogIt().info("dimension :" + dim + " ; starting with range : " + range + " initial conditions : {" + init.mkString(",") + "}")
+    LogIt().info("dimension :" + dim + " ; starting with linerange : " + range + " initial conditions : {" + init.mkString(",") + "}")
     val stack = StackDouble(2 * dim, range)
     Q.setDoubles(init.slice(0, neq.get()))
     P.setDoubles(init.slice(neq.get(), neq.get()*2))

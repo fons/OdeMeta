@@ -7,7 +7,9 @@ import com.kabouterlabs.jodeint.cdvode.CdvodeLibrary._
 import com.kabouterlabs.jodeint.cdvode.CdvodeLibrary.{cdvode_itol_e, dvode_f_callback, dvode_jac_callback}
 import com.kabouterlabs.ode._
 import com.kabouterlabs.ode.config._
-import com.kabouterlabs.ode.stack.StackDouble
+import com.kabouterlabs.ode.kernel.{JacobianFuncM, OdeFuncM}
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.{StackDouble, StackT}
 import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 import org.bridj.Pointer
 
@@ -16,7 +18,7 @@ import org.bridj.Pointer
   *
   *  A variable coefficient ODE solver. See [[http://www.netlib.no/netlib/ode/vode.f vode]]
   *
-  * @note : for more information on the underlying algorithm follow this link and look for dvode [[https://computation.llnl.gov/casc/odepack/]].
+  * @see for more information on the underlying algorithm follow this link and look for dvode [[https://computation.llnl.gov/casc/odepack/]].
   *
   * @constructor  Dvode Ode Solver instance.
   * @param  dim    : Dimension of the ODE
@@ -334,7 +336,7 @@ case class Dvode(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], pa
   */
 
   def run(range:LineRangeT[Double], init:Array[Double]):Option[StackT] = HandleException {
-    LogIt().info("starting with range : " + range + " initial conditions : {" + init.mkString(",") + "}")
+    LogIt().info("starting with linerange : " + range + " initial conditions : {" + init.mkString(",") + "}")
     val stack = StackDouble(dim,range)
     y.setDoubles(init.slice(0, neq.get()))
     t.set(range.start)

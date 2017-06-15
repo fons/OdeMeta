@@ -4,9 +4,11 @@ import java.lang
 
 import com.kabouterlabs.jodeint.crkf45.Crkf45Library._
 import com.kabouterlabs.ode.config.Config
-import com.kabouterlabs.ode.stack.StackDouble
+import com.kabouterlabs.ode.kernel.OdeFuncM
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.{StackDouble, StackT}
 import com.kabouterlabs.ode.util.{HandleException, LogIt}
-import com.kabouterlabs.ode.{StackT, LineRangeT, FuncParams, OdeFuncM}
+import com.kabouterlabs.ode.FuncParams
 import org.bridj.Pointer
 
 /**

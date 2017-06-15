@@ -1,9 +1,9 @@
 package com.kabouterlabs.ode.stack
 
-import com.kabouterlabs.ode.{LineRangeT, StackT}
 import java.io._
 import java.lang
 
+import com.kabouterlabs.ode.linerange.LineRangeT
 import com.kabouterlabs.ode.util.LogIt
 import org.bridj.Pointer
 

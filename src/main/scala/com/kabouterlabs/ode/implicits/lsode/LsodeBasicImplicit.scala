@@ -2,11 +2,14 @@ package com.kabouterlabs.ode.implicits.lsode
 
 import com.kabouterlabs.jodeint.codepack.CodepackLibrary
 import com.kabouterlabs.jodeint.codepack.CodepackLibrary._
-import com.kabouterlabs.ode.OdeSolver.OdeSolverTC
+import com.kabouterlabs.ode.kernel.OdeSolver.OdeSolverTC
 import com.kabouterlabs.ode.odepack.{MethodFlagConfigT, OdePackBasic}
 import com.kabouterlabs.ode.config.{Config, DaeIndexVariables, Methods}
+import com.kabouterlabs.ode.kernel._
 import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
-import com.kabouterlabs.ode.{OdeM, _}
+import com.kabouterlabs.ode._
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.StackT
 
 /**
   * Created by fons on 1/22/17.

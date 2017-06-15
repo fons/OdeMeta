@@ -1,10 +1,12 @@
 package com.kabouterlabs.ode.experimental.implicits
 
-import com.kabouterlabs.ode.OdeSolver.OdeSolverTC
+import com.kabouterlabs.ode.kernel.OdeSolver.OdeSolverTC
 import com.kabouterlabs.ode._
 import com.kabouterlabs.ode.config.{Config, DaeIndexVariables}
-
 import com.kabouterlabs.ode.experimental.{BS23, Euler, ExplicitMidPoint, ExplicitRungeKutta4, OdeStepSolverT, RKEmbedded23, RKEmbedded56, RKEmbeddedCashKarp, RKEmbeddedDormandPrince, RKEmbeddedDormandPrince54, RKEmbeddedFehlberg56, RKEmbeddedFehlberg78, RKEmbeddedVerner, RungeKutta42, RungeKuttaWithRk5Tableau, OdeSolver => ExperimentalOdeSolver}
+import com.kabouterlabs.ode.kernel._
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.StackT
 import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 
 /**
@@ -16,35 +18,42 @@ class Solver(odeStepSolver: OdeStepSolverT)
 {
 
     implicit val ev$FactoryT = new OdeSolverFactoryT[Double] {
-      private def handleTolerance(config:Config):Double = {
+      private def handleTolerance(config: Config): Double = {
 
         (config.relativeTolerance.get, config.absoluteTolerance.get) match {
           case ((Some(rtolv), None), (Some(atolv), None)) => {
-            0.5 * (rtolv+atolv)
+            0.5 * (rtolv + atolv)
           }
 
           case ((None, Some(rtola)), (None, Some(atola))) => {
-            ((0.0 /: rtola){_ +_})/(1.0 + rtola.length) + ((0.0 /: atola){_ + _})/(atola.length + 1.0)  * 0.5
+            ((0.0 /: rtola) {
+              _ + _
+            }) / (1.0 + rtola.length) + ((0.0 /: atola) {
+              _ + _
+            }) / (atola.length + 1.0) * 0.5
           }
 
           case ((Some(rtolv), None), (None, Some(atola))) => {
-            val sum = rtolv + (0.0 /: atola){_ + _}
-            rtolv + sum /(atola.length + 1.0)
+            val sum = rtolv + (0.0 /: atola) {
+              _ + _
+            }
+            rtolv + sum / (atola.length + 1.0)
           }
 
-          case ((None, Some(rtola)), (Some(atolv),None)) => {
-            (((0.0 /: rtola){_ +_})/(1 + rtola.length)  + atolv) * 0.5
+          case ((None, Some(rtola)), (Some(atolv), None)) => {
+            (((0.0 /: rtola) {
+              _ + _
+            }) / (1 + rtola.length) + atolv) * 0.5
           }
         }
       }
+
       override type OdeSolverT = ExperimentalOdeSolver
 
       override type ElemT = Double
 
-      override def create(dim: Int, f:OdeFuncM[ElemT], j:JacobianFuncM[ElemT], p:FuncParams[ElemT], cf:Config): Option[OdeSolverT]
-      = f.funcOption match {
-        case Some(func) => HandleException {Some(new ExperimentalOdeSolver(odeStepSolver, dim, func, p, handleTolerance(cf)))}
-        case _ => None
+      override def create(dim: Int, f: OdeFuncM[ElemT], j: JacobianFuncM[ElemT], p: FuncParams[ElemT], cf: Config): Option[OdeSolverT] = {
+        f.map((func) => new ExperimentalOdeSolver(odeStepSolver, dim, func, p, handleTolerance(cf)))
       }
     }
 

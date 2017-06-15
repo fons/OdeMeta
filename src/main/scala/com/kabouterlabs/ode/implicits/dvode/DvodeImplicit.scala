@@ -1,14 +1,18 @@
 package com.kabouterlabs.ode.implicits.dvode
 
-import com.kabouterlabs.ode.OdeSolver.OdeSolverTC
+import com.kabouterlabs.ode.kernel.OdeSolver.OdeSolverTC
 import com.kabouterlabs.ode.config.{Config, DaeIndexVariables}
 import com.kabouterlabs.ode.util.{HandleException, LogIt, NonValueChecker}
 import com.kabouterlabs.ode._
 import com.kabouterlabs.ode.dvode.Dvode
+import com.kabouterlabs.ode.kernel._
+import com.kabouterlabs.ode.linerange.LineRangeT
+import com.kabouterlabs.ode.stack.StackT
 
 
 /**
-  * Created by fons on 2/28/17.
+  *
+  * 
   */
 object DvodeImplicit {
   implicit val ev$FactoryT = new OdeSolverFactoryT[Double] {
