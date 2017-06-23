@@ -10,9 +10,8 @@ scalaVersion := "2.11.8"
 publishMavenStyle := true
 
 // https://mvnrepository.com/artifact/com.nativelibs4java/bridj
-libraryDependencies += "com.nativelibs4java" % "bridj" % "0.7.1-SNAPSHOT"
+//libraryDependencies += "com.nativelibs4java" % "bridj" % "0.7.1-SNAPSHOT"
 
-libraryDependencies += "com.kabouterlabs" % "JavaOdeInt" % "DEV-SNAPSHOT"
 
 libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.3"
 
@@ -25,6 +24,12 @@ libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.9"
 libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.5.0"
 // https://mvnrepository.com/artifact/org.scalanlp/breeze-viz_2.11
 libraryDependencies += "org.scalanlp" % "breeze-viz_2.11" % "0.13"
+
+// https://mvnrepository.com/artifact/com.kabouterlabs/JavaOdeInt
+libraryDependencies += "com.kabouterlabs" % "JavaOdeInt" % "0.9.0"
+
+// https://mvnrepository.com/artifact/com.kabouterlabs/JavaOdeIntLinux
+libraryDependencies += "com.kabouterlabs" % "JavaOdeIntLinux" % "0.99.0"
 
 
 resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases"

@@ -1,17 +1,17 @@
-package com.kabouterlabs.ode.main
+package com.kabouterlabs.ode.examples.mol
 
-import com.kabouterlabs.ode.kernel.OdeSolver._
-
-import scala.language.{postfixOps, reflectiveCalls}
-import com.kabouterlabs.ode.implicits.OdeImplicits._
-import com.kabouterlabs.ode.{FuncParams, Ivp}
-import com.kabouterlabs.ode.kernel.OdeSolver.OdeSolverTC
 import com.kabouterlabs.ode.config.{Config, JacobianType, Methods, Tolerance}
+import com.kabouterlabs.ode.implicits.OdeImplicits._
+import com.kabouterlabs.ode.kernel.OdeSolver.{OdeSolverTC, _}
 import com.kabouterlabs.ode.linerange.LineRange
 import com.kabouterlabs.ode.util.LogIt
+import com.kabouterlabs.ode.{FuncParams, Ivp}
 
-/*
-  * Created by fons on 3/20/17.
+import scala.language.{postfixOps, reflectiveCalls}
+
+/**  Example of a possible Method of Lines implementation
+  *
+  *
   */
 class Mol[A](implicit ev1:OdeSolverTC[A]{type SolverDataType=Double})
 {

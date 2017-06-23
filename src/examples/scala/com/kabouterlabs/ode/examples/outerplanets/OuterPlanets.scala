@@ -23,8 +23,7 @@ import com.kabouterlabs.ode.{FuncParams, Ivp}
 import scala.language.{existentials, higherKinds, postfixOps, reflectiveCalls}
 
 
-/*
- * Solving the OuterPlanets equation.
+/** Solving the OuterPlanets equation.
  *
  * Autonomous Hamiltonian
  *
@@ -35,7 +34,7 @@ import scala.language.{existentials, higherKinds, postfixOps, reflectiveCalls}
 
 
 object OuterPlanetsExample {
-  /*
+  /**
 - Outer solar system; see Geometric Numerical Integration Hairer et. al. p 11
 
 Masses (in terms of Solar mass) of
@@ -61,7 +60,7 @@ Masses (in terms of Solar mass) of
     0.0000517759138449E0,
     1.0E0 / 1.3E8)
 
-  /*
+  /**
   Gravitational Constant
    */
   val GravConst = 2.95912208286E-4
@@ -310,7 +309,7 @@ Masses (in terms of Solar mass) of
         }
       }) +>
 
-        val range = LineRange(0.0, 500000.0, 1.0)
+        val range = LineRange(0.0, 500.0, 10.0)
         val eval = ivpsolver.solve(range, Q ++ P)
         //eval().map(_.show)
         /*

@@ -16,34 +16,36 @@ import com.kabouterlabs.ode.implicits.OdeImplicits._
 //import com.kabouterlabs.ode.symplectic.implicits.GniIrk2Implicit._
 import com.kabouterlabs.ode.experimental.symplectic.implicits.Irk2Implicit._
 
+
+
 object Main extends App
 {
-  var called = 0
-  LogIt().level.info()
-
-  val ivpsolver = Ivp(dim = 1) + (Config(Methods.SYMPLECTIC_6_STAGES) -> AbsoluteTolerance(Array[Double]())) +
-    ((dim: Int, x: Double, y: Array[Double], ydot: Array[Double], params: FuncParams[Double]) => {
-      called =  called + 1
-      //ydot(0) = y(1)
-      //ydot(1) = - math.sin(y(0))
-      ydot(0) = - math.sin(y(0))
-    }) + OptionalParameters(OptionalParameterType.MIN_STEPS, 10) +>  //+> is the termintor; this returns the solver
-
-  val init =  Array(math.Pi*999.0/1000.0, 0.0)
-  val eval = ivpsolver.solve(LineRange(0.0, 10.0, 0.1), init)
-
-  eval().map(_.show)
-
-  println("total number of calls " + called)
-  val hamil0 = 0.5 * init(1)*init(1) - math.cos(init(0))
-
-  for (stack <- eval()) yield {
-    for (item <- stack.toArray) yield {
-      val hamil = 0.5 * item(2)*item(2) - math.cos(item(1))
-      val drift = hamil0 - hamil
-      println(item.mkString(",") + " hamil : " + hamil + "  drift : " + drift)
-    }
-  }
+//  var called = 0
+//  LogIt().level.info()
+//
+//  val ivpsolver = Ivp(dim = 1) + (Config(Methods.SYMPLECTIC_6_STAGES) -> AbsoluteTolerance(Array[Double]())) +
+//    ((dim: Int, x: Double, y: Array[Double], ydot: Array[Double], params: FuncParams[Double]) => {
+//      called =  called + 1
+//      //ydot(0) = y(1)
+//      //ydot(1) = - math.sin(y(0))
+//      ydot(0) = - math.sin(y(0))
+//    }) + OptionalParameters(OptionalParameterType.MIN_STEPS, 10) +>  //+> is the termintor; this returns the solver
+//
+//  val init =  Array(math.Pi*999.0/1000.0, 0.0)
+//  val eval = ivpsolver.solve(LineRange(0.0, 10.0, 0.1), init)
+//
+//  eval().map(_.show)
+//
+//  println("total number of calls " + called)
+//  val hamil0 = 0.5 * init(1)*init(1) - math.cos(init(0))
+//
+//  for (stack <- eval()) yield {
+//    for (item <- stack.toArray) yield {
+//      val hamil = 0.5 * item(2)*item(2) - math.cos(item(1))
+//      val drift = hamil0 - hamil
+//      println(item.mkString(",") + " hamil : " + hamil + "  drift : " + drift)
+//    }
+//  }
 
 
   /*
