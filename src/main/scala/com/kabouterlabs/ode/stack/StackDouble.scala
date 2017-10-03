@@ -19,14 +19,14 @@ case class StackDouble(dim:Int, range:LineRangeT[Double]) extends StackT
   private val ptr = new Array[ElemT](size)
   private var counter = 0;
 
-  def fromArray(arr:Array[Double]) = {
+  final def fromArray(arr:Array[Double]) = {
     val rem = scala.math.min(arr.length, size - counter)
     Array.copy(arr, counter, ptr, 0, rem)
     counter = counter + rem
     this
   }
 
-  def append(value:Double) = {
+  final def append(value:Double) = {
     if (counter < size) {
       ptr(counter) = value
       counter = counter + 1
@@ -38,8 +38,9 @@ case class StackDouble(dim:Int, range:LineRangeT[Double]) extends StackT
   final override def toFile(fn: String): Unit = {
     val pw = new PrintWriter(new File(fn))
     val result = ptr
-    for (index <- Range(0, result.size)) {
-      pw.write(result(index) + ",")
+    pw.write(csvHeader+ "\n")
+    for (index <- result.indices) {
+      pw.write(f"${result(index)}%.12e " + ",")
       if ((index + 1) % (dim + 1) == 0) {
         pw.write("\n")
       }
@@ -48,15 +49,19 @@ case class StackDouble(dim:Int, range:LineRangeT[Double]) extends StackT
     pw.close
   }
 
+  private val space = String.valueOf("         ")
+  private def fw(s:String) = (space + s + space).drop(s.length - 1)
+
+  private lazy val csvHeader  = fw("X") +   "," + Range(1, dim + 1).foldLeft("")((accum,x) => (if (accum.toString.length == 0)  accum else accum + ",")   + fw("Y" + x.toString ))
+
+
   final override def show: Unit = {
+    println(csvHeader)
     val result = ptr
     for (index <- Range(0, counter)) {
       val res = result(index)
-      print(f"$res%.12e ,")
-      if ((index + 1) % (dim + 1) == 0) {
-        println()
-      }
-
+      print(f"$res%.12e ")
+      if ((index + 1) % (dim + 1) == 0) println() else print(",")
     }
   }
 
