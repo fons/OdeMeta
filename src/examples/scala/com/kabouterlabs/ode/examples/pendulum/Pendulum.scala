@@ -53,7 +53,7 @@ object PendulumExample {
       }) + OptionalParameters(OptionalParameterType.DIAGNOSTICS, true) +>  //+> is the termintor; this returns the solver
 
 
-    val eval = ivpsolver.solve(LineRange(0.0, 10.0, 0.1), Array(math.Pi*999.0/1000.0, 0.0))
+    val eval = ivpsolver.solve(LineRange(0.0, 100.0, 0.1), Array(math.Pi*999.0/1000.0, 0.0))
 
     eval().map(_.show)
 
