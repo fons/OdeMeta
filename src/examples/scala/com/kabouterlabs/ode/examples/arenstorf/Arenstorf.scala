@@ -41,7 +41,7 @@ object ArenstorfExample {
 
   def apply[A](init:Array[Double])(implicit ev1: OdeSolverTC[A] {type SolverDataType = Double}):(List[Double], List[Double], List[Double], List[Double], List[Double])  = {
 
-    LogIt().level.info()
+    //LogIt().level.info()
     /**
      * Initialize the solver. This is a 3 d problem with 0 constraints (roots we need to satisfy) by default.
       * Only the lsodar variant has root finding capability and this is activiated if the number of constraints is larger than 0
@@ -101,7 +101,12 @@ object ArenstorfExample {
     /**
      * eval returns a lazy object which needs to be executed to get the values
      */
-    val result = for (result <- eval()) yield ( (List[Double](), List[Double](), List[Double](), List[Double](), List[Double]()) /: result.toArray){collect(_,_)}
+    //val result = for (result <- eval()) yield (
+    //  (List[Double](), List[Double](), List[Double](), List[Double](), List[Double]()) /: result.toArray
+    //  ){collect(_,_)}
+    val result = for (result <- eval()) yield (
+       result.toArray.foldLeft((List[Double](), List[Double](), List[Double](), List[Double](), List[Double]()))
+      ){collect(_,_)}
 
     result match {
       case Some(tuple) => tuple
@@ -125,35 +130,39 @@ object Arenstorf {
     fig.width = (fig.width * 2).toInt
     fig.height = (fig.height * 2).toInt
 
+    try {
+      val plt = fig.subplot(2, 2, 0)
+      plt.xlabel = "time"
+      plt.ylabel = "x"
 
-    val plt  = fig.subplot(2, 2,  0)
-    plt.xlabel = "time"
-    plt.ylabel = "x"
+      val plt1 = fig.subplot(2, 2, 1)
+      plt1.xlabel = "time"
+      plt1.ylabel = "y"
 
-    val plt1 = fig.subplot(2, 2,  1)
-    plt1.xlabel = "time"
-    plt1.ylabel = "y"
+      val plt2 = fig.subplot(2, 2, 2)
+      plt2.xlabel = "xval"
+      plt2.ylabel = "yval"
 
-    val plt2 = fig.subplot(2, 2,  2)
-    plt2.xlabel = "xval"
-    plt2.ylabel = "yval"
+      val plt3 = fig.subplot(2, 2, 3)
+      plt3.xlabel = "xval"
+      plt3.ylabel = "dxval"
 
-    val plt3 = fig.subplot(2, 2,  3)
-    plt3.xlabel = "xval"
-    plt3.ylabel = "dxval"
-    
-    val results = Array(res1, res2, res3)
-    println(results.mkString(","))
+      val results = Array(res1, res2, res3)
+      println(results.mkString(","))
 
-    val a = for (lists <- results) {
-      println("plotting")
-      val (time, xval, yval, dxval, dyval) = lists
-      plt += plot(time, xval)
-      plt1 += plot(time, yval)
-      plt2 += plot(xval, yval)
-      plt3 += plot(xval, dxval)
+      val a = for (lists <- results) {
+        println("plotting")
+        val (time, xval, yval, dxval, dyval) = lists
+        plt += plot(time, xval)
+        plt1 += plot(time, yval)
+        plt2 += plot(xval, yval)
+        plt3 += plot(xval, dxval)
+      }
+      fig.refresh()
     }
-    fig.refresh()
+    catch {
+      case _:Throwable => println("breeze viz doesn't work in scala 1.13")
+    }
     println("done")
 
   }

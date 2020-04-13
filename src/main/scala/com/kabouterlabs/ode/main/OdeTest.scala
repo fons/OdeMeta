@@ -11,7 +11,7 @@ import com.kabouterlabs.ode.implicits.OdeImplicits._
 /**
   * Created by fons on 3/15/17.
   */
-case class OdeTest[A](implicit ev1:OdeSolverTC[A]{type SolverDataType=Double})
+case class OdeTest[A]()(implicit ev1:OdeSolverTC[A]{type SolverDataType=Double})
 {
   def apply() = {
     println("starting here")

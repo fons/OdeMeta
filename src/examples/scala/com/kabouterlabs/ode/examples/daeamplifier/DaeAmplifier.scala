@@ -129,9 +129,10 @@ object DaeAmplifier {
     val i2 = ub / (R6/R5 + 1)
     val eval = ivpsolver.solve(LineRange(0.0, 0.2, 0.001), Array(0, i1, i1, ub, i2, i2, ub, 0.0))
     //eval().map(_.show)
-    val result = for (result <- eval()) yield ( (List[Double](), List[Double](), List[Double](),List[Double](), List[Double](), List[Double](),
-      List[Double](), List[Double](), List[Double]()) /: result.toArray){collect(_,_)}
-
+    //val result = for (result <- eval()) yield ( (List[Double](), List[Double](), List[Double](),List[Double](), List[Double](), List[Double](),
+    //  List[Double](), List[Double](), List[Double]()) /: result.toArray){collect(_,_)}
+    val result = for (result <- eval()) yield (result.toArray.foldLeft((List[Double](), List[Double](), List[Double](),List[Double](), List[Double](), List[Double](),
+      List[Double](), List[Double](), List[Double]())) ){collect(_,_)}
     result match {
       case Some(tuple) => tuple
       case None => {

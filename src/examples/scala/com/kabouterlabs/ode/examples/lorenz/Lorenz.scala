@@ -76,8 +76,8 @@ object LorenzExample {
     /*
      * eval returns a lazy object which needs to be executed to get the values
      */
-    val result = for (result <- eval()) yield ( (List[Double](), List[Double](), List[Double](), List[Double]()) /: result.toArray){collect(_,_)}
-
+    //val result = for (result <- eval()) yield ( (List[Double](), List[Double](), List[Double](), List[Double]()) /: result.toArray){collect(_,_)}
+    val result = for (result <- eval()) yield ( result.toArray.foldLeft((List[Double](), List[Double](), List[Double](), List[Double]()) )){collect(_,_)}
     result match {
       case Some(tuple) => tuple
       case None => (List[Double](), List[Double](), List[Double](), List[Double]())

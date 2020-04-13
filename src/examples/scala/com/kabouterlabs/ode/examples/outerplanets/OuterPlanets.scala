@@ -316,8 +316,8 @@ Masses (in terms of Solar mass) of
         /*
          * eval returns a lazy object which needs to be executed to get the values
          */
-        val fold = for (result <- eval()) yield ( PhaseSpace(6, range.steps) /: result.toArray){collect(_,_)}
-
+        //val fold = for (result <- eval()) yield ( PhaseSpace(6, range.steps) /: result.toArray){collect(_,_)}
+        val fold = for (result <- eval()) yield ( result.toArray.foldLeft(PhaseSpace(6, range.steps))){collect(_,_)}
         fold match {
           case Some(phaseSpace) => phaseSpace
           case None => {

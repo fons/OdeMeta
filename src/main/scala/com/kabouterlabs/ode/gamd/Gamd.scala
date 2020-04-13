@@ -249,7 +249,7 @@ class Gamd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], massM:Ma
   private val mass_sp: Pointer[gamd_mas_callback] = Pointer.getPointer(mass)
   daoVar match {
     case DaeIndexVariables(None,None,None) => {
-      LogIt().warn("no index variables set so assuming not a dao; defaulting to ODE ")
+      LogIt().warn("no index variables set in gamd so assuming not a dao; defaulting to ODE ")
       imas.set(gamd_mass_matrix_e.IDENTITY_MATRIX.value.toInt)
       mlmas.set(dim)
       mumas.set(dim)
@@ -263,6 +263,12 @@ class Gamd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], massM:Ma
       iwork.set(24, i1)
       iwork.set(25, i2)
       iwork.set(26, i3)
+    }
+    case _=> {
+      LogIt().warn("inconsistent index variables set in gamd so assuming not a dao; defaulting to ODE ")
+      imas.set(gamd_mass_matrix_e.IDENTITY_MATRIX.value.toInt)
+      mlmas.set(dim)
+      mumas.set(dim)
     }
   }
 

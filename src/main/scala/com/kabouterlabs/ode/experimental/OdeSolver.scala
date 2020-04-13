@@ -170,7 +170,9 @@ case class OdeSolver(odeSolver: OdeStepSolverT, dim:Int, Func: (Double, List[Dou
                   }
                 }
               }
-
+              case (_,_) => {
+                Failure(new RuntimeException("results are trapped in "))
+              }
             }
 
           }

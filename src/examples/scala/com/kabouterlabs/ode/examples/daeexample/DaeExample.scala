@@ -58,8 +58,8 @@ object DaeExample {
 
     val eval = ivpsolver.solve(LineRange(0.0, 10.0, 0.01), Array(math.cos(0.0), - math.sin(0.0)))
     //eval().map(_.show)
-    val result = for (result <- eval()) yield ( (List[Double](), List[Double](), List[Double]()) /: result.toArray){collect(_,_)}
-
+    //val result = for (result <- eval()) yield ( (List[Double](), List[Double](), List[Double]()) /: result.toArray){collect(_,_)}
+    val result = for (result <- eval()) yield (  result.toArray.foldLeft((List[Double](), List[Double](), List[Double]())) ){collect(_,_)}
     result match {
       case Some(tuple) => tuple
       case None => {

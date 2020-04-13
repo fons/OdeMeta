@@ -74,7 +74,8 @@ case class Bimd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], mas
         case (Some(v), None) => v
         case (None, Some(arr)) => {
           LogIt().warn("bimd does not support arrays of relative tolerances; using the average value ")
-          (0.0 /: arr){_ + _}/arr.length
+          //(0.0 /: arr){_ + _}/arr.length
+          (arr.foldLeft(0.0)){_ + _}/arr.length
         }
         case (_,_) => {
           LogIt().error("cannot determine relative tolerance; returning out-of-linerange value ")
@@ -304,6 +305,12 @@ case class Bimd(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], mas
       iwork.set(8, i1)
       iwork.set(9, i2)
       iwork.set(10, i3)
+    }
+    case _ => {
+      LogIt().warn("inconsistent index variables set so assuming not a dao; defaulting to ODE ")
+      imas.set(bimd_mass_matrix_e.IDENTITY_MATRIX.value.toInt)
+      mlmas.set(dim)
+      mumas.set(dim)
     }
   }
 

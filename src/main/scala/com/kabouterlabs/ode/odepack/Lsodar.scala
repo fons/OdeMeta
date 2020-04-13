@@ -147,7 +147,7 @@ case class Lsodar(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], n
     val y_r = y.getDoubles(neq.get())
     eventM(neq.get, t.get(), y_r, ng.get(),jroot.getInts(ng.get()), params) match {
       case Some(_) => y.setDoubles(y_r)
-      case None    => Unit
+      case None    => ()
     }
   }
 

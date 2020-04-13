@@ -6,5 +6,5 @@ package com.kabouterlabs.ode.util
 case class NonValueChecker(array: Array[Double]) extends NonValueCheckerT
 {
   private def check(agregate:Boolean, value:Double) = agregate || value.isNaN || value.isInfinite
-  override def hasNonValue: Boolean = (false /: array)(check)
+  override def hasNonValue: Boolean = (array.foldLeft(false))(check)
 }

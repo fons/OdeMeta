@@ -62,8 +62,8 @@ object DaePendulum {
 
     val eval = ivpsolver.solve(LineRange(0.00, 10.0, 0.01), Array(1.0, 0.0, 0.0, 1.0, 1.0))
     //eval().map(_.show)
-    val result = for (result <- eval()) yield ( (List[Double](), List[Double](), List[Double](), List[Double](), List[Double](), List[Double]()) /: result.toArray){collect(_,_)}
-
+    //val result = for (result <- eval()) yield ( (List[Double](), List[Double](), List[Double](), List[Double](), List[Double](), List[Double]()) /: result.toArray){collect(_,_)}
+    val result = for (result <- eval()) yield ( result.toArray.foldLeft((List[Double](), List[Double](), List[Double](), List[Double](), List[Double](), List[Double]()))){collect(_,_)}
     result match {
       case Some(tuple) => tuple
       case None => {

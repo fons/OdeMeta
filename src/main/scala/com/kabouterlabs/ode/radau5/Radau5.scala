@@ -281,6 +281,12 @@ case class Radau5(dim:Int, funcM:OdeFuncM[Double], jacM:JacobianFuncM[Double], m
      iwork.set(5, i2)
      iwork.set(6, i3)
    }
+   case _ => {
+     LogIt().info("inconsistent index variables set so assuming not a dao; defaulting to ODE ")
+     imas.set(radau5_mass_matrix_e.IDENTITY_MATRIX.value.toInt)
+     mlmas.set(dim)
+     mumas.set(dim)
+   }
  }
 
   //

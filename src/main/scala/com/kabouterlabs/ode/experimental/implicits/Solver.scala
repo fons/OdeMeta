@@ -26,22 +26,22 @@ class Solver(odeStepSolver: OdeStepSolverT)
           }
 
           case ((None, Some(rtola)), (None, Some(atola))) => {
-            ((0.0 /: rtola) {
+            ((rtola.foldLeft(0.0)) {
               _ + _
-            }) / (1.0 + rtola.length) + ((0.0 /: atola) {
+            }) / (1.0 + rtola.length) + ((atola.foldLeft(0.0)) {
               _ + _
             }) / (atola.length + 1.0) * 0.5
           }
 
           case ((Some(rtolv), None), (None, Some(atola))) => {
-            val sum = rtolv + (0.0 /: atola) {
+            val sum = rtolv + (atola.foldLeft(0.0)) {
               _ + _
             }
             rtolv + sum / (atola.length + 1.0)
           }
 
           case ((None, Some(rtola)), (Some(atolv), None)) => {
-            (((0.0 /: rtola) {
+            (((rtola.foldLeft(0.0)) {
               _ + _
             }) / (1 + rtola.length) + atolv) * 0.5
           }

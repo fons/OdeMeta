@@ -148,7 +148,7 @@ object Ivp
     val (newdim, newconstraints) = (dim, constraints) match {
       case (d, n) if d > 0 && n> -1 => (d, Some(n))
       case (d,_) if d > 0 => {
-        LogIt().error("unable to intialize with constraints : " + constraints + " setting to 0")
+        //LogIt().error("unable to intialize with constraints : " + constraints + " setting to 0")
         (d, None)
       }
       case (_,_)          => {
